@@ -1,4 +1,4 @@
-const db = require('../models/db');
+const db = require('./db');
 
 const Tweet = db.define('tweets', {
     text: {

@@ -5,7 +5,7 @@
 // Use search/tweets endpoint on loop to fetch tweets
 const Twitter = require('twitter');
 
-const { consumer_key, consumer_secret, access_token_key, access_token_secret } = require('../login');
+const { consumer_key, consumer_secret, access_token_key, access_token_secret } = require('./login');
 const { db, Tweet, Metadata } = require('../../server/db/index');
 
 // Change out keys here:
