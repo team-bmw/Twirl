@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 
 /* eslint-disable handle-callback-err */
 /* eslint-disable camelcase */
@@ -28,7 +29,7 @@ const getNextMaxId = str => {
 }
 
 // get next set of tweets and save to database (also save metadata)
-const getTweets = (q, count, max_id = null) => {
+const getTweets = async (q, count, max_id = null) => {
 
     return client.get('search/tweets', { q, count, max_id, lang: 'en', tweet_mode: 'extended' })
         .then(tweets => {
@@ -43,21 +44,53 @@ const getTweets = (q, count, max_id = null) => {
         })
 };
 
+// // keep fetching tweets until reach total required number of tweets
+// const fetchTweets = async (q, total) => {
+
+//     let metadata = await getTweets(q, 100);
+
+//     let recordCount = metadata[0];
+//     let max_id = metadata[1];
+
+//     while (recordCount < total) {
+//         metadata = await getTweets(q, 100, max_id);
+//         recordCount += metadata[0];
+//         max_id = metadata[1];
+//     }
+
+//     return Tweet.findAll({
+//         where: {
+//             query: q,
+//         }
+//     })
+//         .then(tweets => tweets.map(tweet => tweet.text))
+// };
+
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total) => {
 
-    let metadata = await getTweets(q, 100);
+    return await getTweets(q, 100)
+        .then(metadata => {
 
-    let recordCount = metadata[0];
-    let max_id = metadata[1];
+            let recordCount = metadata[0];
+            let max_id = metadata[1];
 
-    while (recordCount < total) {
-        metadata = await getTweets(q, 100, max_id);
-        recordCount += metadata[0];
-        max_id = metadata[1];
-    }
-
+            while (recordCount < total) {
+                metadata = getTweets(q, 100, max_id);
+                recordCount += metadata[0];
+                max_id = metadata[1];
+            }
+        })
+        .then(() => {
+            return Tweet.findAll({
+                where: {
+                    query: q,
+                }
+            })
+        })
+        .then(tweets => tweets.map(tweet => tweet.text));
 };
 
-fetchTweets('trump', 20);
-
+module.exports = {
+    fetchTweets,
+};
