@@ -10,24 +10,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 // For all GET requests will send index.html
-// app.get('/*', (req, res, next) => {
-//   res.sendFile(path.join(__dirname, '..', 'src/index.html'))
-// });
+app.get('/*', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '..', 'src/index.html'))
+});
 
-// GET request, to call standard twitter search API with query string, save to db, then send tweets from db
-// app.get('/tweets/:query', async (req, res, next) => {
-//   await fetchTweets(req.params.query, 50);
-//   Tweet.findAll({
-//     where: {
-//       query: req.params.query,
-//     },
-//   })
-//     .then(tweets => res.send(tweets))
-//     .catch(() => res.send('Did not work'));
-// })
-
+// fetch and send 500 tweets, using query string
 app.get('/tweets/:query', (req, res, next) => {
-  fetchTweets(req.params.query, 50)
+  fetchTweets(req.params.query, 500)
     .then(tweets => res.send(tweets));
 });
 
