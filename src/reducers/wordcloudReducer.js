@@ -25,7 +25,7 @@ const wordcloudDataSuccess = wordData => {
   };
 };
 
-const initialState = { status: 'initial', wordData: [] }
+const initialState = { status: 'initial', wordData: [] };
 
 // Reducer
 export const wordcloudData = (state = initialState, action) => {
@@ -36,8 +36,10 @@ export const wordcloudData = (state = initialState, action) => {
       return { status: 'failed', wordData: [] };
     case WORDCLOUD_DATA_SUCCESS:
       return { status: 'fetched', wordData: action.wordData };
+      default:
+        return state;
   }
-}
+};
 
 // Thunk
 export const fetchWordcloudData = word => {
@@ -47,6 +49,6 @@ export const fetchWordcloudData = word => {
       .get(`/api/tweets/${word}`)
       .then(response => response.data)
       .then(wordData => dispatch(wordcloudDataSuccess(wordData)))
-      .catch(error => dispatch(wordcloudDataFailure()))
+      .catch(() => dispatch(wordcloudDataFailure()));
   };
 };
