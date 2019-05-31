@@ -1,39 +1,50 @@
 
 // Helper functions to parse tweets
 
+// scrubText: strip out non-alpha-numeric characters
 const scrubText = str => {
     return str.replace(/[^a-z0-9 ]/gi, '').toLowerCase();
 }
 
-// tweetToText: convert array of tweet objects to array of tweet strings
-const tweetToText = tweets => {
-    return tweets.map(tweet => tweet.text);
-}
-
-// tweetsToString: concatenate tweets into one string
+// tweetsToString: turn array of Tweet objects into string of tweet text
 const tweetsToString = tweets => {
     return tweets.reduce((str, tweet) => {
-        str += tweet;
+        str += tweet.text;
         return str;
     }, '');
 };
 
-// wordFrequency: count frequency of words in array of strings
-const wordFrequency = tweets => {
-    const words = scrubText(tweetsToString(tweets)).split(' ');
-    return words.reduce((freq, word) => {
-        if (freq[word]) {
-            ++freq[word];
-        } else {
-            freq[word] = 1;
-        }
-        return freq;
+// tweetsToWordFrequencies: turn array of Tweet objects into word frequency objects
+const tweetsToWordFrequencies = tweets => {
+    const freqObj = tweets.reduce((freq, tweet) => {
+        const id = tweet.twitterId;
+        const words = scrubText(tweet.text).split(' ');
+        return words.reduce((tweetFreq, word) => {
+            if (tweetFreq[word]) {
+                ++tweetFreq[word].value;
+                tweetFreq[word].ids.push(id);
+            } else {
+                tweetFreq[word] = {
+                    text: word,
+                    value: 1,
+                    ids: [id],
+                };
+            }
+            return tweetFreq;
+        }, freq);
     }, {});
+
+    return Object.keys(freqObj).reduce((arr, word) => {
+
+        if (freqObj[word].value > 5) {
+            arr.push(freqObj[word]);
+        }
+
+        return arr;
+    }, []);
 };
 
 module.exports = {
-    wordFrequency,
+    tweetsToWordFrequencies,
     tweetsToString,
-    tweetToText,
-    scrubText,
 }
