@@ -1,6 +1,9 @@
 
-const { getTweets } = require('./fetchTweets');
-const { Tweet } = require('../../server/db/index');
+// Helper functions to parse tweets
+
+const scrubText = str => {
+    return str.replace(/[^a-z0-9 ]/gi, '').toLowerCase();
+}
 
 // tweetToText: convert array of tweet objects to array of tweet strings
 const tweetToText = tweets => {
@@ -15,8 +18,9 @@ const tweetsToString = tweets => {
     }, '');
 };
 
+// wordFrequency: count frequency of words in array of strings
 const wordFrequency = tweets => {
-    const words = tweetsToString(tweets).split(' ');
+    const words = scrubText(tweetsToString(tweets)).split(' ');
     return words.reduce((freq, word) => {
         if (freq[word]) {
             ++freq[word];
@@ -27,14 +31,9 @@ const wordFrequency = tweets => {
     }, {});
 };
 
-const tweetNow = async () => {
-    await getTweets('trump', 10);
-    const tweet = await Tweet.findAll({
-        where: {
-            query: 'trump'
-        }
-    })
-    console.log(wordFrequency(tweetToText(tweet)));
+module.exports = {
+    wordFrequency,
+    tweetsToString,
+    tweetToText,
+    scrubText,
 }
-
-tweetNow();

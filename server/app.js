@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const { fetchTweets } = require('../src/twitter/fetchTweets');
+const { fetchTweets } = require('./twitter/fetchTweets');
 
 const app = express();
 
