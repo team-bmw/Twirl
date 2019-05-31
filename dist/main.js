@@ -425,6 +425,54 @@ eval("function _typeof2(obj) { if (typeof Symbol === \"function\" && typeof Symb
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/colors/blue.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/colors/blue.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\nvar blue = {\n  50: '#e3f2fd',\n  100: '#bbdefb',\n  200: '#90caf9',\n  300: '#64b5f6',\n  400: '#42a5f5',\n  500: '#2196f3',\n  600: '#1e88e5',\n  700: '#1976d2',\n  800: '#1565c0',\n  900: '#0d47a1',\n  A100: '#82b1ff',\n  A200: '#448aff',\n  A400: '#2979ff',\n  A700: '#2962ff'\n};\nvar _default = blue;\nexports.default = _default;\n\n//# sourceURL=webpack:///./node_modules/@material-ui/core/colors/blue.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/colors/blueGrey.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/colors/blueGrey.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\nvar blueGrey = {\n  50: '#eceff1',\n  100: '#cfd8dc',\n  200: '#b0bec5',\n  300: '#90a4ae',\n  400: '#78909c',\n  500: '#607d8b',\n  600: '#546e7a',\n  700: '#455a64',\n  800: '#37474f',\n  900: '#263238',\n  A100: '#cfd8dc',\n  A200: '#b0bec5',\n  A400: '#78909c',\n  A700: '#455a64'\n};\nvar _default = blueGrey;\nexports.default = _default;\n\n//# sourceURL=webpack:///./node_modules/@material-ui/core/colors/blueGrey.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/esm/CssBaseline/CssBaseline.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/CssBaseline/CssBaseline.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ \"./node_modules/@babel/runtime/helpers/extends.js\");\n/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ \"./node_modules/prop-types/index.js\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles */ \"./node_modules/@material-ui/core/esm/styles/index.js\");\n/* harmony import */ var _material_ui_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/utils */ \"./node_modules/@material-ui/utils/esm/index.js\");\n\n\n\n\n\nvar useStyles = Object(_styles__WEBPACK_IMPORTED_MODULE_3__[\"makeStyles\"])(function (theme) {\n  return {\n    '@global': {\n      html: {\n        WebkitFontSmoothing: 'antialiased',\n        // Antialiasing.\n        MozOsxFontSmoothing: 'grayscale',\n        // Antialiasing.\n        // Change from `box-sizing: content-box` so that `width`\n        // is not affected by `padding` or `border`.\n        boxSizing: 'border-box'\n      },\n      '*, *::before, *::after': {\n        boxSizing: 'inherit'\n      },\n      'strong, b': {\n        fontWeight: theme.typography.fontWeightMedium\n      },\n      body: _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({\n        margin: 0,\n        // Remove the margin in all browsers.\n        color: theme.palette.text.primary\n      }, theme.typography.body2, {\n        backgroundColor: theme.palette.background.default,\n        '@media print': {\n          // Save printer ink.\n          backgroundColor: theme.palette.common.white\n        }\n      })\n    }\n  };\n}, {\n  name: 'MuiCssBaseline'\n});\n/**\n * Kickstart an elegant, consistent, and simple baseline to build upon.\n */\n\nfunction CssBaseline(props) {\n  var _props$children = props.children,\n      children = _props$children === void 0 ? null : _props$children;\n  useStyles();\n  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, children);\n}\n\n true ? CssBaseline.propTypes = {\n  /**\n   * You can wrap a node.\n   */\n  children: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.node\n} : undefined;\n\nif (true) {\n  // eslint-disable-next-line\n  CssBaseline['propTypes' + ''] = Object(_material_ui_utils__WEBPACK_IMPORTED_MODULE_4__[\"exactProp\"])(CssBaseline.propTypes);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (CssBaseline);\n\n//# sourceURL=webpack:///./node_modules/@material-ui/core/esm/CssBaseline/CssBaseline.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/esm/CssBaseline/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/CssBaseline/index.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _CssBaseline__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CssBaseline */ \"./node_modules/@material-ui/core/esm/CssBaseline/CssBaseline.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _CssBaseline__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n\n\n//# sourceURL=webpack:///./node_modules/@material-ui/core/esm/CssBaseline/index.js?");
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/esm/FilledInput/FilledInput.js":
 /*!***********************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/FilledInput/FilledInput.js ***!
@@ -2988,7 +3036,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3348,7 +3396,7 @@ eval("module.exports = function(originalModule) {\n\tif (!originalModule.webpack
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nvar _Landing = __webpack_require__(/*! ./Landing */ \"./src/components/Landing/index.js\");\n\nvar _Landing2 = _interopRequireDefault(_Landing);\n\nvar _reactRouterDom = __webpack_require__(/*! react-router-dom */ \"./node_modules/react-router-dom/esm/react-router-dom.js\");\n\nvar _WordCloud = __webpack_require__(/*! ./WordCloud */ \"./src/components/WordCloud/index.js\");\n\nvar _WordCloud2 = _interopRequireDefault(_WordCloud);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar App = function App() {\n  return _react2.default.createElement(\n    _reactRouterDom.HashRouter,\n    null,\n    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Landing2.default }),\n    _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _WordCloud2.default })\n  );\n};\nexports.default = App;\n\n//# sourceURL=webpack:///./src/components/App.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nvar _Landing = __webpack_require__(/*! ./Landing */ \"./src/components/Landing/index.js\");\n\nvar _Landing2 = _interopRequireDefault(_Landing);\n\nvar _reactRouterDom = __webpack_require__(/*! react-router-dom */ \"./node_modules/react-router-dom/esm/react-router-dom.js\");\n\nvar _WordCloud = __webpack_require__(/*! ./WordCloud */ \"./src/components/WordCloud/index.js\");\n\nvar _WordCloud2 = _interopRequireDefault(_WordCloud);\n\nvar _styles = __webpack_require__(/*! @material-ui/styles */ \"./node_modules/@material-ui/styles/esm/index.js\");\n\nvar _theme = __webpack_require__(/*! ./theme */ \"./src/components/theme.js\");\n\nvar _theme2 = _interopRequireDefault(_theme);\n\nvar _CssBaseline = __webpack_require__(/*! @material-ui/core/CssBaseline */ \"./node_modules/@material-ui/core/esm/CssBaseline/index.js\");\n\nvar _CssBaseline2 = _interopRequireDefault(_CssBaseline);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar App = function App() {\n  return _react2.default.createElement(\n    _styles.ThemeProvider,\n    { theme: _theme2.default },\n    _react2.default.createElement(\n      _reactRouterDom.HashRouter,\n      null,\n      _react2.default.createElement(_CssBaseline2.default, null),\n      ' ',\n      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Landing2.default }),\n      _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _WordCloud2.default })\n    )\n  );\n};\nexports.default = App;\n\n//# sourceURL=webpack:///./src/components/App.js?");
 
 /***/ }),
 
@@ -3372,7 +3420,19 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar WordCloud = function WordCloud() {\n  return _react2.default.createElement(\n    'div',\n    null,\n    'WordCloud'\n  );\n};\n\nexports.default = WordCloud;\n\n//# sourceURL=webpack:///./src/components/WordCloud/index.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nvar _reactWordcloud = __webpack_require__(!(function webpackMissingModule() { var e = new Error(\"Cannot find module 'react-wordcloud'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));\n\nvar _reactWordcloud2 = _interopRequireDefault(_reactWordcloud);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar WordCloud = function WordCloud() {\n  // the data should be replaced by another argument in props, passed by Redux\n  var data = [{ text: 'hello', value: 30 }, { text: 'world', value: 12.5 }, { text: 'github', value: 10 }, { text: 'code', value: 10 }];\n\n  return _react2.default.createElement(\n    'div',\n    { style: { width: '100%', height: '100%' } },\n    _react2.default.createElement(_reactWordcloud2.default, { options: { fontSizes: [50, 100] }, words: data })\n  );\n};\n\nexports.default = WordCloud;\n\n//# sourceURL=webpack:///./src/components/WordCloud/index.js?");
+
+/***/ }),
+
+/***/ "./src/components/theme.js":
+/*!*********************************!*\
+  !*** ./src/components/theme.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _styles = __webpack_require__(/*! @material-ui/core/styles */ \"./node_modules/@material-ui/core/esm/styles/index.js\");\n\nvar _blue = __webpack_require__(/*! @material-ui/core/colors/blue */ \"./node_modules/@material-ui/core/colors/blue.js\");\n\nvar _blue2 = _interopRequireDefault(_blue);\n\nvar _blueGrey = __webpack_require__(/*! @material-ui/core/colors/blueGrey */ \"./node_modules/@material-ui/core/colors/blueGrey.js\");\n\nvar _blueGrey2 = _interopRequireDefault(_blueGrey);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\n// setting up the theme for Material-UI (will be updated later)\nexports.default = (0, _styles.createMuiTheme)({\n  palette: {\n    primary: {\n      light: _blue2.default[100],\n      main: _blue2.default[500],\n      dark: _blue2.default[900],\n      contrastText: _blue2.default[50]\n    },\n    secondary: {\n      light: _blueGrey2.default[100],\n      main: _blueGrey2.default[500],\n      dark: _blueGrey2.default[900],\n      contrastText: _blueGrey2.default[50]\n    }\n  }\n});\n\n//# sourceURL=webpack:///./src/components/theme.js?");
 
 /***/ }),
 
