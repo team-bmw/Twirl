@@ -1,5 +1,4 @@
 /* eslint-disable no-return-await */
-
 /* eslint-disable handle-callback-err */
 /* eslint-disable camelcase */
 
@@ -7,7 +6,7 @@
 const Twitter = require('twitter');
 require('dotenv').config();
 
-const { db, Tweet, Metadata } = require('../../server/db/index');
+const { db, Tweet, Metadata } = require('../db/index');
 
 // Change out keys here:
 const client = new Twitter({
@@ -76,10 +75,6 @@ const fetchTweets = async (q, total) => {
 };
 
 module.exports = {
-<<<<<<< HEAD:server/twitter/fetchTweets.js
   fetchTweets,
   getTweets,
-=======
-  fetchTweets,
->>>>>>> dev:src/twitter/fetchTweets.js
 };
