@@ -6,6 +6,7 @@ const app = express();
 
 app.use(express.json());
 app.use('/api', require('./api'));
+app.use('/auth', require('./auth'));
 
 // Static middleware
 app.use(express.static(path.join(__dirname, '..', 'dist')));
