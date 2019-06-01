@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 
@@ -23,8 +24,9 @@ app.use((req, res, next) => {
 
 // Error handling endware
 app.use((err, req, res, next) => {
+  console.log(err);
   res.status(err.status || 500);
-  res.send(err.message || 'Internet server error!')
+  res.send(err.message || 'Internal server error!')
 })
 
 module.exports = app;

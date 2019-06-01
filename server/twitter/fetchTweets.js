@@ -4,7 +4,6 @@
 
 // Use search/tweets endpoint on loop to fetch tweets
 const Twitter = require('twitter');
-require('dotenv').config();
 
 const { db, Tweet, Metadata } = require('../db/index');
 
