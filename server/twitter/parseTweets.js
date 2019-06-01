@@ -12,11 +12,13 @@ const scrubText = str => {
 }
 
 // const getAdjectivesFromText = str => {
-//     return wordpos.getAdjectives(str);
+//     return wordpos.getAdjectives(str)
+//         .then(words => words.join(' '));
 // };
 
 // const getNounsFromText = str => {
-//     return wordpos.getNouns(str);
+//     return wordpos.getNouns(str)
+//         .then(words => words.join(' '));
 // };
 
 // tweetsToString: turn array of Tweet objects into string of tweet text
@@ -28,20 +30,10 @@ const tweetsToString = tweets => {
 };
 
 // tweetsToWordFrequencies: turn array of Tweet objects into word frequency objects
-const tweetsToWordFrequencies = (tweets) => {
+const tweetsToWordFrequencies = tweets => {
     const freqObj = tweets.reduce((freq, tweet) => {
+
         const id = tweet.twitterId;
-
-        // if (method === 'adjective') {
-        //     console.log('hey!')
-        //     let words = await getAdjectivesFromText(scrubText(tweet.text));
-        //     console.log(words);
-        // } else if (method === 'noun') {
-        //     let words = await getNounsFromText(scrubText(tweet.text));
-        // } else {
-        //     let words = scrubText(tweet.text).split(' ');
-        // }
-
         const words = scrubText(tweet.text).split(' ');
 
         return words.reduce((tweetFreq, word) => {
@@ -61,7 +53,7 @@ const tweetsToWordFrequencies = (tweets) => {
 
     return Object.keys(freqObj).reduce((arr, word) => {
 
-        // TODO: sort and only return the top 50
+        // filter: don't want to return everything (filter to 50 most frequent)
         if (freqObj[word].value > 5) {
             arr.push(freqObj[word]);
         }
@@ -70,7 +62,22 @@ const tweetsToWordFrequencies = (tweets) => {
     }, []);
 };
 
+// const adjectivesToWordFrequencies = tweets => {
+//     const adjOnlyTweets = tweets.map(async tweet => {
+//         try {
+//             const adjText = await getAdjectivesFromText(tweet.text);
+//             tweet.text = adjText;
+//             return tweet;
+//         } catch {
+//             return tweet;
+//         }
+//     });
+
+//     return tweetsToWordFrequencies(adjOnlyTweets);
+// }
+
 module.exports = {
     tweetsToWordFrequencies,
     tweetsToString,
+    // adjectivesToWordFrequencies,
 }
