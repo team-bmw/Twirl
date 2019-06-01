@@ -1,5 +1,4 @@
 /* eslint-disable no-return-await */
-
 /* eslint-disable handle-callback-err */
 /* eslint-disable camelcase */
 
@@ -7,7 +6,7 @@
 const Twitter = require('twitter');
 require('dotenv').config();
 
-const { db, Tweet, Metadata } = require('../../server/db/index');
+const { db, Tweet, Metadata } = require('../db/index');
 
 // Change out keys here:
 const client = new Twitter({
@@ -18,7 +17,8 @@ const client = new Twitter({
 });
 
 // sync database, deleting previous results
-db.sync({ force: true }).then(() => console.log('Database synced'));
+db.sync({ force: false })
+  .then(() => console.log('Database synced'));
 
 // parse "next_results" string from search_metadata to get max_id term for next search
 const getNextMaxId = str => {
@@ -76,4 +76,5 @@ const fetchTweets = async (q, total) => {
 
 module.exports = {
   fetchTweets,
+  getTweets,
 };
