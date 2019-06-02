@@ -1,8 +1,9 @@
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
-const passportSetup = require('./config/passportSetup')
 const session = require('express-session');
+const passport = require('passport');
+const passportSetup = require('./config/passportSetup');
 
 const app = express();
 
@@ -10,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for API testing in Postman
 
-// Session middleware
+// Session middleware. Creates a session cookie
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -18,10 +19,15 @@ app.use(session({
 }))
 
 // Session logging middleware
-// app.use((req, res, next) => {
-//   console.log('SESSION: ', req.session)
-//   next()
-// })
+app.use((req, res, next) => {
+  console.log('SESSION: ', req.session)
+  next()
+})
+
+// initialize passport
+app.use(passport.initialize());
+// use cookie from the browser
+app.use(passport.session());
 
 // Routes
 app.use('/api', require('./api'));

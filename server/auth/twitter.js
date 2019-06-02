@@ -10,12 +10,15 @@ router.get('/', passport.authenticate('twitter'));
 // after the OAuth has been authenticated successfully
 // token can then be exchange for the actual user info
 // GET /auth/twitter/callback
-router.get(
-  '/callback',
-  passport.authenticate('twitter', {
-    successRedirect: process.env.HOME_PAGE_URL,
-    failureRedirect: process.env.HOME_PAGE_URL,
+router.get('/callback', passport.authenticate('twitter', {
+    successRedirect: '/#/',
+    failureRedirect: '/#/login',
   })
 );
+
+// router.get('/callback', passport.authenticate('twitter'),
+// (req, res) => { res.send(req.user)}
+// );
+
 
 module.exports = router;
