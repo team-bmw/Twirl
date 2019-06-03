@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import {connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { logOutUser } from '../../reducers/userReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function MenuAppBar() {
+function MenuAppBar({ logOutUser }) {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -74,8 +77,16 @@ function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose} component={Link} to="/login">
+                  Login
+                </MenuItem>
+                <MenuItem onClick={() => {
+                  handleClose();
+                  logOutUser()
+                }}
+                  >
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
           )}
@@ -85,4 +96,10 @@ function MenuAppBar() {
   );
 }
 
-export default MenuAppBar;
+const mapDispatchToProps = dispatch => {
+  return {
+    logOutUser: () => dispatch(logOutUser()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MenuAppBar);
