@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
@@ -12,7 +11,6 @@ import {
 } from '@material-ui/core/';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Inbox, LockOutlined } from '@material-ui/icons/';
-import {loginWithTwitter} from '../reducers/userReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,9 +26,14 @@ const useStyles = makeStyles(theme => ({
   list: {
     width: '100%',
   },
+  link: {
+    textDecoration: 'none',
+    display: 'flex',
+    color: theme.palette.text.primary,
+  },
 }));
 
-const Login = ({loginWithTwitter}) => {
+const Login = () => {
   const classes = useStyles();
 
   return (
@@ -51,11 +54,13 @@ const Login = ({loginWithTwitter}) => {
         >
           <Grid item sm={12}>
             <List component="nav" className={classes.list}>
-              <ListItem button onClick={loginWithTwitter}>
-                <ListItemIcon>
-                  <Inbox />
-                </ListItemIcon>
-                <ListItemText primary="Login with Twitter" />
+              <ListItem button>
+                <a href="/auth/twitter" className={classes.link}>
+                  <ListItemIcon>
+                    <Inbox />
+                  </ListItemIcon>
+                  <ListItemText primary="Login with Twitter" />
+                </a>
               </ListItem>
               <Divider />
             </List>
@@ -66,10 +71,4 @@ const Login = ({loginWithTwitter}) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loginWithTwitter: () => dispatch(loginWithTwitter()),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

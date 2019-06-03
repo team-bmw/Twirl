@@ -3,11 +3,11 @@ const TwitterStrategy = require('passport-twitter');
 const { User } = require('../db');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 })
 
-passport.deserializeUser((id, done) => {
-  User.findByPk(id)
+passport.deserializeUser((user, done) => {
+  User.findByPk(user.id)
   .then(user => done(null, user))
   .catch(error => done(error))
 })

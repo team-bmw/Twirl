@@ -19,12 +19,19 @@ export const user = (state = {}, action) => {
 };
 
 // Thunks
-// Log a user in with Twitter
-export const loginWithTwitter = () => {
+// Check session for logged in user
+export const loginSession = () => {
   return dispatch => {
-    return axios.get('http://localhost:3000/auth/twitter')
+    return axios.get('/auth/loggedIn')
     .then(response => response.data)
     .then(user => dispatch(loggedInUser(user)))
-    .catch(error => console.error(error))
+  }
+}
+
+// Log a user out
+export const logOutUser = () => {
+  return dispatch => {
+    return axios.delete('/auth/logout')
+    .then(() => dispatch(loggedInUser({})))
   }
 }

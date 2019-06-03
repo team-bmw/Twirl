@@ -3,11 +3,22 @@ const router = require('express').Router();
 // router for twitter Oauth login :/auth/twitter/
 router.use('/twitter', require('./twitter'));
 
-// Logout GET : /auth/logout
+// Logout DELETE : /auth/logout
 // When logout, redirect to homepage
-router.get("/logout", (req, res) => {
+router.delete("/logout", (req, res) => {
   req.logout();
-  res.redirect('/#/');
+  res.sendStatus(204)
+});
+
+// GET :/auth/loggedIn
+//Return the currently logged in user
+router.get('/loggedIn', (req, res, next) => {
+  if (!req.session.passport.user) {
+    const error = new Error('Not logged in');
+    error.status = 401;
+    return next(error);
+  }
+  res.send(req.session.passport.user);
 });
 
 module.exports = router;
