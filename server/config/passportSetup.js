@@ -17,7 +17,7 @@ passport.use(
     {
       consumerKey: process.env.TWITTER_CONSUMER_KEY,
       consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-      callbackURL: '/auth/twitter/callback',
+      callbackURL: process.env.CALLBACK_URL,
     },
     (token, tokenSecret, profile, done) => {
       User.findOne({ where: { twitterId: profile.id } })
