@@ -4,12 +4,14 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const passportSetup = require('./config/passportSetup');
+const cors = require("cors");
 
 const app = express();
 
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for API testing in Postman
+
 
 // Session middleware. Creates a session cookie
 app.use(session({
@@ -23,6 +25,15 @@ app.use((req, res, next) => {
   console.log('SESSION: ', req.session)
   next()
 })
+
+// set up cors to allow us to accept requests from our client
+app.use(
+  cors({
+    origin: '*',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 
 // initialize passport
 app.use(passport.initialize());
