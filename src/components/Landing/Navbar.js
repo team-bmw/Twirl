@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function MenuAppBar({ logOutUser }) {
+function MenuAppBar({ logOutUser, user }) {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -77,9 +77,11 @@ function MenuAppBar({ logOutUser }) {
                 open={open}
                 onClose={handleClose}
               >
+              {!user.id ? (
                 <MenuItem onClick={handleClose} component={Link} to="/login">
                   Login
                 </MenuItem>
+              ) : (
                 <MenuItem onClick={() => {
                   handleClose();
                   logOutUser()
@@ -87,6 +89,7 @@ function MenuAppBar({ logOutUser }) {
                   >
                   Logout
                 </MenuItem>
+              )}
               </Menu>
             </div>
           )}
@@ -96,10 +99,16 @@ function MenuAppBar({ logOutUser }) {
   );
 }
 
+const mapStateToProps = ({user}) => {
+  return {
+    user,
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     logOutUser: () => dispatch(logOutUser()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(MenuAppBar);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuAppBar);

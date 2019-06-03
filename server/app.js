@@ -36,6 +36,7 @@ app.use('/auth', require('./auth'));
 
 // Static middleware
 app.use(express.static(path.join(__dirname, '..', 'dist')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // For all GET requests will send index.html
 app.get('/*', (req, res, next) => {
