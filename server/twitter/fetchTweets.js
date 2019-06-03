@@ -16,7 +16,7 @@ const client = new Twitter({
 });
 
 // sync database, deleting previous results
-db.sync({ force: true })
+db.sync({ force: false })
   .then(() => console.log('Database synced'));
 
 // parse "next_results" string from search_metadata to get max_id term for next search

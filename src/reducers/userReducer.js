@@ -22,9 +22,9 @@ export const user = (state = {}, action) => {
 // Log a user in with Twitter
 export const loginWithTwitter = () => {
   return dispatch => {
-    return axios.get('/auth/twitter')
+    return axios.get('http://localhost:3000/auth/twitter')
     .then(response => response.data)
     .then(user => dispatch(loggedInUser(user)))
-    .catch(error => console.error('catching it in the reducer', error))
+    .catch(error => console.error(error))
   }
 }
