@@ -11,9 +11,10 @@ const scrubText = str => {
     return str.replace(/[^a-z0-9 ]/gi, '').toLowerCase();
 }
 
-const getAdjectivesFromText = str => {
-    return wordpos.getAdjectives(str)
+const getAdjectivesFromText = async str => {
+    const w = await wordpos.getAdjectives(str)
         .then(words => words.join(' '));
+    return w;
 };
 
 const getNounsFromText = str => {
@@ -31,6 +32,7 @@ const tweetsToString = tweets => {
 
 // tweetsToWordFrequencies: turn array of Tweet objects into word frequency objects
 const tweetsToWordFrequencies = tweets => {
+
     const freqObj = tweets.reduce((freq, tweet) => {
 
         const id = tweet.twitterId;
@@ -63,22 +65,32 @@ const tweetsToWordFrequencies = tweets => {
 };
 
 const adjectivesToWordFrequencies = async tweets => {
+    const adjTweets = [];
+    for (let i = 0; i < tweets.length; i++) {
+        const adj = await getAdjectivesFromText(tweets[i].text);
+        if (adj.length) {
+            tweets[i].text = adj;
+            adjTweets.push(tweets[i]);
+        }
+    }
+    return tweetsToWordFrequencies(adjTweets);
+}
 
-    const adjTweets = await tweets.map(tweet => {
-        return getAdjectivesFromText(tweet.text)
-            .then(text => {
-                return {
-                    text,
-                    twitterId: tweet.twitterId
-                }
-            })
-    })
-
-    console.log(adjTweets);
+const nounsToWordFrequencies = async tweets => {
+    const nounTweets = [];
+    for (let i = 0; i < tweets.length; i++) {
+        const adj = await getNounsFromText(tweets[i].text);
+        if (adj.length) {
+            tweets[i].text = adj;
+            nounTweets.push(tweets[i]);
+        }
+    }
+    return tweetsToWordFrequencies(nounTweets);
 }
 
 module.exports = {
     tweetsToWordFrequencies,
     tweetsToString,
     adjectivesToWordFrequencies,
+    nounsToWordFrequencies,
 }
