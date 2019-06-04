@@ -10,7 +10,8 @@ import {
   Divider,
 } from '@material-ui/core/';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { Inbox, LockOutlined } from '@material-ui/icons/';
+import { LockOutlined } from '@material-ui/icons/';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +32,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     color: theme.palette.text.primary,
   },
+  imageIcon: {
+    height: 32,
+  }
 }));
+
 
 const Login = () => {
   const classes = useStyles();
@@ -45,7 +50,9 @@ const Login = () => {
     >
       <Paper className={classes.paper} align="center">
         <LockOutlined fontSize="large" />
-        <Typography variant="h5">Log In</Typography>
+        <Typography variant="h5" gutterBottom>Log In</Typography>
+        <Divider />
+        
         <Grid
           container
           justify="center"
@@ -57,12 +64,11 @@ const Login = () => {
               <ListItem button>
                 <a href="/auth/twitter" className={classes.link}>
                   <ListItemIcon>
-                    <Inbox />
+                    <img className={classes.imageIcon} src="Twitter_Social_Icon_Circle_Color.svg" />
                   </ListItemIcon>
                   <ListItemText primary="Login with Twitter" />
                 </a>
               </ListItem>
-              <Divider />
             </List>
           </Grid>
         </Grid>
