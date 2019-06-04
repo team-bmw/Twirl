@@ -8,7 +8,7 @@ const wordpos = new WordPOS();
 
 // scrubText: strip out non-alpha-numeric characters
 const scrubText = str => {
-    return str.replace(/[^a-z0-9 ]/gi, '').toLowerCase();
+    return str.replace(/[^a-z ]/gi, '').toLowerCase();
 }
 
 const getAdjectivesFromText = async str => {
@@ -29,6 +29,10 @@ const tweetsToString = tweets => {
         return str;
     }, '');
 };
+
+const filterWords = word => {
+    return !(word.length < 3 || word.length > 15)
+}
 
 // tweetsToWordFrequencies: turn array of Tweet objects into word frequency objects
 const tweetsToWordFrequencies = tweets => {
@@ -56,7 +60,7 @@ const tweetsToWordFrequencies = tweets => {
     return Object.keys(freqObj).reduce((arr, word) => {
 
         // filter: don't want to return everything (filter to 50 most frequent)
-        if (freqObj[word].value > 5) {
+        if (freqObj[word].value > 5 && filterWords(word)) {
             arr.push(freqObj[word]);
         }
 
