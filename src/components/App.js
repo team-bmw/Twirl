@@ -1,18 +1,19 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import Landing from './Landing';
-import {loginSession} from '../reducers/userReducer';
+import { loginSession } from '../reducers/userReducer';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import WordCloud from './WordCloud';
 import Login from './Login';
+import Navbar from './Navbar';
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const App = ({loginSession}) => {
-  useEffect(()=> {
+const App = ({ loginSession }) => {
+  useEffect(() => {
     loginSession();
   }, []);
 
@@ -20,9 +21,10 @@ const App = ({loginSession}) => {
     <ThemeProvider theme={theme}>
       <Router>
         <CssBaseline /> {/* normalize browser css default setups */}
+        <Route component={Navbar} />
         <Route exact path="/" component={Landing} />
         <Route path="/search" component={WordCloud} />
-        <Route path='/login' exact component={Login} />
+        <Route path="/login" exact component={Login} />
       </Router>
     </ThemeProvider>
   );
@@ -30,8 +32,11 @@ const App = ({loginSession}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginSession: ()=> dispatch(loginSession()),
-  }
-}
+    loginSession: () => dispatch(loginSession()),
+  };
+};
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

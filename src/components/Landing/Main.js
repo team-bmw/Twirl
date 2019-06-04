@@ -11,25 +11,35 @@ const Main = () => {
     <Fragment>
       <div
         style={{
-          width: '75%',
-          minHeight: '250px',
-          margin: '8rem auto',
+          width: '100%',
+          height: '90vh',
+          padding: '3rem 0',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <Typography
-          variant="h2"
-          style={{ color: 'white', fontWeight: 'normal' }}
-          align="center"
+        <div
+          style={{
+            display: 'flex',
+            height: '80%',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
+          }}
         >
-          Understand. Manage. Improve
-        </Typography>
-        <Typing />
-        <Input />
+          <Typography
+            variant="h2"
+            style={{ color: 'white', fontWeight: 'normal' }}
+            align="center"
+          >
+            Understand. Manage. Improve
+          </Typography>
+          <Typing />
+          <Input />
+        </div>
+        <Banner />
       </div>
-      <Banner />
     </Fragment>
   );
 };
