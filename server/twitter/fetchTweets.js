@@ -17,8 +17,7 @@ const client = new Twitter({
 });
 
 // sync database, deleting previous results
-db.sync({ force: false })
-  .then(() => console.log('Database synced'));
+db.sync({ force: true }).then(() => console.log('Database synced'));
 
 // parse "next_results" string from search_metadata to get max_id term for next search
 const getNextMaxId = str => {
@@ -55,7 +54,9 @@ const getTweets = async (q, count, max_id = null) => {
 
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total) => {
+  console.log('fetchTweet called');
   let metadata = await getTweets(q, 100);
+  console.log('metadata', metadata);
   let recordCount = metadata[0];
   let max_id = metadata[1];
 
