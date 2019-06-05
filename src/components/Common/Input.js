@@ -25,7 +25,6 @@ class Input extends Component {
   render() {
     const { handleInputChange, handleFormSubmit } = this;
     const { searchText } = this.state;
-    console.log(this.props);
     return (
       <form
         style={{ display: 'flex', justifyContent: 'center' }}
@@ -67,7 +66,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAdjectiveWordcloudData: word => dispatch(fetchAdjectiveWordcloudData(word)),
+    fetchAdjectiveWordcloudData: word =>
+      dispatch(fetchAdjectiveWordcloudData(word)),
   };
 };
 
