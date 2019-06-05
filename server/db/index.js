@@ -1,5 +1,6 @@
 const Tweet = require('./Tweet');
 const Metadata = require('./Metadata');
+const User = require('./User');
 const db = require('./db');
 
 // TODO: is Metadata table even useful? Delete?
@@ -9,5 +10,6 @@ Metadata.hasMany(Tweet);
 module.exports = {
     Tweet,
     Metadata,
+    User,
     db,
 };

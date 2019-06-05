@@ -7,7 +7,6 @@ const Typing = () => {
     <div
       style={{
         width: '100%',
-        height: '100%',
         color: 'white',
         fontSize: '2rem',
         textAlign: 'center',
