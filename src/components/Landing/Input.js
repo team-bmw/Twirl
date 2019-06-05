@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 
-import { fetchWordcloudData } from '../../reducers/wordcloudReducer';
+import { fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 
 class Input extends Component {
   state = {
@@ -17,7 +17,7 @@ class Input extends Component {
   handleFormSubmit = evt => {
     evt.preventDefault();
     if (this.state.searchText) {
-      this.props.fetchWordcloudData(this.state.searchText);
+      this.props.fetchAdjectiveWordcloudData(this.state.searchText);
       this.props.history.push(`/search`);
     }
   };
@@ -67,7 +67,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchWordcloudData: word => dispatch(fetchWordcloudData(word)),
+    fetchAdjectiveWordcloudData: word => dispatch(fetchAdjectiveWordcloudData(word)),
   };
 };
 
