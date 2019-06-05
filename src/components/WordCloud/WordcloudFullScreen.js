@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactWordcloud from 'react-wordcloud';
 
-const WordcloudFullScreen = data => {
+const WordcloudFullScreen = props => {
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeigh] = useState(window.innerHeight);
 
@@ -17,9 +17,13 @@ const WordcloudFullScreen = data => {
     };
   });
 
+  const {
+    wordcloudData: { wordData },
+  } = props;
+
   return (
     <ReactWordcloud
-      words={data}
+      words={wordData}
       size={[width, height]}
       options={{
         colors: ['#000000'],
