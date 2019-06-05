@@ -36,17 +36,31 @@ export const wordcloudData = (state = initialState, action) => {
       return { status: 'failed', wordData: [] };
     case WORDCLOUD_DATA_SUCCESS:
       return { status: 'fetched', wordData: action.wordData };
-      default:
-        return state;
+    default:
+      return state;
   }
 };
 
 // Thunk
-export const fetchWordcloudData = word => {
+
+// fetch only adjectives
+export const fetchAdjectiveWordcloudData = word => {
   return dispatch => {
     dispatch(wordcloudDataRequest());
     return axios
-      .get(`/api/tweets/${word}`)
+      .get(`/api/tweets/adjectives/${word}`)
+      .then(response => response.data)
+      .then(wordData => dispatch(wordcloudDataSuccess(wordData)))
+      .catch(() => dispatch(wordcloudDataFailure()));
+  };
+};
+
+// fetch only nouns
+export const fetchNounWordcloudData = word => {
+  return dispatch => {
+    dispatch(wordcloudDataRequest());
+    return axios
+      .get(`/api/tweets/nouns/${word}`)
       .then(response => response.data)
       .then(wordData => dispatch(wordcloudDataSuccess(wordData)))
       .catch(() => dispatch(wordcloudDataFailure()));
