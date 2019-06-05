@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import WordCloudComponent from './WordCloudComponent';
 import { connect } from 'react-redux';
-import Loading from './Loading';
 
-import { useTheme } from '@material-ui/styles';
+import Loading from './Loading';
+import Input from '../Common/Input';
+
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.primary.main,
+    padding: '2rem',
+  },
+  input: {
+    margin: '1rem 0',
+  },
+}));
 
 const WordCloud = props => {
-  const theme = useTheme();
+  const classes = useStyles();
 
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeigh] = useState(window.innerHeight);
@@ -32,18 +44,20 @@ const WordCloud = props => {
       style={{
         height: height,
         width: width,
-        backgroundColor: theme.palette.primary.main,
-        padding: '2rem',
       }}
+      className={classes.root}
     >
-      {status === 'initial' && <h1 style={{ margin: 0 }}>Please enter data</h1>}
-      {status === 'failed' && <h1>Failed</h1>}
-      {status === 'fetching' && <Loading />}
-      {status === 'fetched' && (
-        <div style={{ height: '70%' }}>
-          <WordCloudComponent wordData={wordData} />
+      <div style={{ height: '70%' }}>
+        <div className={classes.input}>
+          <Input />
         </div>
-      )}
+        {status === 'initial' && (
+          <h1 style={{ margin: 0 }}>Please enter data</h1>
+        )}
+        {status === 'failed' && <h1>Failed</h1>}
+        {status === 'fetching' && <Loading />}
+        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+      </div>
     </div>
   );
 };

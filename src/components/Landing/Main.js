@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import Typing from './Typing';
-import Input from './Input';
+import Input from './../Common/Input';
 import Banner from './Banner';
 
 const Main = () => {

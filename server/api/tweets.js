@@ -8,7 +8,7 @@ const {
 
 // fetch 500 tweets and return word frequency objects
 router.get('/:query', (req, res, next) => {
-  fetchTweets(req.params.query, 100)
+  fetchTweets(req.params.query, 500)
     .then(tweets => res.send(tweetsToWordFrequencies(tweets)))
     .catch(err => console.log(err));
 });
