@@ -8,18 +8,19 @@ const wordpos = new WordPOS();
 
 // scrubText: strip out non-alpha-numeric characters
 const scrubText = str => {
-    return str.replace(/[^a-z0-9 ]/gi, '').toLowerCase();
+    return str.replace(/[^a-z ]/gi, '').toLowerCase();
 }
 
-// const getAdjectivesFromText = str => {
-//     return wordpos.getAdjectives(str)
-//         .then(words => words.join(' '));
-// };
+const getAdjectivesFromText = async str => {
+    const w = await wordpos.getAdjectives(str)
+        .then(words => words.join(' '));
+    return w;
+};
 
-// const getNounsFromText = str => {
-//     return wordpos.getNouns(str)
-//         .then(words => words.join(' '));
-// };
+const getNounsFromText = str => {
+    return wordpos.getNouns(str)
+        .then(words => words.join(' '));
+};
 
 // tweetsToString: turn array of Tweet objects into string of tweet text
 const tweetsToString = tweets => {
@@ -29,8 +30,13 @@ const tweetsToString = tweets => {
     }, '');
 };
 
+const filterWords = word => {
+    return !(word.length < 3 || word.length > 15)
+}
+
 // tweetsToWordFrequencies: turn array of Tweet objects into word frequency objects
 const tweetsToWordFrequencies = tweets => {
+
     const freqObj = tweets.reduce((freq, tweet) => {
 
         const id = tweet.twitterId;
@@ -53,8 +59,7 @@ const tweetsToWordFrequencies = tweets => {
 
     return Object.keys(freqObj).reduce((arr, word) => {
 
-        // filter: don't want to return everything (filter to 50 most frequent)
-        if (freqObj[word].value > 5) {
+        if (freqObj[word].value > 5 && filterWords(word)) {
             arr.push(freqObj[word]);
         }
 
@@ -62,22 +67,33 @@ const tweetsToWordFrequencies = tweets => {
     }, []);
 };
 
-// const adjectivesToWordFrequencies = tweets => {
-//     const adjOnlyTweets = tweets.map(async tweet => {
-//         try {
-//             const adjText = await getAdjectivesFromText(tweet.text);
-//             tweet.text = adjText;
-//             return tweet;
-//         } catch {
-//             return tweet;
-//         }
-//     });
+const adjectivesToWordFrequencies = async tweets => {
+    const adjTweets = [];
+    for (let i = 0; i < tweets.length; i++) {
+        const adj = await getAdjectivesFromText(tweets[i].text);
+        if (adj.length) {
+            tweets[i].text = adj;
+            adjTweets.push(tweets[i]);
+        }
+    }
+    return tweetsToWordFrequencies(adjTweets);
+}
 
-//     return tweetsToWordFrequencies(adjOnlyTweets);
-// }
+const nounsToWordFrequencies = async tweets => {
+    const nounTweets = [];
+    for (let i = 0; i < tweets.length; i++) {
+        const adj = await getNounsFromText(tweets[i].text);
+        if (adj.length) {
+            tweets[i].text = adj;
+            nounTweets.push(tweets[i]);
+        }
+    }
+    return tweetsToWordFrequencies(nounTweets);
+}
 
 module.exports = {
     tweetsToWordFrequencies,
     tweetsToString,
-    // adjectivesToWordFrequencies,
+    adjectivesToWordFrequencies,
+    nounsToWordFrequencies,
 }
