@@ -43,18 +43,6 @@ export const wordcloudData = (state = initialState, action) => {
 
 // Thunk
 
-// fetch all words
-export const fetchWordcloudData = word => {
-  return dispatch => {
-    dispatch(wordcloudDataRequest());
-    return axios
-      .get(`/api/tweets/${word}`)
-      .then(response => response.data)
-      .then(wordData => dispatch(wordcloudDataSuccess(wordData)))
-      .catch(() => dispatch(wordcloudDataFailure()));
-  };
-};
-
 // fetch only adjectives
 export const fetchAdjectiveWordcloudData = word => {
   return dispatch => {
