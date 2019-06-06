@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import WordCloud from './WordCloud';
 import Login from './Login';
 import Navbar from './Navbar';
+import TestEmbedTweets from './TestEmbedTweets';
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';
@@ -25,6 +26,7 @@ const App = ({ loginSession }) => {
         <Route exact path="/" component={Landing} />
         <Route path="/search" component={WordCloud} />
         <Route path="/login" exact component={Login} />
+        <Route path="/embededTweets" exact component={TestEmbedTweets} />
       </Router>
     </ThemeProvider>
   );
