@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Loading from './Loading';
 import Input from '../Common/Input';
+import Message from '../Common/Message';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -51,10 +52,10 @@ const WordCloud = props => {
         <div className={classes.input}>
           <Input />
         </div>
-        {status === 'initial' && (
-          <h1 style={{ margin: 0 }}>Please enter data</h1>
+        {status === 'initial' && <Message message="Please enter data" />}
+        {status === 'failed' && (
+          <Message message="Data fetched unsuccessfully. Please try again." />
         )}
-        {status === 'failed' && <h1>Failed</h1>}
         {status === 'fetching' && <Loading />}
         {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
       </div>
