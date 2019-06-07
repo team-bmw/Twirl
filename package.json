@@ -34,6 +34,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
+    "react-twitter-embed": "^2.0.8",
     "react-typed": "^1.1.2",
     "react-video-cover": "^1.2.2",
     "react-wordcloud": "^1.0.5",
