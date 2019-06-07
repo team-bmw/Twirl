@@ -17,13 +17,14 @@ class Input extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
-
-    // clear database & populate with tweets based on user input
-    axios.post('/api/tweets/reset', { query: this.state.searchText });
-    // if (this.state.searchText) {
-    //   this.props.fetchAdjectiveWordcloudData(this.state.searchText);
-    //   this.props.history.push(`/search`);
-    // }
+    if (this.state.searchText) {
+      axios.post('/api/tweets/reset', { query: this.state.searchText })
+        .then(() => {
+          this.props.fetchAdjectiveWordcloudData(this.state.searchText);
+        })
+        .then(() => console.log('hey'))
+      // this.props.history.push(`/search`);
+    }
   };
 
   render() {

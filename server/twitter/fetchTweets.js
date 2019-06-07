@@ -2,7 +2,7 @@
 /* eslint-disable handle-callback-err */
 /* eslint-disable camelcase */
 
-// Use search/tweets endpoint on loop to fetch tweets
+// // Use search/tweets endpoint on loop to fetch tweets
 const Twitter = require('twitter');
 require('dotenv').config();
 
@@ -16,10 +16,7 @@ const client = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
-// sync database, deleting previous results
-db.sync({ force: true }).then(() => console.log('Database synced'));
-
-// parse "next_results" string from search_metadata to get max_id term for next search
+// // parse "next_results" string from search_metadata to get max_id term for next search
 const getNextMaxId = str => {
   const terms = str.replace('?', '').split('&');
   const maxIdTerm = terms.find(term => term.includes('max_id'));
@@ -44,7 +41,7 @@ const getTweets = async (q, count, max_id = null) => {
     Tweet.create({
       query: q,
       text: element.full_text,
-      twitterId: `${element.id}`,
+      twitterId: `${element.id_str}`,
     });
   });
 
@@ -54,9 +51,8 @@ const getTweets = async (q, count, max_id = null) => {
 
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total) => {
-  console.log('fetchTweet called');
+
   let metadata = await getTweets(q, 100);
-  console.log('metadata', metadata);
   let recordCount = metadata[0];
   let max_id = metadata[1];
 
@@ -65,14 +61,6 @@ const fetchTweets = async (q, total) => {
     recordCount += metadata[0];
     max_id = metadata[1];
   }
-
-  const tweets = await Tweet.findAll({
-    where: {
-      query: q,
-    },
-  });
-
-  return tweets;
 };
 
 module.exports = {
