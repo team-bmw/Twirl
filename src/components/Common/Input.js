@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import { fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 
@@ -17,7 +18,8 @@ class Input extends Component {
   handleFormSubmit = evt => {
     evt.preventDefault();
     if (this.state.searchText) {
-      this.props.fetchAdjectiveWordcloudData(this.state.searchText);
+      axios.post('/api/tweets/reset', { query: this.state.searchText })
+        .then(() => this.props.fetchAdjectiveWordcloudData(this.state.searchText))
       this.props.history.push(`/search`);
     }
   };
