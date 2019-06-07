@@ -11,10 +11,17 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    padding: '2rem',
+    padding: '1rem 2rem 2rem 2rem',
   },
   input: {
     margin: '1rem 0',
+  },
+  button: {
+    backgroundColor: theme.palette.secondary.contrastText,
+  },
+  icon: {
+    color: theme.palette.primary.main,
+    fontSize: '2rem',
   },
 }));
 
@@ -48,16 +55,18 @@ const WordCloud = props => {
       }}
       className={classes.root}
     >
-      <div style={{ height: '70%' }}>
-        <div className={classes.input}>
-          <Input />
+      <div style={{ height: '70%', display: 'flex' }}>
+        <div style={{ width: '95%' }}>
+          <div className={classes.input}>
+            <Input />
+          </div>
+          {status === 'initial' && <Message message="Please enter data" />}
+          {status === 'failed' && (
+            <Message message="Data fetched unsuccessfully. Please try again." />
+          )}
+          {status === 'fetching' && <Loading />}
+          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </div>
-        {status === 'initial' && <Message message="Please enter data" />}
-        {status === 'failed' && (
-          <Message message="Data fetched unsuccessfully. Please try again." />
-        )}
-        {status === 'fetching' && <Loading />}
-        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
       </div>
     </div>
   );
