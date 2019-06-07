@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import {
   Menu,
@@ -12,6 +11,8 @@ import {
   IconButton,
   AppBar,
   Toolbar,
+  Button,
+  Avatar,
 } from '@material-ui/core';
 
 import { logOutUser } from '../../reducers/userReducer';
@@ -25,13 +26,17 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+  imageIcon: {
+    height: 32,
   },
 }));
 
 function MenuAppBar({ logOutUser, user }) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   function handleMenu(event) {
@@ -54,51 +59,61 @@ function MenuAppBar({ logOutUser, user }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            <a href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              Twirl
-            </a>
+
+          <Typography
+            variant="h6"
+            className={classes.title}
+            component={Link}
+            to="/"
+          >
+            Twirl
           </Typography>
-          {auth && (
+
+          {user.id ? (
             <div>
+              <Button disabled style={{ color: 'white' }}>
+                {user.twitterDisplayName}
+              </Button>
               <IconButton
                 aria-owns={open ? 'menu-appbar' : undefined}
                 aria-haspopup="true"
                 onClick={handleMenu}
-                color="inherit"
               >
-                <AccountCircle />
+                <Avatar alt={user.twitterDisplayName} src={user.twitterPhoto} />
               </IconButton>
+
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'center',
                 }}
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'center',
                 }}
                 open={open}
                 onClose={handleClose}
               >
-                {!user.id ? (
-                  <MenuItem onClick={handleClose} component={Link} to="/login">
-                    Login
-                  </MenuItem>
-                ) : (
-                  <MenuItem
-                    onClick={() => {
-                      handleClose();
-                      logOutUser();
-                    }}
-                  >
-                    Logout
-                  </MenuItem>
-                )}
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    logOutUser();
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
+          ) : (
+            <Button color="inherit" href="/auth/twitter">
+              <img
+                className={classes.imageIcon}
+                src="Twitter_Logo_WhiteOnImage.svg"
+              />
+              Login with Twitter
+            </Button>
           )}
         </Toolbar>
       </AppBar>
