@@ -19,11 +19,8 @@ class Input extends Component {
     evt.preventDefault();
     if (this.state.searchText) {
       axios.post('/api/tweets/reset', { query: this.state.searchText })
-        .then(() => {
-          this.props.fetchAdjectiveWordcloudData(this.state.searchText);
-        })
-        .then(() => console.log('hey'))
-      // this.props.history.push(`/search`);
+        .then(() => this.props.fetchAdjectiveWordcloudData(this.state.searchText))
+      this.props.history.push(`/search`);
     }
   };
 

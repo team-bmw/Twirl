@@ -15,7 +15,7 @@ router.get('/adjectives/:query', (req, res, next) => {
   })
     .then(tweets => adjectivesToWordFrequencies(tweets))
     .then(adj => res.send(adj))
-    .catch(err => console.log(err));
+    .catch(next);
 });
 
 // fetch noun word frequency objects
@@ -27,13 +27,15 @@ router.get('/nouns/:query', (req, res, next) => {
   })
     .then(tweets => nounsToWordFrequencies(tweets))
     .then(adj => res.send(adj))
-    .catch(err => console.log(err));
+    .catch(next);
 });
 
 // reset database and fetch 500 tweets
 router.post('/reset', (req, res, next) => {
   db.sync({ force: true })
-    .then(() => fetchTweets(req.body.query, 500));
+    .then(() => fetchTweets(req.body.query, 500))
+    .then(() => res.sendStatus(201))
+    .catch(next);
 })
 
 module.exports = router;
