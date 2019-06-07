@@ -54,10 +54,8 @@ function MenuAppBar({ logOutUser, user }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            <a href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Typography variant="h6" className={classes.title} component={Link} to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
               Twirl
-            </a>
           </Typography>
           {auth && (
             <div>
