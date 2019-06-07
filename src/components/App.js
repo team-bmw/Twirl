@@ -26,7 +26,7 @@ const App = ({ loginSession }) => {
         <Route exact path="/" component={Landing} />
         <Route path="/search" component={WordCloud} />
         <Route path="/login" exact component={Login} />
-        <Route path="/embededTweets" exact component={TestEmbedTweets} />
+        <Route path="/embeddedTweets" exact component={TestEmbedTweets} />
       </Router>
     </ThemeProvider>
   );

@@ -44,7 +44,7 @@ const getTweets = async (q, count, max_id = null) => {
     Tweet.create({
       query: q,
       text: element.full_text,
-      twitterId: `${element.id}`,
+      twitterId: `${element.id_str}`,
     });
   });
 
