@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 
+import { connect } from 'react-redux';
+
 const EmbeddedTweets = ({ tweetIds }) => {
   useEffect(() => {}, [tweetIds]);
   return (
@@ -17,4 +19,10 @@ const EmbeddedTweets = ({ tweetIds }) => {
   );
 };
 
-export default EmbeddedTweets;
+const mapStateToProps = state => {
+  return {
+    tweetIds: state.tweets.selectedIds,
+  };
+};
+
+export default connect(mapStateToProps)(EmbeddedTweets);

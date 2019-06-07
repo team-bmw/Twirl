@@ -7,6 +7,7 @@ import Input from '../Common/Input';
 import Message from '../Common/Message';
 
 import { makeStyles } from '@material-ui/styles';
+import EmbeddedTweets from '../EmbeddedTweets';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,26 +49,29 @@ const WordCloud = props => {
   } = props;
 
   return (
-    <div
-      style={{
-        height: height,
-        width: width,
-      }}
-      className={classes.root}
-    >
-      <div style={{ height: '70%', display: 'flex' }}>
-        <div style={{ width: '95%' }}>
-          <div className={classes.input}>
-            <Input />
+    <div>
+      <div
+        style={{
+          height: height,
+          width: width,
+        }}
+        className={classes.root}
+      >
+        <div style={{ height: '70%', display: 'flex' }}>
+          <div style={{ width: '95%' }}>
+            <div className={classes.input}>
+              <Input />
+            </div>
+            {status === 'initial' && <Message message="Please enter data" />}
+            {status === 'failed' && (
+              <Message message="Data fetched unsuccessfully. Please try again." />
+            )}
+            {status === 'fetching' && <Loading />}
+            {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
           </div>
-          {status === 'initial' && <Message message="Please enter data" />}
-          {status === 'failed' && (
-            <Message message="Data fetched unsuccessfully. Please try again." />
-          )}
-          {status === 'fetching' && <Loading />}
-          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </div>
       </div>
+      <EmbeddedTweets />
     </div>
   );
 };
