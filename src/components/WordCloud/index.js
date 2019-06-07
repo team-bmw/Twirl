@@ -57,8 +57,8 @@ const WordCloud = props => {
         }}
         className={classes.root}
       >
-        <div style={{ height: '70%', display: 'flex' }}>
-          <div style={{ width: '95%' }}>
+        <div style={{ height: '90%', display: 'flex' }}>
+          <div style={{ width: '50%' }}>
             <div className={classes.input}>
               <Input />
             </div>
@@ -69,9 +69,19 @@ const WordCloud = props => {
             {status === 'fetching' && <Loading />}
             {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
           </div>
+          <div
+            style={{
+              width: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              overflowY: 'scroll',
+            }}
+          >
+            <EmbeddedTweets />
+          </div>
         </div>
       </div>
-      <EmbeddedTweets />
     </div>
   );
 };
