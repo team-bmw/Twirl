@@ -1,7 +1,6 @@
 
-// TODO: get this working for nouns vs. adjectives
-
 const WordPOS = require('wordpos');
+
 const wordpos = new WordPOS();
 
 // Helper functions to parse tweets
@@ -48,6 +47,7 @@ const tweetsToWordFrequencies = tweets => {
             numFavorities: tweet.numFavorities,
             numFriends: tweet.numFriends,
             numFollowers: tweet.numFollowers,
+            sentiment: tweet.sentiment,
             location: tweet.location,
         };
         const words = scrubText(tweet.text).split(' ');
