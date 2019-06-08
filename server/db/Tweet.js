@@ -30,6 +30,7 @@ const Tweet = db.define('tweets', {
     },
     twitterId: {
         type: db.Sequelize.STRING,
+        unique: true,
     },
     twitterUserId: {
         type: db.Sequelize.STRING,

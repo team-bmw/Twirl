@@ -10,9 +10,11 @@ const EmbeddedTweets = ({ tweetIds }) => {
       {tweetIds.map(tweet => {
         console.log(tweet);
         return (
-          <div key={tweet.twitterId}>
-            <TwitterTweetEmbed tweetId={tweet.twitterId} options={{ cards: 'hidden' }} />
-          </div>
+          !tweet.isRetweet ?
+            <div key={tweet.twitterId} >
+              <TwitterTweetEmbed tweetId={tweet.twitterId} options={{ cards: 'hidden' }} />
+            </div>
+            : null
         );
       })}
     </div>

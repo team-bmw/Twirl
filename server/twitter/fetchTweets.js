@@ -50,7 +50,11 @@ const getTweets = async (q, count, max_id = null) => {
       userVerified: element.user.verified,
       twitterId: `${element.id_str}`,
       twitterUserId: element.user.id_str,
-    });
+    })
+      .catch(err => {
+        --counter;
+        console.log(err);
+      });
   });
 
   await Metadata.create({ query: q, count: counter, next_id: nextMaxId });
