@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
+import { sortTweets } from '../helperFunctions';
 
 import { connect } from 'react-redux';
 
@@ -7,7 +8,7 @@ const EmbeddedTweets = ({ tweetIds }) => {
   useEffect(() => { }, [tweetIds]);
   return (
     <div>
-      {tweetIds.map(tweet => {
+      {sortTweets(tweetIds, 'numRetweets', false).map(tweet => {
         console.log(tweet);
         return (
           !tweet.isRetweet ?
