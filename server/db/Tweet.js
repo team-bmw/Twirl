@@ -29,7 +29,7 @@ const Tweet = db.define('tweets', {
         type: db.Sequelize.STRING,
     },
     sentiment: {
-        type: db.Sequelize.NUMBER,
+        type: db.Sequelize.FLOAT,
     },
     twitterId: {
         type: db.Sequelize.STRING,
