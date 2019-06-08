@@ -42,6 +42,7 @@ const tweetsToWordFrequencies = tweets => {
         const id = {
             twitterId: tweet.twitterId,
             twitterUserId: tweet.twitterUserId,
+            isRetweet: tweet.isRetweet,
             userVerified: tweet.userVerified,
             numRetweets: tweet.numRetweets,
             numFavorities: tweet.numFavorities,
