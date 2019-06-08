@@ -4,14 +4,14 @@ import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { connect } from 'react-redux';
 
 const EmbeddedTweets = ({ tweetIds }) => {
-  useEffect(() => {}, [tweetIds]);
+  useEffect(() => { }, [tweetIds]);
   return (
     <div>
       {tweetIds.map(id => {
         console.log(id);
         return (
           <div key={id}>
-            <TwitterTweetEmbed tweetId={id} options={{ cards: 'hidden' }} />
+            <TwitterTweetEmbed tweetId={id.twitterId} options={{ cards: 'hidden' }} />
           </div>
         );
       })}
