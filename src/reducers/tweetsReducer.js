@@ -1,25 +1,24 @@
 // ACTION CONSTANTS
-const UPDATE_SELECT_IDS = 'UPDATE_SELECT_IDS';
+const UPDATE_SELECT_TWEETS = 'UPDATE_SELECT_TWEETS';
 
 // ACTION CREATORS
-export const updateSelectedIds = IDs => {
+export const updateSelectedTweets = tweetData => {
   return {
-    type: UPDATE_SELECT_IDS,
-    IDs,
+    type: UPDATE_SELECT_TWEETS,
+    tweetData,
   };
 };
 
 // INITIAL STATE
 const initialState = {
-  selectedIds: [],
+  selectedTweets: [],
 };
 
 // REDUCER
-
 export const tweets = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_SELECT_IDS: {
-      return { ...state, selectedIds: action.IDs };
+    case UPDATE_SELECT_TWEETS: {
+      return { ...state, selectedTweets: action.tweetData };
     }
     default:
       return state;
