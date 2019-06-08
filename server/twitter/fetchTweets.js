@@ -6,7 +6,7 @@
 const Twitter = require('twitter');
 require('dotenv').config();
 
-const { db, Tweet, Metadata } = require('../db/index');
+const { Tweet, Metadata } = require('../db/index');
 
 // Change out keys here:
 const client = new Twitter({
@@ -41,7 +41,14 @@ const getTweets = async (q, count, max_id = null) => {
     Tweet.create({
       query: q,
       text: element.full_text,
+      location: element.user.location,
+      numFollowers: element.user.followers_count,
+      numFriends: element.user.friends_count,
+      numFavorites: element.favorite_count,
+      numRetweets: element.retweet_count,
+      userVerified: element.user.verified,
       twitterId: `${element.id_str}`,
+      twitterUserId: element.user.id_str,
     });
   });
 
