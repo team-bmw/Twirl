@@ -7,6 +7,7 @@ const Twitter = require('twitter');
 require('dotenv').config();
 
 const { Tweet, Metadata } = require('../db/index');
+const { scoreTweetSentiment } = require('./classifyTweets');
 
 // Change out keys here:
 const client = new Twitter({
@@ -48,6 +49,7 @@ const getTweets = async (q, count, max_id = null) => {
       numFavorites: element.favorite_count,
       numRetweets: element.retweet_count,
       userVerified: element.user.verified,
+      sentiment: scoreTweetSentiment(element.full_text),
       twitterId: `${element.id_str}`,
       twitterUserId: element.user.id,
     })
