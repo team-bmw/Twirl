@@ -39,7 +39,7 @@ const tweetsToWordFrequencies = tweets => {
 
     const freqObj = tweets.reduce((freq, tweet) => {
 
-        const id = {
+        const newTweetData = {
             twitterId: tweet.twitterId,
             twitterUserId: tweet.twitterUserId,
             isRetweet: tweet.isRetweet,
@@ -55,12 +55,12 @@ const tweetsToWordFrequencies = tweets => {
         return words.reduce((tweetFreq, word) => {
             if (tweetFreq[word]) {
                 ++tweetFreq[word].value;
-                tweetFreq[word].ids.push(id);
+                tweetFreq[word].tweetData.push(newTweetData);
             } else {
                 tweetFreq[word] = {
                     text: word,
                     value: 1,
-                    ids: [id],
+                    tweetData: [newTweetData],
                 };
             }
             return tweetFreq;

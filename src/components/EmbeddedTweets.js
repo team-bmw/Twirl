@@ -7,11 +7,11 @@ const EmbeddedTweets = ({ tweetIds }) => {
   useEffect(() => { }, [tweetIds]);
   return (
     <div>
-      {tweetIds.map(id => {
-        console.log(id);
+      {tweetIds.map(tweet => {
+        console.log(tweet);
         return (
-          <div key={id}>
-            <TwitterTweetEmbed tweetId={id.twitterId} options={{ cards: 'hidden' }} />
+          <div key={tweet.twitterId}>
+            <TwitterTweetEmbed tweetId={tweet.twitterId} options={{ cards: 'hidden' }} />
           </div>
         );
       })}
