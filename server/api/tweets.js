@@ -38,4 +38,13 @@ router.post('/reset', (req, res, next) => {
     .catch(next);
 })
 
+router.get('/:query', (req, res, next) => {
+  Tweet.findAll({
+    where: {
+      query: req.params.query,
+    },
+  })
+    .then(tweets => res.send(tweets));
+})
+
 module.exports = router;

@@ -16,8 +16,8 @@ const WordCloudComponent = props => {
 
   const callbacks = {
     onWordClick: word => {
-      const { ids } = word;
-      updateSelectedIds(ids);
+      const { tweetData } = word;
+      updateSelectedIds(tweetData);
     },
   };
 
