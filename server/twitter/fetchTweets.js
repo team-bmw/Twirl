@@ -51,7 +51,7 @@ const getTweets = async (q, count, max_id = null) => {
       userVerified: element.user.verified,
       sentiment: scoreTweetSentiment(element.full_text),
       twitterId: `${element.id_str}`,
-      twitterUserId: element.user.id_str,
+      twitterUserId: element.user.id,
     })
       .catch(err => {
         --counter;
