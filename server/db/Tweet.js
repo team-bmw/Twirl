@@ -28,6 +28,9 @@ const Tweet = db.define('tweets', {
     query: {
         type: db.Sequelize.STRING,
     },
+    sentiment: {
+        type: db.Sequelize.NUMBER,
+    },
     twitterId: {
         type: db.Sequelize.STRING,
         unique: true,

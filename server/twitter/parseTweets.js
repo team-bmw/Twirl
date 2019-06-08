@@ -1,7 +1,6 @@
 
-// TODO: get this working for nouns vs. adjectives
-
 const WordPOS = require('wordpos');
+
 const wordpos = new WordPOS();
 
 // Helper functions to parse tweets
