@@ -5,9 +5,7 @@ import { loginSession } from '../reducers/userReducer';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import WordCloud from './WordCloud';
-import Login from './Login';
 import Navbar from './Navbar';
-import TestEmbedTweets from './TestEmbedTweets';
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';

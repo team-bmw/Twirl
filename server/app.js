@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 // Error handling endware
 app.use((err, req, res, next) => {
-  console.log(err.message || err);
+  console.log(err.message);
   res.status(err.status || 500);
   res.send(err.message || 'Internal server error!')
 })

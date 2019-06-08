@@ -1,28 +1,34 @@
 import React, { useEffect } from 'react';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
+import { TwitterTweetEmbed, TwitterDMButton } from 'react-twitter-embed';
 
 import { connect } from 'react-redux';
 
-const EmbeddedTweets = ({ selectedTweets }) => {
-  useEffect(() => { }, [selectedTweets]);
+const EmbeddedTweets = ({ selectedTweets, user }) => {
+  useEffect(() => {}, [selectedTweets]);
   return (
     <div>
       {selectedTweets.map(tweet => {
-        return (
-          !tweet.isRetweet ?
-            <div key={tweet.twitterId} >
-              <TwitterTweetEmbed tweetId={tweet.twitterId} options={{ cards: 'hidden' }} />
-            </div>
-            : null
-        );
+        return !tweet.isRetweet ? (
+          <div key={tweet.twitterId}>
+            <TwitterTweetEmbed
+              tweetId={tweet.twitterId}
+              options={{ cards: 'hidden' }}
+            />
+            <TwitterDMButton
+              id={3805104374}
+              options={{ size: 'large' }}
+            />
+          </div>
+        ) : null;
       })}
     </div>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({tweets, user}) => {
   return {
-    selectedTweets: state.tweets.selectedTweets,
+    selectedTweets: tweets.selectedTweets,
+    user
   };
 };
 

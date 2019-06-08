@@ -20,6 +20,8 @@ router.get('/loggedIn', (req, res, next) => {
       return next(error);
     }
     res.send(req.session.passport.user);
+  } else {
+    return next(error);
   }
 });
 

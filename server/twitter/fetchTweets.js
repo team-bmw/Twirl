@@ -49,7 +49,7 @@ const getTweets = async (q, count, max_id = null) => {
       numRetweets: element.retweet_count,
       userVerified: element.user.verified,
       twitterId: `${element.id_str}`,
-      twitterUserId: element.user.id_str,
+      twitterUserId: element.user.id,
     })
       .catch(err => {
         --counter;
