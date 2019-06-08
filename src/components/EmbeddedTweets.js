@@ -9,6 +9,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
   return (
     <div>
       {sortTweets(selectedTweets, 'numRetweets', false).map(tweet => {
+        console.log(tweet.twitterId);
         return !tweet.isRetweet ? (
           <div key={tweet.twitterId}>
             <TwitterTweetEmbed
