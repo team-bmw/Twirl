@@ -25,7 +25,6 @@ const App = ({ loginSession }) => {
         <Route component={Navbar} />
         <Route exact path="/" component={Landing} />
         <Route path="/search" component={WordCloud} />
-        <Route path="/login" exact component={Login} />
       </Router>
     </ThemeProvider>
   );

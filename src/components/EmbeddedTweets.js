@@ -3,12 +3,11 @@ import { TwitterTweetEmbed } from 'react-twitter-embed';
 
 import { connect } from 'react-redux';
 
-const EmbeddedTweets = ({ tweetIds }) => {
-  useEffect(() => { }, [tweetIds]);
+const EmbeddedTweets = ({ selectedTweets }) => {
+  useEffect(() => { }, [selectedTweets]);
   return (
     <div>
-      {tweetIds.map(tweet => {
-        console.log(tweet);
+      {selectedTweets.map(tweet => {
         return (
           !tweet.isRetweet ?
             <div key={tweet.twitterId} >
@@ -23,7 +22,7 @@ const EmbeddedTweets = ({ tweetIds }) => {
 
 const mapStateToProps = state => {
   return {
-    tweetIds: state.tweets.selectedIds,
+    selectedTweets: state.tweets.selectedTweets,
   };
 };
 

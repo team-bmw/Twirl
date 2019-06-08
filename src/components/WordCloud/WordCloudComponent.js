@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import ReactWordcloud from 'react-wordcloud';
 import { useTheme } from '@material-ui/styles';
 
-import { updateSelectedIds } from '../../reducers/tweetsReducer';
+import { updateSelectedTweets } from '../../reducers/tweetsReducer';
 
 const WordCloudComponent = props => {
-  const { wordData, updateSelectedIds } = props;
+  const { wordData, updateSelectedTweets } = props;
   const theme = useTheme();
   const {
     typography,
@@ -17,11 +17,11 @@ const WordCloudComponent = props => {
   const callbacks = {
     onWordClick: word => {
       const { tweetData } = word;
-      updateSelectedIds(tweetData);
+      updateSelectedTweets(tweetData);
     },
   };
 
-  console.log(props);
+  // console.log(props);
 
   return (
     <ReactWordcloud
@@ -46,5 +46,5 @@ const mapStateToProps = state => state;
 
 export default connect(
   null,
-  { updateSelectedIds }
+  { updateSelectedTweets }
 )(WordCloudComponent);
