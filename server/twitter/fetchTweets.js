@@ -41,6 +41,7 @@ const getTweets = async (q, count, max_id = null) => {
     Tweet.create({
       query: q,
       text: element.full_text,
+      isRetweet: !!element.retweetwed_status,
       location: element.user.location,
       numFollowers: element.user.followers_count,
       numFriends: element.user.friends_count,

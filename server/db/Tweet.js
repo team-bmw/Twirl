@@ -22,6 +22,9 @@ const Tweet = db.define('tweets', {
     userVerified: {
         type: db.Sequelize.BOOLEAN,
     },
+    isRetweet: {
+        type: db.Sequelize.BOOLEAN,
+    },
     query: {
         type: db.Sequelize.STRING,
     },

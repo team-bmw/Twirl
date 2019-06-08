@@ -39,7 +39,16 @@ const tweetsToWordFrequencies = tweets => {
 
     const freqObj = tweets.reduce((freq, tweet) => {
 
-        const id = tweet.twitterId;
+        const id = {
+            twitterId: tweet.twitterId,
+            twitterUserId: tweet.twitterUserId,
+            userVerified: tweet.userVerified,
+            numRetweets: tweet.numRetweets,
+            numFavorities: tweet.numFavorities,
+            numFriends: tweet.numFriends,
+            numFollowers: tweet.numFollowers,
+            location: tweet.location,
+        };
         const words = scrubText(tweet.text).split(' ');
 
         return words.reduce((tweetFreq, word) => {
