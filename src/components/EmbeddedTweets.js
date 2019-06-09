@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
+import { sortTweets } from '../helperFunctions';
 import { TwitterTweetEmbed, TwitterDMButton } from 'react-twitter-embed';
 
 import { connect } from 'react-redux';
 
 const EmbeddedTweets = ({ selectedTweets, user }) => {
-  useEffect(() => {}, [selectedTweets]);
+  useEffect(() => { }, [selectedTweets]);
   return (
     <div>
-      {selectedTweets.map(tweet => {
+      {sortTweets(selectedTweets, 'numRetweets', false).map(tweet => {
+        console.log(tweet.twitterId);
         return !tweet.isRetweet ? (
           <div key={tweet.twitterId}>
             <TwitterTweetEmbed
@@ -25,7 +27,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
   );
 };
 
-const mapStateToProps = ({tweets, user}) => {
+const mapStateToProps = ({ tweets, user }) => {
   return {
     selectedTweets: tweets.selectedTweets,
     user
