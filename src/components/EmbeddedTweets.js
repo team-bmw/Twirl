@@ -1,27 +1,56 @@
 import React, { useEffect } from 'react';
-import { sortTweets } from '../helperFunctions';
-import { TwitterTweetEmbed, TwitterDMButton } from 'react-twitter-embed';
-
 import { connect } from 'react-redux';
+import { TwitterTweetEmbed } from 'react-twitter-embed';
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import { sortTweets } from '../helperFunctions';
+
+const useStyles = makeStyles(theme => ({
+  imageIcon: {
+    height: 32,
+  },
+}));
 
 const EmbeddedTweets = ({ selectedTweets, user }) => {
-  useEffect(() => { }, [selectedTweets]);
+  const classes = useStyles();
+
+  useEffect(() => {}, [selectedTweets]);
   return (
     <div>
-      {sortTweets(selectedTweets, 'numRetweets', false).map(tweet => {
-        console.log(tweet.twitterId);
-        return !tweet.isRetweet ? (
-          <div key={tweet.twitterId}>
+      {sortTweets(selectedTweets, 'numRetweets', false).map((tweet, index) => {
+        return (
+          <div key={tweet.twitterId + index}>
             <TwitterTweetEmbed
               tweetId={tweet.twitterId}
-              options={{ cards: 'hidden' }}
+              options={{ cards: 'hidden', width: 275 }}
             />
-            <TwitterDMButton
-              id={parseInt(tweet.twitterUserId)}
-              options={{ size: 'large'}}
-            />
+
+            <Button
+              href={`https://twitter.com/intent/tweet?in_reply_to=${
+                tweet.twitterId
+              }`}
+            >
+              <img
+                className={classes.imageIcon}
+                src="Twitter_Reply.svg"
+              />
+              Reply
+            </Button>
+
+            <Button
+              href={`href="https://twitter.com/intent/retweet?tweet_id=${
+                tweet.twitterId
+              }`}
+            >
+              <img
+                className={classes.imageIcon}
+                src="Twitter_Retweet.svg"
+              />
+              Reply
+            </Button>
+
           </div>
-        ) : null;
+        );
       })}
     </div>
   );
@@ -29,8 +58,8 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
 
 const mapStateToProps = ({ tweets, user }) => {
   return {
-    selectedTweets: tweets.selectedTweets,
-    user
+    selectedTweets: tweets.selectedTweets.filter(tweet => !tweet.isRetweet),
+    user,
   };
 };
 
