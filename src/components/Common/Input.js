@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
+import { startLoading, endLoading } from '../../reducers/loadingReducer';
 
 class Input extends Component {
   state = {
@@ -17,9 +18,13 @@ class Input extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
+    this.props.startLoading();
     if (this.state.searchText) {
-      axios.post('/api/tweets/reset', { query: this.state.searchText })
-        .then(() => this.props.fetchAdjectiveWordcloudData(this.state.searchText))
+      axios
+        .post('/api/tweets/reset', { query: this.state.searchText })
+        .then(() =>
+          this.props.fetchAdjectiveWordcloudData(this.state.searchText)
+        );
       this.props.history.push(`/search`);
     }
   };
@@ -66,16 +71,16 @@ const mapStateToProps = state => {
   return state;
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchAdjectiveWordcloudData: word =>
-      dispatch(fetchAdjectiveWordcloudData(word)),
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     fetchAdjectiveWordcloudData: word =>
+//       dispatch(fetchAdjectiveWordcloudData(word)),
+//   };
+// };
 
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    { fetchAdjectiveWordcloudData, startLoading, endLoading }
   )(Input)
 );

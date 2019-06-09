@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import WordCloudComponent from './WordCloudComponent';
 import { connect } from 'react-redux';
 
-import Loading from './Loading';
+import Loading from '../Common/Loading';
 import Input from '../Common/Input';
 import Message from '../Common/Message';
 
 import { makeStyles } from '@material-ui/styles';
 import EmbeddedTweets from '../EmbeddedTweets';
+
+import { endLoading } from '../../reducers/loadingReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,6 +40,11 @@ const WordCloud = props => {
   };
 
   useEffect(() => {
+    const {
+      wordcloudData: { status },
+      endLoading,
+    } = props;
+    if (status === 'fetched' || status === 'failed') endLoading();
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -46,6 +53,7 @@ const WordCloud = props => {
 
   const {
     wordcloudData: { status, wordData },
+    isLoading,
   } = props;
 
   return (
@@ -66,7 +74,7 @@ const WordCloud = props => {
             {status === 'failed' && (
               <Message message="Data fetched unsuccessfully. Please try again." />
             )}
-            {status === 'fetching' && <Loading />}
+            {isLoading && <Loading />}
             {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
           </div>
           <div
@@ -90,4 +98,7 @@ const mapStateToProps = state => {
   return state;
 };
 
-export default connect(mapStateToProps)(WordCloud);
+export default connect(
+  mapStateToProps,
+  { endLoading }
+)(WordCloud);
