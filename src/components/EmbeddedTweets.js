@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/styles';
 import { sortTweets } from '../helperFunctions';
 
 const useStyles = makeStyles(theme => ({
+  tweet: {
+    marginBottom: theme.spacing(2),
+  },
   imageIcon: {
     height: 32,
   },
@@ -19,36 +22,36 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
     <div>
       {sortTweets(selectedTweets, 'numRetweets', false).map((tweet, index) => {
         return (
-          <div key={tweet.twitterId + index}>
+          <div key={tweet.twitterId + index} className={classes.tweet}>
             <TwitterTweetEmbed
               tweetId={tweet.twitterId}
               options={{ cards: 'hidden', width: 275 }}
             />
 
-            <Button
-              href={`https://twitter.com/intent/tweet?in_reply_to=${
-                tweet.twitterId
-              }`}
-            >
-              <img
-                className={classes.imageIcon}
-                src="Twitter_Reply.svg"
-              />
-              Reply
-            </Button>
+            {user.id && (
+              <div>
+                <Button
+                  href={`https://twitter.com/intent/tweet?in_reply_to=${
+                    tweet.twitterId
+                  }`}
+                >
+                  <img className={classes.imageIcon} src="Twitter_Reply.svg" />
+                  Reply
+                </Button>
 
-            <Button
-              href={`href="https://twitter.com/intent/retweet?tweet_id=${
-                tweet.twitterId
-              }`}
-            >
-              <img
-                className={classes.imageIcon}
-                src="Twitter_Retweet.svg"
-              />
-              Reply
-            </Button>
-
+                <Button
+                  href={`https://twitter.com/intent/retweet?tweet_id=${
+                    tweet.twitterId
+                  }`}
+                >
+                  <img
+                    className={classes.imageIcon}
+                    src="Twitter_Retweet.svg"
+                  />
+                  Retweet
+                </Button>
+              </div>
+            )}
           </div>
         );
       })}
