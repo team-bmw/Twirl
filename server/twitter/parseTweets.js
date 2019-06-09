@@ -49,6 +49,7 @@ const tweetsToWordFrequencies = tweets => {
             numFollowers: tweet.numFollowers,
             sentiment: tweet.sentiment,
             location: tweet.location,
+            twitterScreenName: tweet.twitterScreenName,
         };
         const words = scrubText(tweet.text).split(' ');
 

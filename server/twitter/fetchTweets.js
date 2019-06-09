@@ -52,10 +52,11 @@ const getTweets = async (q, count, max_id = null) => {
       sentiment: scoreTweetSentiment(element.full_text),
       twitterId: `${element.id_str}`,
       twitterUserId: element.user.id,
+      twitterScreenName: element.user.screen_name,
     })
       .catch(err => {
         --counter;
-        console.log(err);
+        // console.log(err);
       });
   });
 

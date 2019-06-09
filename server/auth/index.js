@@ -13,15 +13,8 @@ router.delete('/logout', (req, res) => {
 // GET :/auth/loggedIn
 //Return the currently logged in user
 router.get('/loggedIn', (req, res, next) => {
-  const error = new Error('Not logged in!');
-  error.status = 401;
-  if (req.session.passport) {
-    if (!req.session.passport.user) {
-      return next(error);
-    }
+  if (req.session.passport && req.session.passport.user) {
     res.send(req.session.passport.user);
-  } else {
-    return next(error);
   }
 });
 

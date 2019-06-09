@@ -4,7 +4,7 @@ const {
   adjectivesToWordFrequencies,
   nounsToWordFrequencies,
 } = require('../twitter/parseTweets');
-const { db, Tweet } = require('../db/index');
+const { db, Tweet, Metadata } = require('../db/index');
 
 // fetch adjective word frequency objects
 router.get('/adjectives/:query', (req, res, next) => {
@@ -32,19 +32,19 @@ router.get('/nouns/:query', (req, res, next) => {
 
 // reset database and fetch 500 tweets
 router.post('/reset', (req, res, next) => {
-  db.sync({ force: true })
+  Tweet.destroy({ where: {} })
+  Metadata.destroy({where: {}})
     .then(() => fetchTweets(req.body.query, 500))
     .then(() => res.sendStatus(201))
     .catch(next);
-})
+});
 
 router.get('/:query', (req, res, next) => {
   Tweet.findAll({
     where: {
       query: req.params.query,
     },
-  })
-    .then(tweets => res.send(tweets));
-})
+  }).then(tweets => res.send(tweets));
+});
 
 module.exports = router;
