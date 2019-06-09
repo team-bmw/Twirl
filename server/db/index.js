@@ -7,9 +7,17 @@ const db = require('./db');
 Tweet.belongsTo(Metadata);
 Metadata.hasMany(Tweet);
 
+const syncDb = () => {
+  return db
+    .sync({ force: true })
+    .then(() => console.log('Database is synced'))
+    .catch(err => console.error(err));
+};
+
 module.exports = {
-    Tweet,
-    Metadata,
-    User,
-    db,
+  Tweet,
+  Metadata,
+  User,
+  db,
+  syncDb,
 };
