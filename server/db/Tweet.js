@@ -36,7 +36,10 @@ const Tweet = db.define('tweets', {
         unique: true,
     },
     twitterUserId: {
-        type: db.Sequelize.BIGINT,
+        type: db.Sequelize.STRING,
+    },
+    twitterScreenName: {
+        type: db.Sequelize.STRING,
     },
 });
 

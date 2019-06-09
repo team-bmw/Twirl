@@ -16,7 +16,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
             />
             <TwitterDMButton
               id={parseInt(tweet.twitterUserId)}
-              options={{ size: 'large' }}
+              options={{ size: 'large'}}
             />
           </div>
         ) : null;
