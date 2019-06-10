@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2),
   },
   imageIcon: {
-    height: 32,
+    height: 24,
   },
   buttons: {
     width: '100%',
@@ -33,7 +33,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
 
             {user.id && (
               <div className={classes.buttons}>
-                <Button
+                <Button size="small"
                   href={`https://twitter.com/intent/tweet?in_reply_to=${
                     tweet.twitterId
                     }`}
@@ -42,7 +42,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
                   Reply
                 </Button>
 
-                <Button
+                <Button size="small"
                   href={`https://twitter.com/intent/retweet?tweet_id=${
                     tweet.twitterId
                     }`}
