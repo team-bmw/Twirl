@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { sortTweets } from '../helperFunctions';
+import SortTweets from './SortTweets';
 
 const useStyles = makeStyles(theme => ({
   tweet: {
@@ -16,11 +16,11 @@ const useStyles = makeStyles(theme => ({
 
 const EmbeddedTweets = ({ selectedTweets, user }) => {
   const classes = useStyles();
-
-  useEffect(() => {}, [selectedTweets]);
+  useEffect(() => { }, [selectedTweets]);
   return (
     <div>
-      {sortTweets(selectedTweets, 'numRetweets', false).map((tweet, index) => {
+      <SortTweets />
+      {selectedTweets.map((tweet, index) => {
         return (
           <div key={tweet.twitterId + index} className={classes.tweet}>
             <TwitterTweetEmbed
@@ -33,7 +33,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
                 <Button
                   href={`https://twitter.com/intent/tweet?in_reply_to=${
                     tweet.twitterId
-                  }`}
+                    }`}
                 >
                   <img className={classes.imageIcon} src="Twitter_Reply.svg" />
                   Reply
@@ -42,7 +42,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
                 <Button
                   href={`https://twitter.com/intent/retweet?tweet_id=${
                     tweet.twitterId
-                  }`}
+                    }`}
                 >
                   <img
                     className={classes.imageIcon}
