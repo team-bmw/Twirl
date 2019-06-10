@@ -31,9 +31,15 @@ class Input extends Component {
         .then(() =>
           this.props.fetchAdjectiveWordcloudData(this.state.searchText)
         );
-      this.props.history.push(`/search`);
+      this.props.history.push(`/search/${this.state.searchText}`);
     }
   };
+
+  componentDidMount() {
+    if (this.props.match.params.searchedText) {
+      this.setState({ searchText: this.props.match.params.searchedText });
+    }
+  }
 
   render() {
     const { handleInputChange, handleFormSubmit } = this;
