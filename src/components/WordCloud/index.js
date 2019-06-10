@@ -37,8 +37,11 @@ const useStyles = makeStyles(theme => ({
   },
   tweetsList: {
     alignItems: 'center',
-    overflowY: 'scroll',
     maxHeight: '95vh',
+    overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
 }));
 
