@@ -27,7 +27,7 @@ const getNextMaxId = str => {
 // get next set of tweets and save to database (also save metadata)
 const getTweets = async (q, count, max_id = null) => {
   const tweets = await client.get('search/tweets', {
-    q,
+    q: `${q} -filter:retweets`,
     count,
     max_id,
     lang: 'en',
@@ -54,9 +54,8 @@ const getTweets = async (q, count, max_id = null) => {
       twitterUserId: element.user.id,
       twitterScreenName: element.user.screen_name,
     })
-      .catch(err => {
+      .catch(() => {
         --counter;
-        // console.log(err);
       });
   });
 
