@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // background: theme.palette.grey[50],
     background: theme.palette.secondary.contrastText,
     color: theme.palette.text.primary,
   },

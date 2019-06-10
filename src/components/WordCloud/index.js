@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import WordCloudComponent from './WordCloudComponent';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import Loading from './Loading';
+import { makeStyles } from '@material-ui/styles';
+import { Grid } from '@material-ui/core/';
+
+import WordCloudComponent from './WordCloudComponent';
+import Loading from '../Common/Loading';
 import Input from '../Common/Input';
 import Message from '../Common/Message';
-
-import { makeStyles } from '@material-ui/styles';
 import EmbeddedTweets from '../EmbeddedTweets';
+
+import { endLoading } from '../../reducers/loadingReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    flexGrow: 1,
     backgroundColor: theme.palette.primary.main,
-    padding: '1rem 2rem 2rem 2rem',
+    padding: theme.spacing(2),
+    width: '100%',
+    height: '100vh',
   },
   input: {
     margin: '1rem 0',
@@ -24,65 +30,56 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.main,
     fontSize: '2rem',
   },
+  tweetsList: {
+    alignItems: 'center',
+    overflowY: 'scroll',
+    maxHeight: '100vh',
+  },
 }));
 
 const WordCloud = props => {
   const classes = useStyles();
 
-  const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeigh] = useState(window.innerHeight);
-
-  const handleResize = () => {
-    setWidth(window.innerWidth);
-    setHeigh(window.innerHeight);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
-
   const {
+    tweets,
+    loading: { wordcloudIsLoading },
     wordcloudData: { status, wordData },
+    endLoading,
   } = props;
 
+  useEffect(() => {
+    if (status === 'failed' || status === 'fetched')
+      endLoading('wordcloudIsLoading');
+  }, [tweets, status]);
+
   return (
-    <div>
-      <div
-        style={{
-          height: height,
-          width: width,
-        }}
+    <Fragment>
+      <div className={classes.input}>
+        <Input />
+      </div>
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
         className={classes.root}
       >
-        <div style={{ height: '90%', display: 'flex' }}>
-          <div style={{ width: '50%' }}>
-            <div className={classes.input}>
-              <Input />
-            </div>
-            {status === 'initial' && <Message message="Please enter data" />}
-            {status === 'failed' && (
-              <Message message="Data fetched unsuccessfully. Please try again." />
-            )}
-            {status === 'fetching' && <Loading />}
-            {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
-          </div>
-          <div
-            style={{
-              width: '50%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              overflowY: 'scroll',
-            }}
-          >
+        <Grid item xs>
+          {!wordcloudIsLoading && status === 'initial' && (
+            <Message message="Please enter data" />
+          )}
+          {status === 'failed' && (
+            <Message message="Data fetched unsuccessfully. Please try again." />
+          )}
+          {wordcloudIsLoading && <Loading />}
+          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+        </Grid>
+        {tweets && tweets.selectedTweets.length && (
+          <Grid item xs={3} className={classes.tweetsList}>
             <EmbeddedTweets />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Grid>
+        )}
+      </Grid>
+    </Fragment>
   );
 };
 
@@ -90,4 +87,7 @@ const mapStateToProps = state => {
   return state;
 };
 
-export default connect(mapStateToProps)(WordCloud);
+export default connect(
+  mapStateToProps,
+  { endLoading }
+)(WordCloud);

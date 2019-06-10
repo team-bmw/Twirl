@@ -4,6 +4,7 @@ import axios from 'axios';
 const WORDCLOUD_DATA_REQUEST = 'WORDCLOUD_DATA_REQUEST';
 const WORDCLOUD_DATA_FAILURE = 'WORDCLOUD_DATA_FAILURE';
 const WORDCLOUD_DATA_SUCCESS = 'WORDCLOUD_DATA_SUCCESS';
+const WORDCLOUD_RESET = 'WORDCLOUD_RESET';
 
 // Action creators
 const wordcloudDataRequest = () => {
@@ -25,6 +26,10 @@ const wordcloudDataSuccess = wordData => {
   };
 };
 
+export const resetWordCloud = () => ({
+  type: WORDCLOUD_RESET,
+});
+
 const initialState = { status: 'initial', wordData: [] };
 
 // Reducer
@@ -36,6 +41,8 @@ export const wordcloudData = (state = initialState, action) => {
       return { status: 'failed', wordData: [] };
     case WORDCLOUD_DATA_SUCCESS:
       return { status: 'fetched', wordData: action.wordData };
+    case WORDCLOUD_RESET:
+      return { status: 'initial', wordData: [] };
     default:
       return state;
   }

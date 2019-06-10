@@ -3,12 +3,14 @@ import { wordcloudData } from './wordcloudReducer';
 import { tweets } from './tweetsReducer';
 import { user } from './userReducer';
 import { sort } from './sortReducer';
+import { loading } from './loadingReducer';
 
 const rootReducer = combineReducers({
   wordcloudData,
   user,
   tweets,
   sort,
+  loading,
 });
 
 export default rootReducer;
