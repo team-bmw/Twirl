@@ -19,6 +19,9 @@ export default createMuiTheme({
       dark: blueGrey[900],
       contrastText: blueGrey[50],
     },
+    background: {
+      default: blue[500],
+    },
     default: grey[50],
   },
 });
