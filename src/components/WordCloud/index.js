@@ -13,21 +13,16 @@ import EmbeddedTweets from '../EmbeddedTweets';
 import { endLoading } from '../../reducers/loadingReducer';
 
 const useStyles = makeStyles(theme => ({
-  wrapper: {
-    backgroundColor: theme.palette.primary.main,
-    height: '100%',
-    margin: 0
-  },
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.primary.main,
+    // backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(2),
     width: '100%',
     height: '100vh',
 
   },
   input: {
-    margin: theme.spacing(0),
+    marginTop: theme.spacing(4),
   },
   button: {
     backgroundColor: theme.palette.secondary.contrastText,
@@ -37,12 +32,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: '2rem',
   },
   tweetsList: {
-    alignItems: 'center',
-    maxHeight: '95vh',
+    maxHeight: '100vh',
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
       display: 'none',
     },
+  },
+  cloudContainer: {
+    height: '80vh',
   },
 }));
 
@@ -62,7 +59,7 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   return (
-    <div className={classes.wrapper}>
+    <div>
       <div className={classes.input}>
         <Input />
       </div>
@@ -72,7 +69,7 @@ const WordCloud = props => {
         alignItems="center"
         className={classes.root}
       >
-        <Grid item xs={12} md={9}>
+        <Grid item xs={12} md={9} xl={10} align="center" className={classes.cloudContainer}>
           {!wordcloudIsLoading && status === 'initial' && (
             <Message message="Please enter data" />
           )}
@@ -83,7 +80,7 @@ const WordCloud = props => {
           {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </Grid>
         {tweets.selectedTweets.length ? (
-          <Grid item xs={6} md={3} className={classes.tweetsList}>
+          <Grid item xs={6} md={3} xl={2} className={classes.tweetsList} align="center">
             <EmbeddedTweets />
           </Grid>
         ): (

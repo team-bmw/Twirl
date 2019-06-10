@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   imageIcon: {
     height: 32,
   },
+  buttons: {
+    width: 275,
+  }
 }));
 
 const EmbeddedTweets = ({ selectedTweets, user }) => {
@@ -25,17 +28,17 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
           <div key={tweet.twitterId + index} className={classes.tweet}>
             <TwitterTweetEmbed
               tweetId={tweet.twitterId}
-              options={{ cards: 'hidden', width: 275, align: 'left' }}
+              options={{ cards: 'hidden', width: 275, align: 'center' }}
             />
 
             {user.id && (
-              <div>
+              <div className={classes.buttons}>
                 <Button
                   href={`https://twitter.com/intent/tweet?in_reply_to=${
                     tweet.twitterId
                     }`}
                 >
-                  <img className={classes.imageIcon} src="Twitter_Reply.svg" />
+                  <img className={classes.imageIcon} src="/Twitter_Reply.svg" />
                   Reply
                 </Button>
 
@@ -46,7 +49,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
                 >
                   <img
                     className={classes.imageIcon}
-                    src="Twitter_Retweet.svg"
+                    src="/Twitter_Retweet.svg"
                   />
                   Retweet
                 </Button>
