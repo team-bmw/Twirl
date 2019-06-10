@@ -31,13 +31,19 @@ router.get('/nouns/:query', (req, res, next) => {
 });
 
 // reset database and fetch 500 tweets
+// router.post('/reset', (req, res, next) => {
+//   Tweet.destroy({ where: {} })
+//   Metadata.destroy({ where: {} })
+//     .then(() => fetchTweets(req.body.query, 500))
+//     .then(() => res.sendStatus(201))
+//     .catch(next);
+// });
+
 router.post('/reset', (req, res, next) => {
-  Tweet.destroy({ where: {} })
-  Metadata.destroy({where: {}})
-    .then(() => fetchTweets(req.body.query, 500))
+  fetchTweets(req.body.query, 500)
     .then(() => res.sendStatus(201))
     .catch(next);
-});
+})
 
 router.get('/:query', (req, res, next) => {
   Tweet.findAll({

@@ -25,7 +25,7 @@ const getNextMaxId = str => {
 };
 
 // get next set of tweets and save to database (also save metadata)
-const getTweets = async (q, count, max_id = null) => {
+const getTweets = async (q, count, search_id, max_id = null) => {
   const tweets = await client.get('search/tweets', {
     q: `${q} -filter:retweets`,
     count,
@@ -53,25 +53,33 @@ const getTweets = async (q, count, max_id = null) => {
       twitterId: `${element.id_str}`,
       twitterUserId: element.user.id,
       twitterScreenName: element.user.screen_name,
+      search_id,
     })
       .catch(() => {
         --counter;
       });
   });
 
-  await Metadata.create({ query: q, count: counter, next_id: nextMaxId });
+  await Metadata.create({ query: q, count: counter, next_id: nextMaxId, search_id });
   return Promise.all([counter, nextMaxId]);
 };
 
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total) => {
 
-  let metadata = await getTweets(q, 100);
+  const prevSearch = await Metadata.findOne({
+    attributes: ['search_id'],
+  })
+
+  const search_id = 1; // prevSearch ? prevSearch + 1 : 1;
+  // if (prevSearch) console.log(prevSearch.data);
+
+  let metadata = await getTweets(q, 100, search_id);
   let recordCount = metadata[0];
   let max_id = metadata[1];
 
   while (recordCount < total) {
-    metadata = await getTweets(q, 100, max_id);
+    metadata = await getTweets(q, 100, search_id, max_id);
     recordCount += metadata[0];
     max_id = metadata[1];
   }
