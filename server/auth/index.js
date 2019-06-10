@@ -15,6 +15,8 @@ router.delete('/logout', (req, res) => {
 router.get('/loggedIn', (req, res, next) => {
   if (req.session.passport && req.session.passport.user) {
     res.send(req.session.passport.user);
+  } else {
+    res.sendStatus(200)
   }
 });
 
