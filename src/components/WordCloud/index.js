@@ -19,17 +19,12 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     width: '100%',
     height: '100vh',
-
   },
   input: {
     marginTop: theme.spacing(4),
   },
   button: {
     backgroundColor: theme.palette.secondary.contrastText,
-  },
-  icon: {
-    color: theme.palette.primary.main,
-    fontSize: '2rem',
   },
   tweetsList: {
     maxHeight: '100vh',
@@ -69,7 +64,14 @@ const WordCloud = props => {
         alignItems="center"
         className={classes.root}
       >
-        <Grid item xs={12} md={9} xl={10} align="center" className={classes.cloudContainer}>
+        <Grid
+          item
+          xs={12}
+          md={9}
+          xl={10}
+          align="center"
+          className={classes.cloudContainer}
+        >
           {!wordcloudIsLoading && status === 'initial' && (
             <Message message="Please enter data" />
           )}
@@ -80,12 +82,18 @@ const WordCloud = props => {
           {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </Grid>
         {tweets.selectedTweets.length ? (
-          <Grid item xs={6} md={3} xl={2} className={classes.tweetsList} align="center">
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={3}
+            xl={2}
+            className={classes.tweetsList}
+            align="center"
+          >
             <EmbeddedTweets />
           </Grid>
-        ): (
-          null
-        )}
+        ) : null}
       </Grid>
     </Fragment>
   );
