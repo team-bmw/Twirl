@@ -22,7 +22,7 @@ class SortTweets extends React.Component {
         evt.preventDefault();
         const { updateSelectedTweets, updateSortBy, selectedTweets } = this.props;
         updateSortBy(this.state.sortBy);
-        updateSelectedTweets(sortTweets(selectedTweets, this.state.sortBy));
+        updateSelectedTweets(sortTweets(selectedTweets, this.state.sortBy, false));
     }
 
     render() {
