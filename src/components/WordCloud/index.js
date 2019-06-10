@@ -5,10 +5,12 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core/';
 
 import WordCloudComponent from './WordCloudComponent';
-import Loading from './Loading';
+import Loading from '../Common/Loading';
 import Input from '../Common/Input';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
+
+import { endLoading } from '../../reducers/loadingReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,12 +40,17 @@ const useStyles = makeStyles(theme => ({
 const WordCloud = props => {
   const classes = useStyles();
 
-  useEffect(() => {}, [props.tweets]);
-
   const {
     tweets,
+    loading: { wordcloudIsLoading },
     wordcloudData: { status, wordData },
+    endLoading,
   } = props;
+
+  useEffect(() => {
+    if (status === 'failed' || status === 'fetched')
+      endLoading('wordcloudIsLoading');
+  }, [tweets, status]);
 
   return (
     <Fragment>
@@ -57,11 +64,13 @@ const WordCloud = props => {
         className={classes.root}
       >
         <Grid item xs>
-          {status === 'initial' && <Message message="Please enter data" />}
+          {!wordcloudIsLoading && status === 'initial' && (
+            <Message message="Please enter data" />
+          )}
           {status === 'failed' && (
             <Message message="Data fetched unsuccessfully. Please try again." />
           )}
-          {status === 'fetching' && <Loading />}
+          {wordcloudIsLoading && <Loading />}
           {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </Grid>
         {tweets && tweets.selectedTweets.length && (
@@ -78,4 +87,7 @@ const mapStateToProps = state => {
   return state;
 };
 
-export default connect(mapStateToProps)(WordCloud);
+export default connect(
+  mapStateToProps,
+  { endLoading }
+)(WordCloud);
