@@ -20,10 +20,11 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     flexGrow: 1,
-    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(2),
     width: '100%',
     height: '100vh',
+
   },
   input: {
     margin: theme.spacing(0),
@@ -71,7 +72,7 @@ const WordCloud = props => {
         alignItems="center"
         className={classes.root}
       >
-        <Grid item xs={9}>
+        <Grid item xs={12} md={9}>
           {!wordcloudIsLoading && status === 'initial' && (
             <Message message="Please enter data" />
           )}
@@ -82,7 +83,7 @@ const WordCloud = props => {
           {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </Grid>
         {tweets.selectedTweets.length ? (
-          <Grid item xs={3} className={classes.tweetsList}>
+          <Grid item xs={6} md={3} className={classes.tweetsList}>
             <EmbeddedTweets />
           </Grid>
         ): (

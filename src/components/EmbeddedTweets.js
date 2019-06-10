@@ -25,7 +25,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
           <div key={tweet.twitterId + index} className={classes.tweet}>
             <TwitterTweetEmbed
               tweetId={tweet.twitterId}
-              options={{ cards: 'hidden', width: 275 }}
+              options={{ cards: 'hidden', width: 275, align: 'left' }}
             />
 
             {user.id && (
