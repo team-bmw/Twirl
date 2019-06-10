@@ -22,7 +22,7 @@ const App = ({ loginSession }) => {
         <CssBaseline /> {/* normalize browser css default setups */}
         <Route component={Navbar} />
         <Route exact path="/" component={Landing} />
-        <Route path="/search" component={WordCloud} />
+        <Route path="/search/:searchedText" component={WordCloud} />
       </Router>
     </ThemeProvider>
   );
