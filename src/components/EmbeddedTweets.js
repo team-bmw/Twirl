@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     height: 32,
   },
   buttons: {
-    width: 275,
+    width: '100%',
   }
 }));
 
@@ -28,7 +28,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
           <div key={tweet.twitterId + index} className={classes.tweet}>
             <TwitterTweetEmbed
               tweetId={tweet.twitterId}
-              options={{ cards: 'hidden', width: 275, align: 'center' }}
+              options={{ cards: 'hidden', width: '100%', align: 'center' }}
             />
 
             {user.id && (

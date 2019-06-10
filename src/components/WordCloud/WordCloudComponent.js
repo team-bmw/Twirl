@@ -43,7 +43,7 @@ const WordCloudComponent = props => {
       options={{
         colors: [grey['50'], text.secondary, text.hint, text.disabled],
         fontFamily: typography.body1.fontFamily,
-        fontSizes: [10, 90],
+        fontSizes: [25, 130],
         fontStyle: 'normal',
         fontWeight: 'normal',
         padding: 1,

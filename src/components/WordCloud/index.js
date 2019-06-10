@@ -59,7 +59,7 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   return (
-    <div>
+    <Fragment>
       <div className={classes.input}>
         <Input />
       </div>
@@ -87,7 +87,7 @@ const WordCloud = props => {
           null
         )}
       </Grid>
-    </div>
+    </Fragment>
   );
 };
 
