@@ -4,18 +4,25 @@ const {
   adjectivesToWordFrequencies,
   nounsToWordFrequencies,
 } = require('../twitter/parseTweets');
-const { db, Tweet, Metadata } = require('../db/index');
+const { Tweet, Metadata } = require('../db/index');
 
 // fetch adjective word frequency objects
 router.get('/adjectives/:query', (req, res, next) => {
-  Tweet.findAll({
+  Metadata.findAll({
     where: {
       query: req.params.query,
-    },
+    }
   })
-    .then(tweets => adjectivesToWordFrequencies(tweets))
-    .then(adj => res.send(adj))
-    .catch(next);
+    .then(metadata => metadata.map(search => search.search_id))
+    .then(ids => { return ids.length ? Math.max(...ids) : 0 })
+    .then(search_id => Tweet.findAll({
+      where: {
+        search_id,
+      },
+    })
+      .then(tweets => adjectivesToWordFrequencies(tweets))
+      .then(adj => res.send(adj))
+      .catch(next));
 });
 
 // fetch noun word frequency objects
