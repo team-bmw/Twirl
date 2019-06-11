@@ -65,14 +65,10 @@ const getTweets = async (q, count, search_id, max_id = null) => {
 };
 
 // keep fetching tweets until reach total required number of tweets
-const fetchTweets = async (q, total) => {
+const fetchTweets = async (q, total, lastSearchId) => {
 
-  const prevSearch = await Metadata.findOne({
-    attributes: ['search_id'],
-  })
-
-  const search_id = 1; // prevSearch ? prevSearch + 1 : 1;
-  // if (prevSearch) console.log(prevSearch.data);
+  console.log(lastSearchId);
+  const search_id = lastSearchId ? ++lastSearchId : 1;
 
   let metadata = await getTweets(q, 100, search_id);
   let recordCount = metadata[0];

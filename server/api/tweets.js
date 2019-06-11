@@ -40,9 +40,11 @@ router.get('/nouns/:query', (req, res, next) => {
 // });
 
 router.post('/reset', (req, res, next) => {
-  fetchTweets(req.body.query, 500)
-    .then(() => res.sendStatus(201))
-    .catch(next);
+  Metadata.findAll()
+    .then(metadata => metadata.map(search => search.search_id))
+    .then(ids => { return ids.length ? Math.max(...ids) : 0 })
+    .then(lastSearchId => fetchTweets(req.body.query, 500, lastSearchId)
+      .then(() => res.sendStatus(201)));
 })
 
 router.get('/:query', (req, res, next) => {
