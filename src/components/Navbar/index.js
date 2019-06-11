@@ -110,7 +110,7 @@ function MenuAppBar({ logOutUser, user }) {
             <Button color="inherit" href="/auth/twitter">
               <img
                 className={classes.imageIcon}
-                src="Twitter_Logo_WhiteOnImage.svg"
+                src="/Twitter_Logo_WhiteOnImage.svg"
               />
               Login with Twitter
             </Button>

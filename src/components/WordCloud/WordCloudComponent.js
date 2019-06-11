@@ -16,8 +16,22 @@ const WordCloudComponent = props => {
 
   const callbacks = {
     onWordClick: word => {
+      console.log(word);
       const { tweetData } = word;
       updateSelectedTweets(tweetData);
+    },
+    getWordColor: ({ tweetData }) => {
+      const sentimentSum = tweetData.reduce((sum, { sentiment }) => {
+        sum += sentiment;
+        return sum;
+      }, 0);
+      const sentimentAverage = sentimentSum / tweetData.length;
+
+      if (sentimentAverage > 1) return grey['50'];
+      else if (sentimentAverage > 0.7) return grey['200'];
+      else if (sentimentAverage > 0.4) return grey['400'];
+      else if (sentimentAverage > 0) return grey['700'];
+      else return grey['900'];
     },
   };
 
@@ -29,7 +43,7 @@ const WordCloudComponent = props => {
       options={{
         colors: [grey['50'], text.secondary, text.hint, text.disabled],
         fontFamily: typography.body1.fontFamily,
-        fontSizes: [10, 90],
+        fontSizes: [25, 130],
         fontStyle: 'normal',
         fontWeight: 'normal',
         padding: 1,
