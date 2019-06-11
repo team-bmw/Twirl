@@ -37,7 +37,6 @@ class SortTweets extends React.Component {
                                 <option value="numFollowers">Number of Followers</option>
                                 <option value="numFriends">Number of Friends</option>
                                 <option value="userVerified">Verified Users</option>
-                                <option value="isRetweet">Retweets</option>
                             </select>
                             <button type="submit" onClick={this.handleSubmit}>
                                 Sort

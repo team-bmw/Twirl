@@ -38,7 +38,6 @@ const tweetsToWordFrequencies = tweets => {
     const freqObj = tweets.reduce((freq, tweet) => {
 
         const newTweetData = {
-            text: tweet.text,
             twitterId: tweet.twitterId,
             twitterUserId: tweet.twitterUserId,
             isRetweet: tweet.isRetweet,
