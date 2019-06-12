@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import Typing from './Typing';
-import Input from './../Common/Input';
 import Banner from './Banner';
 
 const Main = () => {
@@ -36,7 +35,6 @@ const Main = () => {
             Understand. Manage. Improve
           </Typography>
           <Typing />
-          <Input />
         </div>
         <Banner />
       </div>

@@ -27,13 +27,11 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
   },
   title: {
-    flexGrow: 1,
     textDecoration: 'none',
     color: 'inherit',
   },
   search: {
-    height: '100%',
-    width: '100%',
+    flexGrow: 1,
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(2),
     display: 'flex',
@@ -43,9 +41,15 @@ const useStyles = makeStyles(theme => ({
   imageIcon: {
     height: 32,
   },
-  login : {
+  login: {
     display: 'none',
         marginRight: theme.spacing(1),
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
+  },
+  name: {
+    display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'inline',
     },
@@ -93,7 +97,7 @@ function MenuAppBar({ logOutUser, user }) {
 
           {user.id ? (
             <div>
-              <Button disabled style={{ color: 'white' }}>
+              <Button disabled style={{ color: 'white' }} className={classes.name}>
                 {user.twitterDisplayName}
               </Button>
               <IconButton
