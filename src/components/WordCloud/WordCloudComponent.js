@@ -45,7 +45,7 @@ const WordCloudComponent = props => {
         fontFamily: typography.body1.fontFamily,
         fontSizes: [25, 130],
         fontStyle: 'normal',
-        fontWeight: 'normal',
+        fontWeight: 700,
         padding: 1,
         rotations: 0,
         scale: 'log',

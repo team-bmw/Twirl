@@ -15,23 +15,45 @@ import {
   Avatar,
 } from '@material-ui/core';
 
+import Search from './Search';
 import { logOutUser } from '../../reducers/userReducer';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
   title: {
-    flexGrow: 1,
     textDecoration: 'none',
     color: 'inherit',
+  },
+  search: {
+    flexGrow: 1,
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imageIcon: {
     height: 32,
   },
+  login: {
+    display: 'none',
+        marginRight: theme.spacing(1),
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
+  },
+  name: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
+  }
 }));
 
 function MenuAppBar({ logOutUser, user }) {
@@ -68,10 +90,14 @@ function MenuAppBar({ logOutUser, user }) {
           >
             Twirl
           </Typography>
+          
+          <div className={classes.search}>
+          <Search/>
+          </div>
 
           {user.id ? (
             <div>
-              <Button disabled style={{ color: 'white' }}>
+              <Button disabled style={{ color: 'white' }} className={classes.name}>
                 {user.twitterDisplayName}
               </Button>
               <IconButton
@@ -112,7 +138,7 @@ function MenuAppBar({ logOutUser, user }) {
                 className={classes.imageIcon}
                 src="/Twitter_Logo_WhiteOnImage.svg"
               />
-              Login with Twitter
+            <span className={classes.login}>Login</span>
             </Button>
           )}
         </Toolbar>
