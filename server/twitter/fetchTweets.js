@@ -78,6 +78,8 @@ const fetchTweets = async (q, total, lastSearchId) => {
     recordCount += metadata[0];
     max_id = metadata[1];
   }
+
+  return (search_id);
 };
 
 module.exports = {

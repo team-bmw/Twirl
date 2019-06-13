@@ -27,10 +27,8 @@ class Input extends Component {
       this.props.emptySelectedTweets();
       this.props.startLoading('wordcloudIsLoading');
       axios
-        .post('/api/tweets/reset', { query: this.state.searchText })
-        .then(() =>
-          this.props.fetchAdjectiveWordcloudData(this.state.searchText)
-        );
+        .post('/api/tweets/search', { query: this.state.searchText })
+        .then(search_id => this.props.fetchAdjectiveWordcloudData(search_id.data));
       this.props.history.push(`/search/${this.state.searchText}`);
     }
   };

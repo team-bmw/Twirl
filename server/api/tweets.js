@@ -7,22 +7,35 @@ const {
 const { Tweet, Metadata } = require('../db/index');
 
 // fetch adjective word frequency objects
-router.get('/adjectives/:query', (req, res, next) => {
-  Metadata.findAll({
+// router.get('/adjectives/:query', (req, res, next) => {
+//   Metadata.findAll({
+//     where: {
+//       query: req.params.query,
+//     }
+//   })
+//     .then(metadata => metadata.map(search => search.search_id))
+//     .then(ids => { return ids.length ? Math.max(...ids) : 0 })
+//     .then(search_id => Tweet.findAll({
+//       where: {
+//         search_id,
+//       },
+//     })
+//       .then(tweets => adjectivesToWordFrequencies(tweets))
+//       .then(adj => res.send(adj))
+//       .catch(next));
+// });
+
+// fetch noun word frequency objects
+router.get('/adjectives/:searchId', (req, res, next) => {
+  console.log(req.params.searchId);
+  Tweet.findAll({
     where: {
-      query: req.params.query,
-    }
+      search_id: Number(req.params.searchId),
+    },
   })
-    .then(metadata => metadata.map(search => search.search_id))
-    .then(ids => { return ids.length ? Math.max(...ids) : 0 })
-    .then(search_id => Tweet.findAll({
-      where: {
-        search_id,
-      },
-    })
-      .then(tweets => adjectivesToWordFrequencies(tweets))
-      .then(adj => res.send(adj))
-      .catch(next));
+    .then(tweets => adjectivesToWordFrequencies(tweets))
+    .then(adj => res.send(adj))
+    .catch(next);
 });
 
 // fetch noun word frequency objects
@@ -33,7 +46,7 @@ router.get('/nouns/:query', (req, res, next) => {
     },
   })
     .then(tweets => nounsToWordFrequencies(tweets))
-    .then(adj => res.send(adj))
+    .then(noun => res.send(noun))
     .catch(next);
 });
 
@@ -46,12 +59,12 @@ router.get('/nouns/:query', (req, res, next) => {
 //     .catch(next);
 // });
 
-router.post('/reset', (req, res, next) => {
+router.post('/search', (req, res, next) => {
   Metadata.findAll()
     .then(metadata => metadata.map(search => search.search_id))
     .then(ids => { return ids.length ? Math.max(...ids) : 0 })
     .then(lastSearchId => fetchTweets(req.body.query, 500, lastSearchId)
-      .then(() => res.sendStatus(201)));
+      .then(search_id => res.send(`${search_id}`)));
 })
 
 router.get('/:query', (req, res, next) => {
