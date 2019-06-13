@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     padding: theme.spacing(0, 0),
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(-1),
   }
 }));
 
@@ -27,7 +27,6 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
   useEffect(() => { }, [selectedTweets]);
   return (
     <div>
-      <SortTweets />
       {selectedTweets.map((tweet, index) => {
         return (
           <div key={tweet.twitterId + index} className={classes.tweet}>

@@ -8,6 +8,7 @@ import WordCloudComponent from './WordCloudComponent';
 import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
+import SortTweets from '../SortTweets';
 
 import { endLoading } from '../../reducers/loadingReducer';
 
@@ -82,10 +83,13 @@ const WordCloud = props => {
           sm={6}
           md={3}
           xl={2}
-          className={classes.tweetsList}
+          
           align="center"
         >
-          <EmbeddedTweets />
+          <SortTweets />
+          <div className={classes.tweetsList}>
+            <EmbeddedTweets/>
+          </div>
         </Grid>
       ) : null}
     </Grid>
