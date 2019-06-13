@@ -84,9 +84,9 @@ const WordCloud = props => {
           sm={6}
           md={3}
           xl={2}
-
           align="center"
         >
+          <Sidebar />
           <SortTweets />
           <div className={classes.tweetsList}>
             <EmbeddedTweets/>
