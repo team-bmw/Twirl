@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { fetchAdjectiveWordcloudData, resetWordCloud } from '../../reducers/wordcloudReducer';
 import { startLoading } from '../../reducers/loadingReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
+import { fetchSearches } from '../../reducers/searchesReducer';
 
 
 const useStyles = makeStyles(theme => ({
@@ -51,11 +52,12 @@ const Search = ({
   startLoading,
   resetWordCloud,
   emptySelectedTweets,
+  fetchSearches,
 }) => {
   const classes = useStyles();
   const [query, setQuery] = useState('');
-  
-  useEffect(()=> {
+
+  useEffect(() => {
     if (match.params.searchedText) setQuery(match.params.searchedText);
   }, [])
 
@@ -69,10 +71,11 @@ const Search = ({
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
-      axios.post('/api/tweets/reset', { query })
-        .then(() => fetchAdjectiveWordcloudData(query));
+      axios.post('/api/tweets/search', { query })
+        .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
+        .then(() => fetchSearches());
       history.push(`/search/${query}`)
-    };
+    }
   };
 
   return (
@@ -83,9 +86,9 @@ const Search = ({
       <InputBase
         placeholder="Search Twitter"
         classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
         inputProps={{ 'aria-label': 'Search' }}
         onChange={handleOnChange}
         value={query}
@@ -100,4 +103,6 @@ export default withRouter(
     startLoading,
     resetWordCloud,
     emptySelectedTweets,
-  })(Search));
+    fetchSearches,
+  })(Search)
+);

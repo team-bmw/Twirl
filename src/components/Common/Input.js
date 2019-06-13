@@ -10,6 +10,7 @@ import {
 } from '../../reducers/wordcloudReducer';
 import { startLoading } from '../../reducers/loadingReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
+import { fetchSearches } from '../../reducers/searchesReducer';
 
 class Input extends Component {
   state = {
@@ -27,10 +28,9 @@ class Input extends Component {
       this.props.emptySelectedTweets();
       this.props.startLoading('wordcloudIsLoading');
       axios
-        .post('/api/tweets/reset', { query: this.state.searchText })
-        .then(() =>
-          this.props.fetchAdjectiveWordcloudData(this.state.searchText)
-        );
+        .post('/api/tweets/search', { query: this.state.searchText })
+        .then(search_id => this.props.fetchAdjectiveWordcloudData(search_id.data))
+        .then(() => this.props.fetchSearches());
       this.props.history.push(`/search/${this.state.searchText}`);
     }
   };
@@ -92,6 +92,7 @@ export default withRouter(
       startLoading,
       resetWordCloud,
       emptySelectedTweets,
+      fetchSearches,
     }
   )(Input)
 );
