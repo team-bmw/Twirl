@@ -18,7 +18,6 @@ import {
 import Search from './Search';
 import { logOutUser } from '../../reducers/userReducer';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -43,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
   login: {
     display: 'none',
-        marginRight: theme.spacing(1),
+    marginRight: theme.spacing(1),
     [theme.breakpoints.up('sm')]: {
       display: 'inline',
     },
@@ -53,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'inline',
     },
-  }
+  },
 }));
 
 function MenuAppBar({ logOutUser, user }) {
@@ -90,14 +89,18 @@ function MenuAppBar({ logOutUser, user }) {
           >
             Twirl
           </Typography>
-          
+
           <div className={classes.search}>
-          <Search/>
+            <Search />
           </div>
 
           {user.id ? (
             <div>
-              <Button disabled style={{ color: 'white' }} className={classes.name}>
+              <Button
+                disabled
+                style={{ color: 'white' }}
+                className={classes.name}
+              >
                 {user.twitterDisplayName}
               </Button>
               <IconButton
@@ -138,7 +141,7 @@ function MenuAppBar({ logOutUser, user }) {
                 className={classes.imageIcon}
                 src="/Twitter_Logo_WhiteOnImage.svg"
               />
-            <span className={classes.login}>Login</span>
+              <span className={classes.login}>Login</span>
             </Button>
           )}
         </Toolbar>
