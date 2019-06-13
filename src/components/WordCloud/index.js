@@ -9,6 +9,7 @@ import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
 import SortTweets from '../SortTweets';
+import Sidebar from '../Sidebar';
 
 import { endLoading } from '../../reducers/loadingReducer';
 
@@ -83,7 +84,7 @@ const WordCloud = props => {
           sm={6}
           md={3}
           xl={2}
-          
+
           align="center"
         >
           <SortTweets />

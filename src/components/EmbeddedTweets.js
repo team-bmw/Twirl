@@ -34,7 +34,7 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
               tweetId={tweet.twitterId}
               options={{ cards: 'hidden', width: '100%', align: 'center' }}
             />
-            
+
             <TweetInfo followers={tweet.numFollowers} retweets={tweet.numRetweets} />
 
             {user.id && (

@@ -67,7 +67,6 @@ const getTweets = async (q, count, search_id, max_id = null) => {
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total, lastSearchId) => {
 
-  console.log(lastSearchId);
   const search_id = lastSearchId ? ++lastSearchId : 1;
 
   let metadata = await getTweets(q, 100, search_id);
@@ -79,6 +78,8 @@ const fetchTweets = async (q, total, lastSearchId) => {
     recordCount += metadata[0];
     max_id = metadata[1];
   }
+
+  return (search_id);
 };
 
 module.exports = {
