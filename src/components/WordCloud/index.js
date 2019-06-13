@@ -6,7 +6,6 @@ import { Grid } from '@material-ui/core/';
 
 import WordCloudComponent from './WordCloudComponent';
 import Loading from '../Common/Loading';
-import Input from '../Common/Input';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
 
@@ -15,7 +14,6 @@ import { endLoading } from '../../reducers/loadingReducer';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    // backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(2),
     width: '100%',
     height: '100vh',
@@ -54,43 +52,43 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   return (
+    <Grid
+      container
+      justify="center"
+      alignItems="center"
+      className={classes.root}
+    >
       <Grid
-        container
-        justify="center"
-        alignItems="center"
-        className={classes.root}
+        item
+        xs={12}
+        md={9}
+        xl={10}
+        align="center"
+        className={classes.cloudContainer}
       >
+        {!wordcloudIsLoading && status === 'initial' && (
+          <Message message="Please enter data" />
+        )}
+        {status === 'failed' && (
+          <Message message="Data fetched unsuccessfully. Please try again." />
+        )}
+        {wordcloudIsLoading && <Loading />}
+        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+      </Grid>
+      {tweets.selectedTweets.length ? (
         <Grid
           item
           xs={12}
-          md={9}
-          xl={10}
+          sm={6}
+          md={3}
+          xl={2}
+          className={classes.tweetsList}
           align="center"
-          className={classes.cloudContainer}
         >
-          {!wordcloudIsLoading && status === 'initial' && (
-            <Message message="Please enter data" />
-          )}
-          {status === 'failed' && (
-            <Message message="Data fetched unsuccessfully. Please try again." />
-          )}
-          {wordcloudIsLoading && <Loading />}
-          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+          <EmbeddedTweets />
         </Grid>
-        {tweets.selectedTweets.length ? (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-            xl={2}
-            className={classes.tweetsList}
-            align="center"
-          >
-            <EmbeddedTweets />
-          </Grid>
-        ) : null}
-      </Grid>
+      ) : null}
+    </Grid>
   );
 };
 
