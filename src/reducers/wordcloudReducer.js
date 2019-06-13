@@ -63,11 +63,11 @@ export const fetchAdjectiveWordcloudData = search_id => {
 };
 
 // fetch only nouns
-export const fetchNounWordcloudData = word => {
+export const fetchNounWordcloudData = search_id => {
   return dispatch => {
     dispatch(wordcloudDataRequest());
     return axios
-      .get(`/api/tweets/nouns/${word}`)
+      .get(`/api/tweets/nouns/${search_id}`)
       .then(response => response.data)
       .then(wordData => dispatch(wordcloudDataSuccess(wordData)))
       .catch(() => dispatch(wordcloudDataFailure()));

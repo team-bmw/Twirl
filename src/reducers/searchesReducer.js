@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // ACTION CONSTANTS
 const UPDATE_SEARCHES = 'UPDATE_SEARCHES';
 const SELECT_SEARCH = 'SELECT_SEARCH';
@@ -15,7 +17,7 @@ export const selectSearchId = search_id => ({
 
 // INITIAL STATE
 const initialState = {
-    searches: [{ "search_id": 1, "query": "trump" }, { "search_id": 2, "query": "justine" }],
+    searches: [],
     search_id: 1,
 };
 
@@ -30,5 +32,14 @@ export const searches = (state = initialState, action) => {
         }
         default:
             return state;
+    }
+};
+
+// THUNKS
+export const fetchSearches = () => {
+    return dispatch => {
+        return axios.get('/api/searches/')
+            .then(res => res.data)
+            .then(allSearches => dispatch(updateSearches(allSearches)))
     }
 };

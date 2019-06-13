@@ -1,26 +1,11 @@
 const router = require('express').Router();
-const { Tweet, Metadata } = require('../db/index');
-const { adjectivesToWordFrequencies } = require('../twitter/parseTweets');
+const { createSearchArray } = require('../twitter/helperFunctions');
+const { Metadata } = require('../db/index');
 
 // fetch adjective word frequency objects
 router.get('/', (req, res, next) => {
     Metadata.findAll()
-        .then(metadata => metadata.reduce((acc, m) => {
-            if (!acc[m.search_id]) acc[m.search_id] = m.query;
-            return acc;
-        }, {}))
-        .then(searches => res.send(searches))
-        .catch(next);
-})
-
-router.get('/:search_id', (req, res, next) => {
-    Tweet.findAll({
-        where: {
-            search_id: req.params.search_id,
-        },
-    })
-        .then(tweets => adjectivesToWordFrequencies(tweets))
-        .then(adj => res.send(adj))
+        .then(metadata => res.send(createSearchArray(metadata)))
         .catch(next);
 })
 
