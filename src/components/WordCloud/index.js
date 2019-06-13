@@ -55,10 +55,6 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   return (
-    <Fragment>
-      <div className={classes.input}>
-        <Input />
-      </div>
       <Grid
         container
         justify="center"
@@ -107,7 +103,6 @@ const WordCloud = props => {
           </Grid>
         ) : null}
       </Grid>
-    </Fragment>
   );
 };
 
