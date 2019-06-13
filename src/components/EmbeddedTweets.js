@@ -4,16 +4,21 @@ import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import SortTweets from './SortTweets';
+import TweetInfo from './TweetInfo';
 
 const useStyles = makeStyles(theme => ({
   tweet: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0),
   },
   imageIcon: {
     height: 24,
   },
   buttons: {
-    width: '100%',
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    padding: theme.spacing(0, 0),
+    marginTop: theme.spacing(-1),
   }
 }));
 
@@ -22,7 +27,6 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
   useEffect(() => { }, [selectedTweets]);
   return (
     <div>
-      <SortTweets />
       {selectedTweets.map((tweet, index) => {
         return (
           <div key={tweet.twitterId + index} className={classes.tweet}>
@@ -30,6 +34,8 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
               tweetId={tweet.twitterId}
               options={{ cards: 'hidden', width: '100%', align: 'center' }}
             />
+
+            <TweetInfo followers={tweet.numFollowers} retweets={tweet.numRetweets} />
 
             {user.id && (
               <div className={classes.buttons}>

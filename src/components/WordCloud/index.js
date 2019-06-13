@@ -8,6 +8,7 @@ import WordCloudComponent from './WordCloudComponent';
 import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
+import SortTweets from '../SortTweets';
 import Sidebar from '../Sidebar';
 
 import { endLoading } from '../../reducers/loadingReducer';
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   cloudContainer: {
-    height: '80vh',
+    height: '85vh',
   },
 }));
 
@@ -77,28 +78,20 @@ const WordCloud = props => {
         {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
       </Grid>
       {tweets.selectedTweets.length ? (
-        <div>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-            xl={2}
-            className={classes.tweetsList}
-            align="center"
-          >
-            <Sidebar />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={9}
-            xl={10}
-            align="center"
-          >
-            <EmbeddedTweets />
-          </Grid>
-        </div>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={3}
+          xl={2}
+          align="center"
+        >
+          <Sidebar />
+          <SortTweets />
+          <div className={classes.tweetsList}>
+            <EmbeddedTweets/>
+          </div>
+        </Grid>
       ) : null}
     </Grid>
   );
