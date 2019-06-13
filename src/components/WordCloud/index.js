@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   cloudContainer: {
-    height: '80vh',
+    height: '85vh',
   },
 }));
 
