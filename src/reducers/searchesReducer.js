@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // ACTION CONSTANTS
 const UPDATE_SEARCHES = 'UPDATE_SEARCHES';
