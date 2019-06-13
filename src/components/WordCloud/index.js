@@ -6,7 +6,6 @@ import { Grid } from '@material-ui/core/';
 
 import WordCloudComponent from './WordCloudComponent';
 import Loading from '../Common/Loading';
-import Input from '../Common/Input';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
 import Sidebar from '../Sidebar';
@@ -16,7 +15,6 @@ import { endLoading } from '../../reducers/loadingReducer';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    // backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(2),
     width: '100%',
     height: '100vh',
@@ -55,41 +53,31 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   return (
+    <Grid
+      container
+      justify="center"
+      alignItems="center"
+      className={classes.root}
+    >
       <Grid
-        container
-        justify="center"
-        alignItems="center"
-        className={classes.root}
+        item
+        xs={12}
+        md={9}
+        xl={10}
+        align="center"
+        className={classes.cloudContainer}
       >
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={3}
-          xl={2}
-          className={classes.tweetsList}
-          align="center"
-        >
-          <Sidebar />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={9}
-          xl={10}
-          align="center"
-          className={classes.cloudContainer}
-        >
-          {!wordcloudIsLoading && status === 'initial' && (
-            <Message message="Please enter data" />
-          )}
-          {status === 'failed' && (
-            <Message message="Data fetched unsuccessfully. Please try again." />
-          )}
-          {wordcloudIsLoading && <Loading />}
-          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
-        </Grid>
-        {tweets.selectedTweets.length ? (
+        {!wordcloudIsLoading && status === 'initial' && (
+          <Message message="Please enter data" />
+        )}
+        {status === 'failed' && (
+          <Message message="Data fetched unsuccessfully. Please try again." />
+        )}
+        {wordcloudIsLoading && <Loading />}
+        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+      </Grid>
+      {tweets.selectedTweets.length ? (
+        <div>
           <Grid
             item
             xs={12}
@@ -99,10 +87,20 @@ const WordCloud = props => {
             className={classes.tweetsList}
             align="center"
           >
+            <Sidebar />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={9}
+            xl={10}
+            align="center"
+          >
             <EmbeddedTweets />
           </Grid>
-        ) : null}
-      </Grid>
+        </div>
+      ) : null}
+    </Grid>
   );
 };
 
