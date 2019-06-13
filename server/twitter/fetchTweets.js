@@ -27,7 +27,7 @@ const getNextMaxId = str => {
 // get next set of tweets and save to database (also save metadata)
 const getTweets = async (q, count, search_id, max_id = null) => {
   const tweets = await client.get('search/tweets', {
-    q: `${q} filter:coordinates`,
+    q: `${q} -filter:retweets`,
     count,
     max_id,
     lang: 'en',

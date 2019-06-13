@@ -4,6 +4,7 @@ import { tweets } from './tweetsReducer';
 import { user } from './userReducer';
 import { sort } from './sortReducer';
 import { loading } from './loadingReducer';
+import { searches } from './searchesReducer';
 
 const rootReducer = combineReducers({
   wordcloudData,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   tweets,
   sort,
   loading,
+  searches,
 });
 
 export default rootReducer;

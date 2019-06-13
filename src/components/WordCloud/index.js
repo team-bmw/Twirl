@@ -9,6 +9,7 @@ import Loading from '../Common/Loading';
 import Input from '../Common/Input';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
+import Sidebar from '../Sidebar';
 
 import { endLoading } from '../../reducers/loadingReducer';
 
@@ -64,6 +65,17 @@ const WordCloud = props => {
         alignItems="center"
         className={classes.root}
       >
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={3}
+          xl={2}
+          className={classes.tweetsList}
+          align="center"
+        >
+          <Sidebar />
+        </Grid>
         <Grid
           item
           xs={12}
