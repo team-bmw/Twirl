@@ -30,7 +30,6 @@ class Input extends Component {
       axios
         .post('/api/tweets/search', { query: this.state.searchText })
         .then(search_id => this.props.fetchAdjectiveWordcloudData(search_id.data))
-        .then(() => console.log('serches'))
         .then(() => this.props.fetchSearches());
       this.props.history.push(`/search/${this.state.searchText}`);
     }
