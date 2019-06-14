@@ -6,11 +6,13 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
-import { fetchAdjectiveWordcloudData, resetWordCloud } from '../../reducers/wordcloudReducer';
+import {
+  fetchAdjectiveWordcloudData,
+  resetWordCloud,
+} from '../../reducers/wordcloudReducer';
 import { startLoading } from '../../reducers/loadingReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
 import { fetchSearches } from '../../reducers/searchesReducer';
-
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -44,9 +46,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 const Search = ({
   match,
+  location,
   history,
   fetchAdjectiveWordcloudData,
   startLoading,
@@ -58,8 +60,9 @@ const Search = ({
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    if (match.params.searchedText) setQuery(match.params.searchedText);
-  }, [])
+    const searchedText = location.pathname.split('/')[2];
+    if (searchedText) setQuery(searchedText);
+  }, []);
 
   const handleOnChange = ({ target }) => {
     setQuery(target.value);
@@ -71,10 +74,11 @@ const Search = ({
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
-      axios.post('/api/tweets/search', { query })
+      axios
+        .post('/api/tweets/search', { query })
         .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
         .then(() => fetchSearches());
-      history.push(`/search/${query}`)
+      history.push(`/search/${query}`);
     }
   };
 
@@ -94,15 +98,18 @@ const Search = ({
         value={query}
       />
     </form>
-  )
+  );
 };
 
 export default withRouter(
-  connect(null, {
-    fetchAdjectiveWordcloudData,
-    startLoading,
-    resetWordCloud,
-    emptySelectedTweets,
-    fetchSearches,
-  })(Search)
+  connect(
+    null,
+    {
+      fetchAdjectiveWordcloudData,
+      startLoading,
+      resetWordCloud,
+      emptySelectedTweets,
+      fetchSearches,
+    }
+  )(Search)
 );
