@@ -1,43 +1,73 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectSearchId } from '../reducers/searchesReducer';
 import { fetchAdjectiveWordcloudData } from '../reducers/wordcloudReducer';
 
-class PastSearches extends Component {
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import { makeStyles } from '@material-ui/core/styles';
 
-    constructor() {
-        super();
-        this.state = {
-            search_id: 1,
-        }
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        color: 'white',
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
+
+const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches }) => {
+
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        search_id: '',
+    });
+
+    const handleChange = ({ target }) => {
+        setValues(oldValues => ({
+            ...oldValues,
+            [target.name]: target.value,
+        }));
+        selectSearchId(Number(target.value));
+        fetchAdjectiveWordcloudData(Number(target.value));
     }
 
-    handleSelect = ({ target }) => {
-        this.setState({ search_id: Number(target.value) });
-    }
-
-    handleSubmit = evt => {
-        evt.preventDefault();
-        this.props.selectSearchId(this.state.search_id);
-        this.props.fetchAdjectiveWordcloudData(this.state.search_id);
-    }
-
-    render() {
-        const { searches } = this.props.searches;
-        return (
-            <div >
-                <select name="search_id" onChange={this.handleSelect}>
-                    {searches.map(search => {
-                        return (
-                            <option key={search.search_id} value={search.search_id}>{search.query}</option>
-                        )
-                    })}
-                </select>
-                <button type="submit" onClick={this.handleSubmit}>Update Wordcloud</button>
-            </div >
-        )
-    }
-
+    return (
+        <div>
+            <form className={classes.root} autoComplete="off">
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="id-simple">Past Searches</InputLabel>
+                    <Select
+                        value={values.search_id}
+                        onChange={handleChange}
+                        inputProps={{
+                            name: 'search_id',
+                            id: 'id-simple',
+                        }}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        {searches.searches.map(search => {
+                            return (
+                                <MenuItem key={search.search_id} value={search.search_id}>{search.query}</MenuItem>
+                            )
+                        })}
+                    </Select>
+                </FormControl>
+            </form>
+        </div>
+    )
 }
 
 const mapStateToProps = ({ searches }) => {

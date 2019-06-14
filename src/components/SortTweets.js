@@ -1,52 +1,75 @@
-/* eslint-disable no-shadow */
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateSortBy } from '../reducers/sortReducer';
 import { updateSelectedTweets } from '../reducers/tweetsReducer';
 import { sortTweets } from '../helperFunctions';
 
-class SortTweets extends React.Component {
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import { makeStyles } from '@material-ui/core/styles';
 
-    constructor() {
-        super();
-        this.state = {
-            sortBy: '',
-        }
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        color: 'white',
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
+
+const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
+
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        sortBy: '',
+    });
+
+    const handleChange = ({ target }) => {
+        setValues(oldValues => ({
+            ...oldValues,
+            [target.name]: target.value,
+        }));
+        updateSelectedTweets(sortTweets(selectedTweets, target.value, false));
     }
 
-    handleSelect = ({ target }) => {
-        this.setState({ sortBy: target.value });
-    }
-
-    handleSubmit = evt => {
-        evt.preventDefault();
-        const { updateSelectedTweets, updateSortBy, selectedTweets } = this.props;
-        updateSortBy(this.state.sortBy);
-        updateSelectedTweets(sortTweets(selectedTweets, this.state.sortBy, false));
-    }
-
-    render() {
-        const { selectedTweets } = this.props;
-        return (
-            <div>
-                {
-                    selectedTweets.length > 0 ?
-                        <div>
-                            <select name="sortBy" onChange={this.handleSelect}>
-                                <option value="numRetweets">Number of Retweets</option>
-                                <option value="numFollowers">Number of Followers</option>
-                                <option value="numFriends">Number of Friends</option>
-                                <option value="userVerified">Verified Users</option>
-                            </select>
-                            <button type="submit" onClick={this.handleSubmit}>
-                                Sort
-                            </button>
-                        </div>
-                        : null
-                }
-            </div >
-        )
-    }
+    return (
+        <div>
+            {
+                selectedTweets.length > 0 ?
+                    <div>
+                        <form className={classes.root} autoComplete="off">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="sortBy-simple">Sort By</InputLabel>
+                                <Select
+                                    value={values.sortBy}
+                                    onChange={handleChange}
+                                    inputProps={{
+                                        name: 'sortBy',
+                                        id: 'sortBy-simple',
+                                    }}
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value="numRetweets">Number of Retweets</MenuItem>
+                                    <MenuItem value="numFollowers">Number of Followers</MenuItem>
+                                    <MenuItem value="isVerified">Verified Users</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </form>
+                    </div>
+                    : null
+            }
+        </div >
+    )
 }
 
 const mapStateToProps = ({ tweets }) => {
