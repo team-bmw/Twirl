@@ -6,6 +6,10 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+
 import {
   fetchAdjectiveWordcloudData,
   resetWordCloud,
@@ -57,28 +61,35 @@ const Search = ({
   fetchSearches,
 }) => {
   const classes = useStyles();
-  const [query, setQuery] = useState('');
+  const [values, setValues] = useState({
+    query: '',
+    searchType: 'and',
+  });
 
   useEffect(() => {
     const searchedText = location.pathname.split('/')[2];
-    if (searchedText) setQuery(searchedText);
+    if (searchedText) setValues(searchedText);
   }, []);
 
   const handleOnChange = ({ target }) => {
-    setQuery(target.value);
+    console.log(values);
+    setValues(oldValues => ({
+      ...oldValues,
+      [target.name]: target.value,
+    }));
   };
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    if (query) {
+    if (values.query) {
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
       axios
-        .post('/api/tweets/search', { query })
+        .post(`/api/tweets/search/${values.searchType}`, { query: values.query })
         .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
         .then(() => fetchSearches());
-      history.push(`/search/${query}`);
+      history.push(`/search/${values.query}`);
     }
   };
 
@@ -88,6 +99,7 @@ const Search = ({
         <SearchIcon />
       </div>
       <InputBase
+        name="query"
         placeholder="Search Twitter"
         classes={{
           root: classes.inputRoot,
@@ -95,8 +107,25 @@ const Search = ({
         }}
         inputProps={{ 'aria-label': 'Search' }}
         onChange={handleOnChange}
-        value={query}
+        value={values.query}
       />
+      <FormControl className={classes.search}>
+        <Select
+          value={values.searchType}
+          onChange={handleOnChange}
+          inputProps={{
+            name: 'searchType',
+            id: 'searchType-simple',
+          }}
+        >
+          <MenuItem value="and">AND</MenuItem>
+          <MenuItem value="or">OR</MenuItem>
+          <MenuItem value="or">EXACT</MenuItem>
+          <MenuItem value="mention">@</MenuItem>
+          <MenuItem value="hashtag">#</MenuItem>
+          <MenuItem value="userTo">TO</MenuItem>
+        </Select>
+      </FormControl>
     </form>
   );
 };
