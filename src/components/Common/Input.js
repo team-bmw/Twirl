@@ -24,14 +24,23 @@ class Input extends Component {
   handleFormSubmit = evt => {
     evt.preventDefault();
     if (this.state.searchText) {
+      console.log('come on');
+      console.log(this.state.searchText);
       this.props.resetWordCloud();
       this.props.emptySelectedTweets();
       this.props.startLoading('wordcloudIsLoading');
+      console.log('whats up!');
       axios
         .post('/api/tweets/search', { query: this.state.searchText })
-        .then(search_id => this.props.fetchAdjectiveWordcloudData(search_id.data))
+        .then(search_id =>
+          this.props.fetchAdjectiveWordcloudData(search_id.data)
+        )
         .then(() => this.props.fetchSearches());
-      this.props.history.push(`/search/${this.state.searchText}`);
+      console.log(this.props.history);
+      console.log('hello from submmit!!!');
+      this.props.history.push(`/search/${this.state.searchText}`, {
+        some: 'state',
+      });
     }
   };
 
