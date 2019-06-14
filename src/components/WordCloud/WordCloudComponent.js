@@ -48,6 +48,7 @@ const WordCloudComponent = props => {
         rotations: 0,
         scale: 'log',
         spiral: 'rectangular',
+        deterministic: true,
       }}
       callbacks={callbacks}
     />
