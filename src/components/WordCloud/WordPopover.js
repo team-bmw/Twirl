@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,8 +48,6 @@ const mapStateToProps = ({ wordElement }) => {
     wordElement,
   }
 };
-
-
 
 export default connect(
   mapStateToProps, { updateSelectedTweets, selectedWordElement }

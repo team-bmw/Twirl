@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import ReactWordcloud from 'react-wordcloud';
 
@@ -20,7 +20,7 @@ const WordCloudComponent = props => {
 
   const callbacks = {
     onWordClick: (word, index, textArr) => {
-      console.log(word);
+      // console.log(word);
       // console.log(index, textArr);
       console.log(textArr[index])
       const { tweetData } = word;
