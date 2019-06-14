@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-shadow */
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { selectSearchId } from '../reducers/searchesReducer';
 import { fetchAdjectiveWordcloudData } from '../reducers/wordcloudReducer';

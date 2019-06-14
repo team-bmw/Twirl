@@ -89,7 +89,7 @@ const WordCloud = props => {
           <Sidebar />
           <SortTweets />
           <div className={classes.tweetsList}>
-            <EmbeddedTweets/>
+            <EmbeddedTweets />
           </div>
         </Grid>
       ) : null}
