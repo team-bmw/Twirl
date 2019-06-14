@@ -60,9 +60,8 @@ const Search = ({
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    // console.log(location);
-    // console.log(history);
-    if (match.params.searchedText) setQuery(match.params.searchedText);
+    const searchedText = location.pathname.split('/')[2];
+    if (searchedText) setQuery(searchedText);
   }, []);
 
   const handleOnChange = ({ target }) => {
