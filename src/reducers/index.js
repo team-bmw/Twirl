@@ -5,6 +5,7 @@ import { user } from './userReducer';
 import { sort } from './sortReducer';
 import { loading } from './loadingReducer';
 import { searches } from './searchesReducer';
+import { wordElement } from './wordElementReducer';
 
 const rootReducer = combineReducers({
   wordcloudData,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   sort,
   loading,
   searches,
+  wordElement,
 });
 
 export default rootReducer;
