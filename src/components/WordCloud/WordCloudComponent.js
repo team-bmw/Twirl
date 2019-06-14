@@ -35,8 +35,6 @@ const WordCloudComponent = props => {
     },
   };
 
-  // console.log(props);
-
   return (
     <ReactWordcloud
       words={wordData}
