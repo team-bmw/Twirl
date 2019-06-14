@@ -24,10 +24,23 @@ const getNextMaxId = str => {
   return maxIdTerm ? maxIdTerm.split('=')[1] : null;
 };
 
+const createQueryString = (q, searchType) => {
+
+  if (searchType === 'or') return q.split(' ').join(' OR ');
+  if (searchType === 'exact') return `"${q}"`;
+  if (searchType === 'hashtag') return `#${q}`;
+  if (searchType === 'userFrom') return `from:${q}`;
+  if (searchType === 'userTo') return `to:${q}`;
+  if (searchType === 'mention') return `@${q}`;
+  return q;
+
+}
+
 // get next set of tweets and save to database (also save metadata)
-const getTweets = async (q, count, search_id, max_id = null) => {
+const getTweets = async (q, count, search_id, searchType, max_id = null) => {
+  console.log(createQueryString(q, searchType))
   const tweets = await client.get('search/tweets', {
-    q: `${q} -filter:retweets`,
+    q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,
     max_id,
     lang: 'en',
@@ -65,16 +78,16 @@ const getTweets = async (q, count, search_id, max_id = null) => {
 };
 
 // keep fetching tweets until reach total required number of tweets
-const fetchTweets = async (q, total, lastSearchId) => {
+const fetchTweets = async (q, total, lastSearchId, searchType) => {
 
   const search_id = lastSearchId ? ++lastSearchId : 1;
 
-  let metadata = await getTweets(q, 100, search_id);
+  let metadata = await getTweets(q, 100, search_id, searchType);
   let recordCount = metadata[0];
   let max_id = metadata[1];
 
   while (recordCount < total) {
-    metadata = await getTweets(q, 100, search_id, max_id);
+    metadata = await getTweets(q, 100, search_id, searchType, max_id);
     recordCount += metadata[0];
     max_id = metadata[1];
   }
