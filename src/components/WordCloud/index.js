@@ -45,6 +45,7 @@ const WordCloud = props => {
   const classes = useStyles();
 
   const {
+    match: { params },
     tweets,
     loading: { wordcloudIsLoading },
     wordcloudData: { status, wordData },
@@ -59,15 +60,19 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   useEffect(() => {
-    // search page with no searchedText
-    if (!props.loading.wordcloudIsLoading && props.match.params.searchedText) {
+    // search page with no searchText
+    if (!props.loading.wordcloudIsLoading && params.searchText) {
       props.startLoading('wordcloudIsLoading');
-      console.log(props.match.params.searchedText);
+      console.log(params.searchText);
       axios
-        .post('/api/tweets/search', { query: props.match.params.searchedText })
+        .post(`/api/tweets/search/${params.searchType}`, {
+          query: params.searchText,
+        })
         .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
         .then(() => fetchSearches());
-      props.history.push(`/search/${props.match.params.searchedText}`);
+      props.history.push(
+        `/search/${params.searchType}/${params.searchText}`
+      );
     }
   }, []);
 

@@ -23,7 +23,7 @@ const App = ({ loginSession }) => {
         <Route component={Navbar} />
         <Route exact path="/" component={Landing} />
         <Route exact path="/search/" component={WordCloud} />
-        <Route path="/search/:searchedText" component={WordCloud} />
+        <Route path="/search/:searchType/:searchText" component={WordCloud} />
       </Router>
     </ThemeProvider>
   );

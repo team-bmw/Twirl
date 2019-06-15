@@ -61,35 +61,35 @@ const Search = ({
   fetchSearches,
 }) => {
   const classes = useStyles();
-  const [values, setValues] = useState({
-    query: '',
-    searchType: 'and',
-  });
+  const [searchText, setSearchText] = useState('');
+  const [searchType, setSearchType] = useState('and');
 
   useEffect(() => {
-    const searchedText = location.pathname.split('/')[2];
-    if (searchedText) setValues(searchedText);
+    const searchedType = location.pathname.split('/')[2];
+    const searchedText = location.pathname.split('/')[3];
+    if (searchedType) setSearchType(searchedType);
+    if (searchedText) setSearchText(searchedText);
   }, []);
 
-  const handleOnChange = ({ target }) => {
-    console.log(values);
-    setValues(oldValues => ({
-      ...oldValues,
-      [target.name]: target.value,
-    }));
+  const handleTypeOnChange = ({ target }) => {
+    setSearchType(target.value);
+  };
+
+  const handleTextOnChange = ({ target }) => {
+    setSearchText(target.value);
   };
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    if (values.query) {
+    if (searchText) {
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
       axios
-        .post(`/api/tweets/search/${values.searchType}`, { query: values.query })
+        .post(`/api/tweets/search/${searchType}`, { query: searchText })
         .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
         .then(() => fetchSearches());
-      history.push(`/search/${values.query}`);
+      history.push(`/search/${searchType}/${searchText}`);
     }
   };
 
@@ -106,13 +106,13 @@ const Search = ({
           input: classes.inputInput,
         }}
         inputProps={{ 'aria-label': 'Search' }}
-        onChange={handleOnChange}
-        value={values.query}
+        onChange={handleTextOnChange}
+        value={searchText}
       />
       <FormControl className={classes.search}>
         <Select
-          value={values.searchType}
-          onChange={handleOnChange}
+          value={searchType}
+          onChange={handleTypeOnChange}
           inputProps={{
             name: 'searchType',
             id: 'searchType-simple',
