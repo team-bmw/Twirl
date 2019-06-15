@@ -19,6 +19,9 @@ import { emptySelectedTweets } from '../../reducers/tweetsReducer';
 import { fetchSearches } from '../../reducers/searchesReducer';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -94,39 +97,43 @@ const Search = ({
   };
 
   return (
-    <form className={classes.search} onSubmit={handleOnSubmit}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        name="query"
-        placeholder="Search Twitter"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ 'aria-label': 'Search' }}
-        onChange={handleOnChange}
-        value={values.query}
-      />
-      <FormControl className={classes.search}>
-        <Select
-          value={values.searchType}
-          onChange={handleOnChange}
-          inputProps={{
-            name: 'searchType',
-            id: 'searchType-simple',
+    <div className={classes.root}>
+      <form className={classes.search} onSubmit={handleOnSubmit}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          name="query"
+          placeholder="Search Twitter"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
           }}
-        >
-          <MenuItem value="and">AND</MenuItem>
-          <MenuItem value="or">OR</MenuItem>
-          <MenuItem value="or">EXACT</MenuItem>
-          <MenuItem value="mention">@</MenuItem>
-          <MenuItem value="hashtag">#</MenuItem>
-          <MenuItem value="userTo">TO</MenuItem>
-        </Select>
-      </FormControl>
-    </form>
+          inputProps={{ 'aria-label': 'Search' }}
+          onChange={handleOnChange}
+          value={values.query}
+        />
+      </form>
+      <form>
+        <FormControl className={classes.search}>
+          <Select
+            value={values.searchType}
+            onChange={handleOnChange}
+            inputProps={{
+              name: 'searchType',
+              id: 'searchType-simple',
+            }}
+          >
+            <MenuItem value="and">AND</MenuItem>
+            <MenuItem value="or">OR</MenuItem>
+            <MenuItem value="or">EXACT</MenuItem>
+            <MenuItem value="mention">@</MenuItem>
+            <MenuItem value="hashtag">#</MenuItem>
+            <MenuItem value="userTo">TO</MenuItem>
+          </Select>
+        </FormControl>
+      </form>
+    </div>
   );
 };
 

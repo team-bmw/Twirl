@@ -87,7 +87,7 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
                                             id: 'ascendingSort-simple',
                                         }}
                                     /> : <Switch disabled />}
-                                    label="Ascending"
+                                    label="Descending"
                                     labelPlacement="top"
                                 />
                             </FormControl>
