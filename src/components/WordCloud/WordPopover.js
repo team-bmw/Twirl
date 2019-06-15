@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Popover, Typography } from '@material-ui/core';
+import {
+  Popover,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
 
 import { updateSelectedTweets } from '../../reducers/tweetsReducer';
-import { selectedWordElement } from '../../reducers/wordElementReducer';
+import { selectWordElement } from '../../reducers/wordElementReducer';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -13,42 +19,60 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const WordPopover = ({ wordElement, selectedWordElement }) => {
+const WordPopover = ({
+  wordElement: { selectedDomElement, selectedCloudWord },
+  selectWordElement,
+  updateSelectedTweets,
+}) => {
   const classes = useStyles();
 
   const handleClose = () => {
-    selectedWordElement(null);
-  }
+    selectWordElement(null);
+  };
 
-  const open = Boolean(wordElement);
+  const open = Boolean(selectedDomElement);
   const id = open ? 'options-popover' : null;
 
   return (
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={wordElement}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-      >
-        <Typography className={classes.typography}>The content of the Popover.</Typography>
-      </Popover>
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={selectedDomElement}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'center',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'center',
+        horizontal: 'center',
+      }}
+    >
+      <List component="nav" aria-label="Main mailbox folders">
+        <ListItem
+          button
+          onClick={() => {
+            updateSelectedTweets(selectedCloudWord.tweetData);
+            handleClose();
+          }}
+        >
+          <ListItemText primary="Show Tweets" />
+        </ListItem>
+        <ListItem button>
+          <ListItemText primary="Remove Word" />
+        </ListItem>
+      </List>
+    </Popover>
   );
 };
 
 const mapStateToProps = ({ wordElement }) => {
   return {
     wordElement,
-  }
+  };
 };
 
 export default connect(
-  mapStateToProps, { updateSelectedTweets, selectedWordElement }
+  mapStateToProps,
+  { updateSelectedTweets, selectWordElement }
 )(WordPopover);
