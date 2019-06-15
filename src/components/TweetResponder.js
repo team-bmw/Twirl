@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, InputBase, Typography } from '@material-ui/core/';
+import { Paper, InputBase } from '@material-ui/core/';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,8 +20,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const TweetResponder = ({ twitterScreenName, twitterId }) => {
+const TweetResponder = props => {
+  const { twitterScreenName, twitterId } = props;
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [responseText, setResponseText] = useState('');
 
@@ -31,7 +34,7 @@ const TweetResponder = ({ twitterScreenName, twitterId }) => {
   const handleFormSubmit = evt => {
     if (responseText) {
       evt.preventDefault();
-      console.log(responseText);
+
       axios
         .post('/api/tweet/', {
           tweetId: twitterId,
@@ -39,7 +42,7 @@ const TweetResponder = ({ twitterScreenName, twitterId }) => {
           authorNameOfTweetToRespond: twitterScreenName,
         })
         .then(() => {
-          console.log('tweet succeeded!');
+          enqueueSnackbar('Sucessfully tweeted back!', { variant: 'success' });
           setResponseText('');
         })
         .catch(err => {
