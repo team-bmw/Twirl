@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
-
 import ReactWordcloud from 'react-wordcloud';
+
 import { useTheme } from '@material-ui/styles';
 
 import { updateSelectedTweets } from '../../reducers/tweetsReducer';
+import { selectedWordElement } from '../../reducers/wordElementReducer';
+
+import WordPopover from './WordPopover';
+
 
 const WordCloudComponent = props => {
-  const { wordData, updateSelectedTweets } = props;
+  const { wordData, updateSelectedTweets, selectedWordElement } = props;
   const theme = useTheme();
   const {
     typography,
@@ -15,10 +19,13 @@ const WordCloudComponent = props => {
   } = theme;
 
   const callbacks = {
-    onWordClick: word => {
-      console.log(word);
+    onWordClick: (word, index, textArr) => {
+      // console.log(word);
+      // console.log(index, textArr);
+      console.log(textArr[index])
       const { tweetData } = word;
       updateSelectedTweets(tweetData);
+      selectedWordElement(textArr[index]);
     },
     getWordColor: ({ tweetData }) => {
       const sentimentSum = tweetData.reduce((sum, { sentiment }) => {
@@ -36,21 +43,26 @@ const WordCloudComponent = props => {
   };
 
   return (
-    <ReactWordcloud
-      words={wordData}
-      options={{
-        colors: [grey['50'], text.secondary, text.hint, text.disabled],
-        fontFamily: typography.body1.fontFamily,
-        fontSizes: [25, 130],
-        fontStyle: 'normal',
-        fontWeight: 700,
-        padding: 1,
-        rotations: 0,
-        scale: 'log',
-        spiral: 'rectangular',
-      }}
-      callbacks={callbacks}
-    />
+    <Fragment>
+      <ReactWordcloud
+        words={wordData}
+        options={{
+          colors: [grey['50'], text.secondary, text.hint, text.disabled],
+          fontFamily: typography.body1.fontFamily,
+          fontSizes: [25, 130],
+          fontStyle: 'normal',
+          fontWeight: 700,
+          padding: 1,
+          rotations: 0,
+          scale: 'log',
+          spiral: 'rectangular',
+          deterministic: true,
+        }}
+        callbacks={callbacks}
+      />
+    
+      <WordPopover />
+    </Fragment>
   );
 };
 
@@ -58,5 +70,5 @@ const mapStateToProps = state => state;
 
 export default connect(
   null,
-  { updateSelectedTweets }
+  { updateSelectedTweets, selectedWordElement }
 )(WordCloudComponent);
