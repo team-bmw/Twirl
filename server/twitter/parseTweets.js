@@ -50,6 +50,8 @@ const tweetsToWordFrequencies = tweets => {
             location: tweet.location,
             twitterScreenName: tweet.twitterScreenName,
         };
+
+        //console.log(tweets.text)
         const words = scrubText(tweet.text).split(' ');
 
         return words.reduce((tweetFreq, word) => {

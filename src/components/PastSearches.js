@@ -41,6 +41,7 @@ const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, e
         }));
         selectSearchId(Number(target.value));
         fetchAdjectiveWordcloudData(Number(target.value));
+        selectSearchId(target.value);
         emptySelectedTweets();
     }
 
