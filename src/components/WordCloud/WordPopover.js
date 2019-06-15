@@ -12,6 +12,7 @@ import {
 
 import { updateSelectedTweets } from '../../reducers/tweetsReducer';
 import { selectWordElement } from '../../reducers/wordElementReducer';
+import { wordcloudDataSuccess } from '../../reducers/wordcloudReducer';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -21,13 +22,23 @@ const useStyles = makeStyles(theme => ({
 
 const WordPopover = ({
   wordElement: { selectedDomElement, selectedCloudWord },
+  wordcloudData: { wordData },
   selectWordElement,
   updateSelectedTweets,
+  wordcloudDataSuccess,
 }) => {
   const classes = useStyles();
 
   const handleClose = () => {
     selectWordElement(null);
+  };
+
+  const removeWord = () => {
+    const filteredData = wordData.filter(
+      wordObj => wordObj.text !== selectedCloudWord.text
+    );
+    wordcloudDataSuccess(filteredData);
+    handleClose();
   };
 
   const open = Boolean(selectedDomElement);
@@ -58,7 +69,7 @@ const WordPopover = ({
         >
           <ListItemText primary="Show Tweets" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={removeWord}>
           <ListItemText primary="Remove Word" />
         </ListItem>
       </List>
@@ -66,13 +77,14 @@ const WordPopover = ({
   );
 };
 
-const mapStateToProps = ({ wordElement }) => {
+const mapStateToProps = ({ wordElement, wordcloudData }) => {
   return {
     wordElement,
+    wordcloudData,
   };
 };
 
 export default connect(
   mapStateToProps,
-  { updateSelectedTweets, selectWordElement }
+  { updateSelectedTweets, selectWordElement, wordcloudDataSuccess }
 )(WordPopover);
