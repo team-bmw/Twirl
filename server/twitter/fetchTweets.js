@@ -9,9 +9,13 @@ const client = require('./twitterSetup');
 
 // // parse "next_results" string from search_metadata to get max_id term for next search
 const getNextMaxId = str => {
-  const terms = str.replace('?', '').split('&');
-  const maxIdTerm = terms.find(term => term.includes('max_id'));
-  return maxIdTerm ? maxIdTerm.split('=')[1] : null;
+  if (str) {
+    const terms = str.replace('?', '').split('&');
+    const maxIdTerm = terms.find(term => term.includes('max_id'));
+    return maxIdTerm ? maxIdTerm.split('=')[1] : null;
+  } else {
+    return -1;
+  }
 };
 
 const createQueryString = (q, searchType) => {
@@ -26,7 +30,7 @@ const createQueryString = (q, searchType) => {
 
 // get next set of tweets and save to database (also save metadata)
 const getTweets = async (q, count, search_id, searchType, max_id = null) => {
-  console.log(createQueryString(q, searchType));
+
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,
@@ -38,36 +42,42 @@ const getTweets = async (q, count, search_id, searchType, max_id = null) => {
   let counter = 0;
   let nextMaxId = getNextMaxId(tweets.search_metadata.next_results);
 
-  await tweets.statuses.forEach(element => {
-    ++counter;
-    Tweet.create({
-      query: q,
-      text: element.full_text,
-      isRetweet: !!element.retweetwed_status,
-      location: element.user.location,
-      numFollowers: element.user.followers_count,
-      numFriends: element.user.friends_count,
-      numFavorites: element.favorite_count,
-      numRetweets: element.retweet_count,
-      userVerified: element.user.verified,
-      sentiment: scoreTweetSentiment(element.full_text),
-      twitterId: `${element.id_str}`,
-      twitterUserId: element.user.id,
-      twitterScreenName: element.user.screen_name,
-      search_id,
-    }).catch(() => {
-      --counter;
-    });
-  });
+  if (nextMaxId > -1) {
 
-  await Metadata.create({
-    query: q,
-    count: counter,
-    next_id: nextMaxId,
-    search_id,
-  });
+    await tweets.statuses.forEach(element => {
+      ++counter;
+      Tweet.create({
+        query: q,
+        text: element.full_text,
+        isRetweet: !!element.retweetwed_status,
+        location: element.user.location,
+        numFollowers: element.user.followers_count,
+        numFriends: element.user.friends_count,
+        numFavorites: element.favorite_count,
+        numRetweets: element.retweet_count,
+        userVerified: element.user.verified,
+        sentiment: scoreTweetSentiment(element.full_text),
+        twitterId: `${element.id_str}`,
+        twitterUserId: element.user.id,
+        twitterScreenName: element.user.screen_name,
+        search_id,
+      }).catch(() => {
+        --counter;
+      });
+    });
+
+    await Metadata.create({
+      query: q,
+      count: counter,
+      next_id: nextMaxId,
+      search_id,
+    });
+  } else {
+    counter = 500;
+  }
   return Promise.all([counter, nextMaxId]);
 };
+
 
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total, lastSearchId, searchType) => {

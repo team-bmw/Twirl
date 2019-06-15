@@ -24,7 +24,6 @@ router.get('/:query', (req, res, next) => {
   }).then(tweets => res.send(tweets));
 });
 
-
 // Routes returning word frequencies
 
 // fetch adjective word frequency objects
@@ -51,7 +50,5 @@ router.get('/nouns/:searchId', (req, res, next) => {
     .then(noun => res.send(noun))
     .catch(next);
 });
-
-
 
 module.exports = router;

@@ -16,9 +16,12 @@ import {
 } from '../../reducers/wordcloudReducer';
 import { startLoading } from '../../reducers/loadingReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
-import { fetchSearches } from '../../reducers/searchesReducer';
+import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -48,6 +51,14 @@ const useStyles = makeStyles(theme => ({
       width: 250,
     },
   },
+  inputSelect: {
+    padding: theme.spacing(1.5, 0.5, 1.5, 7),
+    transition: theme.transitions.create('width'),
+    width: '10%',
+    [theme.breakpoints.up('md')]: {
+      width: 25,
+    },
+  },
 }));
 
 const Search = ({
@@ -59,6 +70,7 @@ const Search = ({
   resetWordCloud,
   emptySelectedTweets,
   fetchSearches,
+  selectSearchId,
 }) => {
   const classes = useStyles();
   const [searchText, setSearchText] = useState('');
@@ -87,7 +99,10 @@ const Search = ({
       startLoading('wordcloudIsLoading');
       axios
         .post(`/api/tweets/search/${searchType}`, { query: searchText })
-        .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
+        .then(search_id => {
+          fetchAdjectiveWordcloudData(search_id.data);
+          selectSearchId(search_id.data);
+        })
         .then(() => fetchSearches());
       history.push(`/search/${searchType}/${searchText}`);
     }
@@ -117,6 +132,10 @@ const Search = ({
             name: 'searchType',
             id: 'searchType-simple',
           }}
+          classes={{
+            root: classes.inputRoot,
+            select: classes.inputSelect,
+          }}
         >
           <MenuItem value="and">AND</MenuItem>
           <MenuItem value="or">OR</MenuItem>
@@ -139,6 +158,7 @@ export default withRouter(
       resetWordCloud,
       emptySelectedTweets,
       fetchSearches,
+      selectSearchId,
     }
   )(Search)
 );

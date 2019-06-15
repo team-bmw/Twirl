@@ -8,17 +8,19 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        color: 'white',
     },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
+        color: 'white',
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -30,6 +32,7 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
     const classes = useStyles();
     const [values, setValues] = React.useState({
         sortBy: '',
+        ascendingSort: true,
     });
 
     const handleChange = ({ target }) => {
@@ -37,7 +40,16 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
             ...oldValues,
             [target.name]: target.value,
         }));
-        updateSelectedTweets(sortTweets(selectedTweets, target.value, false));
+        updateSelectedTweets(sortTweets(selectedTweets, target.value, values.ascendingSort));
+        updateSortBy(target.value);
+    }
+
+    const handleSwitch = () => {
+        setValues(oldValues => ({
+            ...oldValues,
+            ascendingSort: !values.ascendingSort,
+        }))
+        updateSelectedTweets(sortTweets(selectedTweets, values.sortBy, !values.ascendingSort));
     }
 
     return (
@@ -61,8 +73,23 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
                                     </MenuItem>
                                     <MenuItem value="numRetweets">Number of Retweets</MenuItem>
                                     <MenuItem value="numFollowers">Number of Followers</MenuItem>
+                                    <MenuItem value="twitterId">Most Recent</MenuItem>
                                     <MenuItem value="isVerified">Verified Users</MenuItem>
                                 </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <FormControlLabel
+                                    htmlFor="ascendingSort-simple"
+                                    control={values.sortBy ? <Switch
+                                        onChange={handleSwitch}
+                                        inputProps={{
+                                            'aria-label': 'Switch A',
+                                            id: 'ascendingSort-simple',
+                                        }}
+                                    /> : <Switch disabled />}
+                                    label="Descending"
+                                    labelPlacement="top"
+                                />
                             </FormControl>
                         </form>
                     </div>

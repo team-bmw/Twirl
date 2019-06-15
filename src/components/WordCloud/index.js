@@ -76,42 +76,42 @@ const WordCloud = props => {
     }
   }, []);
 
-  console.log(props);
-
   return (
-    <Grid
-      container
-      justify="center"
-      alignItems="center"
-      className={classes.root}
-    >
+    <div>
+      <Sidebar />
       <Grid
-        item
-        xs={12}
-        md={9}
-        xl={10}
-        align="center"
-        className={classes.cloudContainer}
+        container
+        justify="center"
+        alignItems="center"
+        className={classes.root}
       >
-        {!wordcloudIsLoading && status === 'initial' && (
-          <Message message="Please enter data" />
-        )}
-        {status === 'failed' && (
-          <Message message="Data fetched unsuccessfully. Please try again." />
-        )}
-        {wordcloudIsLoading && <Loading />}
-        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
-      </Grid>
-      {tweets.selectedTweets.length ? (
-        <Grid item xs={12} sm={6} md={3} xl={2} align="center">
-          <Sidebar />
-          <SortTweets />
-          <div className={classes.tweetsList}>
-            <EmbeddedTweets />
-          </div>
+        <Grid
+          item
+          xs={12}
+          md={9}
+          xl={10}
+          align="center"
+          className={classes.cloudContainer}
+        >
+          {!wordcloudIsLoading && status === 'initial' && (
+            <Message message="Please enter data" />
+          )}
+          {status === 'failed' && (
+            <Message message="Data fetched unsuccessfully. Please try again." />
+          )}
+          {wordcloudIsLoading && <Loading />}
+          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
         </Grid>
-      ) : null}
-    </Grid>
+        {tweets.selectedTweets.length ? (
+          <Grid item xs={12} sm={6} md={3} xl={2} align="center">
+            <SortTweets />
+            <div className={classes.tweetsList}>
+              <EmbeddedTweets />
+            </div>
+          </Grid>
+        ) : null}
+      </Grid>
+    </div>
   );
 };
 
