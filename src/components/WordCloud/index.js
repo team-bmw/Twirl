@@ -71,6 +71,8 @@ const WordCloud = props => {
     }
   }, []);
 
+  console.log(props);
+
   return (
     <Grid
       container

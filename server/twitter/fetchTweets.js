@@ -2,20 +2,10 @@
 /* eslint-disable handle-callback-err */
 /* eslint-disable camelcase */
 
-// // Use search/tweets endpoint on loop to fetch tweets
-const Twitter = require('twitter');
-require('dotenv').config();
-
 const { Tweet, Metadata } = require('../db/index');
 const { scoreTweetSentiment } = require('./classifyTweets');
 
-// Change out keys here:
-const client = new Twitter({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-});
+const client = require('./twitterSetup');
 
 // // parse "next_results" string from search_metadata to get max_id term for next search
 const getNextMaxId = str => {
@@ -25,7 +15,6 @@ const getNextMaxId = str => {
 };
 
 const createQueryString = (q, searchType) => {
-
   if (searchType === 'or') return q.split(' ').join(' OR ');
   if (searchType === 'exact') return `"${q}"`;
   if (searchType === 'hashtag') return `#${q}`;
@@ -33,12 +22,11 @@ const createQueryString = (q, searchType) => {
   if (searchType === 'userTo') return `to:${q}`;
   if (searchType === 'mention') return `@${q}`;
   return q;
-
-}
+};
 
 // get next set of tweets and save to database (also save metadata)
 const getTweets = async (q, count, search_id, searchType, max_id = null) => {
-  console.log(createQueryString(q, searchType))
+  console.log(createQueryString(q, searchType));
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,
@@ -67,19 +55,22 @@ const getTweets = async (q, count, search_id, searchType, max_id = null) => {
       twitterUserId: element.user.id,
       twitterScreenName: element.user.screen_name,
       search_id,
-    })
-      .catch(() => {
-        --counter;
-      });
+    }).catch(() => {
+      --counter;
+    });
   });
 
-  await Metadata.create({ query: q, count: counter, next_id: nextMaxId, search_id });
+  await Metadata.create({
+    query: q,
+    count: counter,
+    next_id: nextMaxId,
+    search_id,
+  });
   return Promise.all([counter, nextMaxId]);
 };
 
 // keep fetching tweets until reach total required number of tweets
 const fetchTweets = async (q, total, lastSearchId, searchType) => {
-
   const search_id = lastSearchId ? ++lastSearchId : 1;
 
   let metadata = await getTweets(q, 100, search_id, searchType);
@@ -92,7 +83,7 @@ const fetchTweets = async (q, total, lastSearchId, searchType) => {
     max_id = metadata[1];
   }
 
-  return (search_id);
+  return search_id;
 };
 
 module.exports = {
