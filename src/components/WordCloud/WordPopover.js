@@ -2,10 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Popover, Typography } from '@material-ui/core';
+import {
+  Popover,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
 
 import { updateSelectedTweets } from '../../reducers/tweetsReducer';
-import { selectedWordElement } from '../../reducers/wordElementReducer';
+import { selectWordElement } from '../../reducers/wordElementReducer';
+import { wordcloudDataSuccess } from '../../reducers/wordcloudReducer';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -13,42 +20,71 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const WordPopover = ({ wordElement, selectedWordElement }) => {
+const WordPopover = ({
+  wordElement: { selectedDomElement, selectedCloudWord },
+  wordcloudData: { wordData },
+  selectWordElement,
+  updateSelectedTweets,
+  wordcloudDataSuccess,
+}) => {
   const classes = useStyles();
 
   const handleClose = () => {
-    selectedWordElement(null);
-  }
+    selectWordElement(null);
+  };
 
-  const open = Boolean(wordElement);
+  const removeWord = () => {
+    const filteredData = wordData.filter(
+      wordObj => wordObj.text !== selectedCloudWord.text
+    );
+    wordcloudDataSuccess(filteredData);
+    handleClose();
+  };
+
+  const open = Boolean(selectedDomElement);
   const id = open ? 'options-popover' : null;
 
   return (
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={wordElement}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-      >
-        <Typography className={classes.typography}>The content of the Popover.</Typography>
-      </Popover>
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={selectedDomElement}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'center',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'center',
+        horizontal: 'center',
+      }}
+    >
+      <List component="nav" aria-label="Main mailbox folders">
+        <ListItem
+          button
+          onClick={() => {
+            updateSelectedTweets(selectedCloudWord.tweetData);
+            handleClose();
+          }}
+        >
+          <ListItemText primary="Show Tweets" />
+        </ListItem>
+        <ListItem button onClick={removeWord}>
+          <ListItemText primary="Remove Word" />
+        </ListItem>
+      </List>
+    </Popover>
   );
 };
 
-const mapStateToProps = ({ wordElement }) => {
+const mapStateToProps = ({ wordElement, wordcloudData }) => {
   return {
     wordElement,
-  }
+    wordcloudData,
+  };
 };
 
 export default connect(
-  mapStateToProps, { updateSelectedTweets, selectedWordElement }
+  mapStateToProps,
+  { updateSelectedTweets, selectWordElement, wordcloudDataSuccess }
 )(WordPopover);

@@ -19,7 +19,7 @@ const wordcloudDataFailure = () => {
   };
 };
 
-const wordcloudDataSuccess = wordData => {
+export const wordcloudDataSuccess = wordData => {
   return {
     type: WORDCLOUD_DATA_SUCCESS,
     wordData,
