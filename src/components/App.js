@@ -10,6 +10,7 @@ import Navbar from './Navbar';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { SnackbarProvider } from 'notistack';
 
 const App = ({ loginSession }) => {
   useEffect(() => {
@@ -17,15 +18,17 @@ const App = ({ loginSession }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <CssBaseline /> {/* normalize browser css default setups */}
-        <Route component={Navbar} />
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/search/" component={WordCloud} />
-        <Route path="/search/:searchedText" component={WordCloud} />
-      </Router>
-    </ThemeProvider>
+    <SnackbarProvider>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <CssBaseline /> {/* normalize browser css default setups */}
+          <Route component={Navbar} />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/search/" component={WordCloud} />
+          <Route path="/search/:searchedText" component={WordCloud} />
+        </Router>
+      </ThemeProvider>
+    </SnackbarProvider>
   );
 };
 

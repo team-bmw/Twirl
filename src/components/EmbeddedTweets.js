@@ -53,35 +53,12 @@ const EmbeddedTweets = ({ selectedTweets, user }) => {
                 options={{ cards: 'hidden', width: '100%', align: 'center' }}
               />
             </Paper>
-            <TweetResponder
-              twitterScreenName={tweet.twitterScreenName}
-              twitterId={tweet.twitterId}
-            />
-
-            {/* {user.id && (
-              <div className={classes.buttons}>
-                <Button size="small"
-                  href={`https://twitter.com/intent/tweet?in_reply_to=${
-                    tweet.twitterId
-                    }`}
-                >
-                  <img className={classes.imageIcon} src="/Twitter_Reply.svg" />
-                  Reply
-                </Button>
-
-                <Button size="small"
-                  href={`https://twitter.com/intent/retweet?tweet_id=${
-                    tweet.twitterId
-                    }`}
-                >
-                  <img
-                    className={classes.imageIcon}
-                    src="/Twitter_Retweet.svg"
-                  />
-                  Retweet
-                </Button>
-              </div>
-            )} */}
+            {user.id && (
+              <TweetResponder
+                twitterScreenName={tweet.twitterScreenName}
+                twitterId={tweet.twitterId}
+              />
+            )}
           </div>
         );
       })}
