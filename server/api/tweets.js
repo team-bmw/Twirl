@@ -27,26 +27,26 @@ router.get('/:query', (req, res, next) => {
 // Routes returning word frequencies
 
 // fetch adjective word frequency objects
-router.get('/adjectives/:searchId', (req, res, next) => {
+router.get('/adjectives/:searchId/:query', (req, res, next) => {
   console.log(req.params.searchId);
   Tweet.findAll({
     where: {
       search_id: Number(req.params.searchId),
     },
   })
-    .then(tweets => adjectivesToWordFrequencies(tweets))
+    .then(tweets => adjectivesToWordFrequencies(tweets, req.params.query))
     .then(adj => res.send(adj))
     .catch(next);
 });
 
 // fetch noun word frequency objects
-router.get('/nouns/:searchId', (req, res, next) => {
+router.get('/nouns/:searchId/:query', (req, res, next) => {
   Tweet.findAll({
     where: {
       search_id: Number(req.params.searchId),
     },
   })
-    .then(tweets => nounsToWordFrequencies(tweets))
+    .then(tweets => nounsToWordFrequencies(tweets, req.params.query))
     .then(noun => res.send(noun))
     .catch(next);
 });

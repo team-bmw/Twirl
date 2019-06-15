@@ -79,7 +79,7 @@ const tweetsToWordFrequencies = tweets => {
     }, []);
 };
 
-const adjectivesToWordFrequencies = async tweets => {
+const adjectivesToWordFrequencies = async (tweets, query) => {
     const adjTweets = [];
     for (let i = 0; i < tweets.length; i++) {
         const adj = await getAdjectivesFromText(tweets[i].text);
@@ -88,19 +88,19 @@ const adjectivesToWordFrequencies = async tweets => {
             adjTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(adjTweets);
+    return tweetsToWordFrequencies(adjTweets).filter(adj => adj.text !== query);
 }
 
-const nounsToWordFrequencies = async tweets => {
+const nounsToWordFrequencies = async (tweets, query) => {
     const nounTweets = [];
     for (let i = 0; i < tweets.length; i++) {
-        const adj = await getNounsFromText(tweets[i].text);
-        if (adj.length) {
-            tweets[i].text = adj;
+        const noun = await getNounsFromText(tweets[i].text);
+        if (noun.length) {
+            tweets[i].text = noun;
             nounTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(nounTweets);
+    return tweetsToWordFrequencies(nounTweets).filter(noun => noun.text !== query);
 }
 
 module.exports = {
