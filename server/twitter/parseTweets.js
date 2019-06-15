@@ -71,7 +71,7 @@ const tweetsToWordFrequencies = tweets => {
 
     return Object.keys(freqObj).reduce((arr, word) => {
 
-        if (freqObj[word].value > 5 && filterWords(word)) {
+        if (freqObj[word].value > 3 && filterWords(word)) {
             arr.push(freqObj[word]);
         }
 
@@ -79,7 +79,7 @@ const tweetsToWordFrequencies = tweets => {
     }, []);
 };
 
-const adjectivesToWordFrequencies = async tweets => {
+const adjectivesToWordFrequencies = async (tweets, query) => {
     const adjTweets = [];
     for (let i = 0; i < tweets.length; i++) {
         const adj = await getAdjectivesFromText(tweets[i].text);
@@ -88,19 +88,19 @@ const adjectivesToWordFrequencies = async tweets => {
             adjTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(adjTweets);
+    return tweetsToWordFrequencies(adjTweets).filter(adj => !query.split(' ').includes(adj.text));
 }
 
-const nounsToWordFrequencies = async tweets => {
+const nounsToWordFrequencies = async (tweets, query) => {
     const nounTweets = [];
     for (let i = 0; i < tweets.length; i++) {
-        const adj = await getNounsFromText(tweets[i].text);
-        if (adj.length) {
-            tweets[i].text = adj;
+        const noun = await getNounsFromText(tweets[i].text);
+        if (noun.length) {
+            tweets[i].text = noun;
             nounTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(nounTweets);
+    return tweetsToWordFrequencies(nounTweets).filter(noun => !query.split(' ').includes(noun.text));
 }
 
 module.exports = {
