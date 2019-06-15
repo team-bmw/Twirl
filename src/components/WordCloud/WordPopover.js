@@ -54,7 +54,7 @@ const WordPopover = ({
       .post(`/api/tweets/search/and`, { query: `${currentQuery} ${selectedCloudWord.text}` })
       .then(search_id => {
         fetchAdjectiveWordcloudData(search_id.data, selectedCloudWord.text);
-        selectSearchId(search_id)
+        selectSearchId(search_id.data)
       })
       .then(() => fetchSearches());
     //history.push(`/search/${selectedCloudWord.text}`);

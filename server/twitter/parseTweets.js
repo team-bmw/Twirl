@@ -71,7 +71,7 @@ const tweetsToWordFrequencies = tweets => {
 
     return Object.keys(freqObj).reduce((arr, word) => {
 
-        if (freqObj[word].value > 5 && filterWords(word)) {
+        if (freqObj[word].value > 3 && filterWords(word)) {
             arr.push(freqObj[word]);
         }
 
@@ -88,7 +88,7 @@ const adjectivesToWordFrequencies = async (tweets, query) => {
             adjTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(adjTweets).filter(adj => adj.text !== query);
+    return tweetsToWordFrequencies(adjTweets).filter(adj => !query.split(' ').includes(adj.text));
 }
 
 const nounsToWordFrequencies = async (tweets, query) => {
@@ -100,7 +100,7 @@ const nounsToWordFrequencies = async (tweets, query) => {
             nounTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(nounTweets).filter(noun => noun.text !== query);
+    return tweetsToWordFrequencies(nounTweets).filter(noun => !query.split(' ').includes(noun.text));
 }
 
 module.exports = {
