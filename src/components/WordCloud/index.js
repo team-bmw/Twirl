@@ -15,6 +15,7 @@ import Sidebar from '../Sidebar';
 import { fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 import { endLoading, startLoading } from '../../reducers/loadingReducer';
 import { fetchSearches } from '../../reducers/searchesReducer';
+import ColorSpectrum from './ColorSpectrum';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,9 +71,7 @@ const WordCloud = props => {
         })
         .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
         .then(() => fetchSearches());
-      props.history.push(
-        `/search/${params.searchType}/${params.searchText}`
-      );
+      props.history.push(`/search/${params.searchType}/${params.searchText}`);
     }
   }, []);
 
@@ -101,6 +100,7 @@ const WordCloud = props => {
           )}
           {wordcloudIsLoading && <Loading />}
           {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+          {status === 'fetched' && <ColorSpectrum />}
         </Grid>
         {tweets.selectedTweets.length ? (
           <Grid item xs={12} sm={6} md={3} xl={2} align="center">
