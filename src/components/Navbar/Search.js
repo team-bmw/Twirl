@@ -73,83 +73,79 @@ const Search = ({
   selectSearchId,
 }) => {
   const classes = useStyles();
-  const [values, setValues] = useState({
-    query: '',
-    searchType: 'and',
-  });
+  const [searchText, setSearchText] = useState('');
+  const [searchType, setSearchType] = useState('and');
 
   useEffect(() => {
-    const searchedText = location.pathname.split('/')[2];
-    if (searchedText) setValues(searchedText);
+    const searchedType = location.pathname.split('/')[2];
+    const searchedText = location.pathname.split('/')[3];
+    if (searchedType) setSearchType(searchedType);
+    if (searchedText) setSearchText(searchedText);
   }, []);
 
-  const handleOnChange = ({ target }) => {
-    console.log(values);
-    setValues(oldValues => ({
-      ...oldValues,
-      [target.name]: target.value,
-    }));
+  const handleTypeOnChange = ({ target }) => {
+    setSearchType(target.value);
+  };
+
+  const handleTextOnChange = ({ target }) => {
+    setSearchText(target.value);
   };
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    if (values.query) {
+    if (searchText) {
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
       axios
-        .post(`/api/tweets/search/${values.searchType}`, { query: values.query })
+        .post(`/api/tweets/search/${searchType}`, { query: searchText })
         .then(search_id => {
           fetchAdjectiveWordcloudData(search_id.data);
           selectSearchId(search_id.data);
         })
         .then(() => fetchSearches());
-      history.push(`/search/${values.query}`);
+      history.push(`/search/${searchType}/${searchText}`);
     }
   };
 
   return (
-    <div className={classes.root}>
-      <form className={classes.search} onSubmit={handleOnSubmit}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <InputBase
-          name="query"
-          placeholder="Search Twitter"
+    <form className={classes.search} onSubmit={handleOnSubmit}>
+      <div className={classes.searchIcon}>
+        <SearchIcon />
+      </div>
+      <InputBase
+        name="query"
+        placeholder="Search Twitter"
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        inputProps={{ 'aria-label': 'Search' }}
+        onChange={handleTextOnChange}
+        value={searchText}
+      />
+      <FormControl className={classes.search}>
+        <Select
+          value={searchType}
+          onChange={handleTypeOnChange}
+          inputProps={{
+            name: 'searchType',
+            id: 'searchType-simple',
+          }}
           classes={{
             root: classes.inputRoot,
-            input: classes.inputInput,
+            select: classes.inputSelect,
           }}
-          inputProps={{ 'aria-label': 'Search' }}
-          onChange={handleOnChange}
-          value={values.query}
-        />
-      </form>
-      <form>
-        <FormControl className={classes.search}>
-          <Select
-            value={values.searchType}
-            onChange={handleOnChange}
-            inputProps={{
-              name: 'searchType',
-              id: 'searchType-simple',
-            }}
-            classes={{
-              root: classes.inputRoot,
-              select: classes.inputSelect,
-            }}
-          >
-            <MenuItem value="and">AND</MenuItem>
-            <MenuItem value="or">OR</MenuItem>
-            <MenuItem value="or">EXACT</MenuItem>
-            <MenuItem value="mention">@</MenuItem>
-            <MenuItem value="hashtag">#</MenuItem>
-            <MenuItem value="userTo">TO</MenuItem>
-          </Select>
-        </FormControl>
-      </form>
-    </div>
+        >
+          <MenuItem value="and">AND</MenuItem>
+          <MenuItem value="or">OR</MenuItem>
+          <MenuItem value="or">EXACT</MenuItem>
+          <MenuItem value="mention">@</MenuItem>
+          <MenuItem value="hashtag">#</MenuItem>
+          <MenuItem value="userTo">TO</MenuItem>
+        </Select>
+      </FormControl>
+    </form>
   );
 };
 

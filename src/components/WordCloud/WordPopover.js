@@ -31,6 +31,7 @@ const WordPopover = ({
   fetchAdjectiveWordcloudData,
   fetchSearches,
   selectSearchId,
+  searches,
 }) => {
   const classes = useStyles();
 
@@ -47,8 +48,7 @@ const WordPopover = ({
   };
 
   const addToSearch = () => {
-    const { searches, search_id } = searches;
-    const currentQuery = searches.filter(search => search.search_id === search_id);
+    const currentQuery = searches.searches.filter(search => search.search_id === searches.search_id);
     console.log(currentQuery);
     axios
       .post(`/api/tweets/search/and`, { query: `${currentQuery} ${selectedCloudWord.text}` })
