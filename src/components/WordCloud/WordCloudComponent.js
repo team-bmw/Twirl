@@ -4,13 +4,12 @@ import ReactWordcloud from 'react-wordcloud';
 
 import { useTheme } from '@material-ui/styles';
 
-import { updateSelectedTweets } from '../../reducers/tweetsReducer';
-import { selectedWordElement } from '../../reducers/wordElementReducer';
+import { selectWordElement, selectCloudWord } from '../../reducers/wordElementReducer';
 
 import WordPopover from './WordPopover';
 
 const WordCloudComponent = props => {
-  const { wordData, updateSelectedTweets, selectedWordElement } = props;
+  const { wordData, selectWordElement, selectCloudWord } = props;
   const theme = useTheme();
   const {
     typography,
@@ -19,12 +18,8 @@ const WordCloudComponent = props => {
 
   const callbacks = {
     onWordClick: (word, index, textArr) => {
-      // console.log(word);
-      // console.log(index, textArr);
-      console.log(textArr[index]);
-      const { tweetData } = word;
-      updateSelectedTweets(tweetData);
-      selectedWordElement(textArr[index]);
+      selectWordElement(textArr[index]);
+      selectCloudWord(word);
     },
     getWordColor: ({ tweetData }) => {
       const sentimentSum = tweetData.reduce((sum, { sentiment }) => {
@@ -69,5 +64,5 @@ const mapStateToProps = state => state;
 
 export default connect(
   null,
-  { updateSelectedTweets, selectedWordElement }
+  { selectWordElement, selectCloudWord}
 )(WordCloudComponent);
