@@ -38,6 +38,7 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
             [target.name]: target.value,
         }));
         updateSelectedTweets(sortTweets(selectedTweets, target.value, false));
+        emptySelectedTweets();
     }
 
     return (
