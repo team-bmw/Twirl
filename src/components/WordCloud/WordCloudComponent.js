@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactWordcloud from 'react-wordcloud';
 
@@ -8,7 +8,6 @@ import { updateSelectedTweets } from '../../reducers/tweetsReducer';
 import { selectedWordElement } from '../../reducers/wordElementReducer';
 
 import WordPopover from './WordPopover';
-
 
 const WordCloudComponent = props => {
   const { wordData, updateSelectedTweets, selectedWordElement } = props;
@@ -22,7 +21,7 @@ const WordCloudComponent = props => {
     onWordClick: (word, index, textArr) => {
       // console.log(word);
       // console.log(index, textArr);
-      console.log(textArr[index])
+      console.log(textArr[index]);
       const { tweetData } = word;
       updateSelectedTweets(tweetData);
       selectedWordElement(textArr[index]);
@@ -60,7 +59,7 @@ const WordCloudComponent = props => {
         }}
         callbacks={callbacks}
       />
-    
+
       <WordPopover />
     </Fragment>
   );
