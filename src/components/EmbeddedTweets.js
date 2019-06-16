@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 
-import SortTweets from './SortTweets';
 import TweetInfo from './TweetInfo';
 import TweetResponder from './TweetResponder';
 
-import { Button, Paper, InputBase } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
