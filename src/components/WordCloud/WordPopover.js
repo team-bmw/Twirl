@@ -15,6 +15,7 @@ import { updateSelectedTweets } from '../../reducers/tweetsReducer';
 import { selectWordElement } from '../../reducers/wordElementReducer';
 import { wordcloudDataSuccess, fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
+import { updateRemovedWords } from '../../reducers/removedReducer';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -31,20 +32,28 @@ const WordPopover = ({
   fetchAdjectiveWordcloudData,
   fetchSearches,
   selectSearchId,
+  updateRemovedWords,
   searches,
 }) => {
   const classes = useStyles();
+
+  const [removed, setRemoved] = React.useState([]);
 
   const handleClose = () => {
     selectWordElement(null);
   };
 
   const removeWord = () => {
+
+    removed.push(selectedCloudWord);
+
     const filteredData = wordData.filter(
       wordObj => wordObj.text !== selectedCloudWord.text
     );
     wordcloudDataSuccess(filteredData);
     handleClose();
+    updateRemovedWords(removed);
+    console.log(removed);
   };
 
   const addToSearch = () => {
@@ -116,5 +125,6 @@ export default connect(
     fetchAdjectiveWordcloudData,
     fetchSearches,
     selectSearchId,
+    updateRemovedWords,
   }
 )(WordPopover);
