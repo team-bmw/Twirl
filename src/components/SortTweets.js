@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
+import { withTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  labelFormatting: {
+    color: 'white',
   },
 }));
 
@@ -86,6 +90,7 @@ const SortTweets = ({ selectedTweets, updateSortBy, updateSelectedTweets, update
               </FormControl>
               <FormControl className={classes.descending}>
                 <FormControlLabel
+                  className={classes.labelFormatting}
                   htmlFor="ascendingSort-simple"
                   control={values.sortBy ? <Switch
                     onChange={handleSwitch}
