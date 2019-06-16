@@ -31,11 +31,6 @@ const WordCloudComponent = props => {
       }, 0);
       const sentimentAverage = sentimentSum / tweetData.length;
 
-      // if (sentimentAverage > 1) return grey['50'];
-      // else if (sentimentAverage > 0.7) return grey['200'];
-      // else if (sentimentAverage > 0.4) return grey['400'];
-      // else if (sentimentAverage > 0) return grey['700'];
-      // else return grey['900'];
       if (sentimentAverage > 0.8) return grey['50'];
       else if (sentimentAverage > 0.6) return blue['100'];
       else if (sentimentAverage > 0.4) return blue['300'];
@@ -66,8 +61,6 @@ const WordCloudComponent = props => {
     </Fragment>
   );
 };
-
-const mapStateToProps = state => state;
 
 export default connect(
   null,
