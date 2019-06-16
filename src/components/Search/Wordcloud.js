@@ -11,7 +11,7 @@ import {
 
 import WordPopover from './WordPopover';
 
-const WordCloudComponent = props => {
+const Wordcloud = props => {
   const { wordData, selectWordElement, selectCloudWord } = props;
   const theme = useTheme();
   const {
@@ -65,4 +65,4 @@ const WordCloudComponent = props => {
 export default connect(
   null,
   { selectWordElement, selectCloudWord }
-)(WordCloudComponent);
+)(Wordcloud);

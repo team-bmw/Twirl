@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core/';
 
-import WordCloudComponent from './WordCloudComponent';
+import Wordcloud from './Wordcloud';
 import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
@@ -17,6 +17,7 @@ import { fetchSearches } from '../../reducers/searchesReducer';
 import ColorSpectrum from './ColorSpectrum';
 import PastSearches from '../PastSearches';
 import RemovedWords from '../RemovedWords';
+import DisplaySwitch from './DisplaySwitch';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const WordCloud = props => {
+const Search = props => {
   const classes = useStyles();
 
   const {
@@ -82,6 +83,8 @@ const WordCloud = props => {
     }
   }, []);
 
+  const [type, useType] = useState('wordcloud');
+
   return (
     <Grid
       container
@@ -98,7 +101,10 @@ const WordCloud = props => {
         className={classes.cloudContainer}
       >
         <Grid container justify="space-between" alignItems="center">
-          <PastSearches />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <DisplaySwitch />
+            <PastSearches />
+          </div>
           <RemovedWords />
         </Grid>
         {!wordcloudIsLoading && status === 'initial' && (
@@ -108,7 +114,7 @@ const WordCloud = props => {
           <Message message="Data fetched unsuccessfully. Please try again." />
         )}
         {wordcloudIsLoading && <Loading />}
-        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+        {status === 'fetched' && <Wordcloud wordData={wordData} />}
         {status === 'fetched' && <ColorSpectrum />}
       </Grid>
       {tweets.selectedTweets.length ? (
@@ -130,4 +136,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { endLoading, startLoading, fetchAdjectiveWordcloudData, fetchSearches }
-)(WordCloud);
+)(Search);
