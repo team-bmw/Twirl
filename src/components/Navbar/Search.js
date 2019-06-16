@@ -3,12 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
+import {
+  InputBase,
+  Select,
+  MenuItem,
+  FormControl,
+  OutlinedInput,
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 
 import {
   fetchAdjectiveWordcloudData,
@@ -30,6 +32,13 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: fade(theme.palette.common.white, 1),
     },
   },
+  control: {
+    height: 43,
+  },
+  select: {
+    height: '100%',
+    borderColor: theme.palette.primary.main,
+  },
   searchIcon: {
     color: theme.palette.primary.main,
     width: theme.spacing(7),
@@ -47,16 +56,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1.5, 1.5, 1.5, 7),
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 250,
+    [theme.breakpoints.up('xs')]: {
+      width: 50,
     },
-  },
-  inputSelect: {
-    padding: theme.spacing(1.5, 0.5, 1.5, 7),
-    transition: theme.transitions.create('width'),
-    width: '10%',
     [theme.breakpoints.up('md')]: {
-      width: 25,
+      width: 200,
     },
   },
 }));
@@ -124,18 +128,17 @@ const Search = ({
         onChange={handleTextOnChange}
         value={searchText}
       />
-      <FormControl className={classes.search}>
+      <FormControl variant="outlined" className={classes.control}>
         <Select
           value={searchType}
           onChange={handleTypeOnChange}
-          inputProps={{
-            name: 'searchType',
-            id: 'searchType-simple',
-          }}
-          classes={{
-            root: classes.inputRoot,
-            select: classes.inputSelect,
-          }}
+          input={
+            <OutlinedInput
+              name="searchType"
+              id="searchType-simple"
+              className={classes.select}
+            />
+          }
         >
           <MenuItem value="and">AND</MenuItem>
           <MenuItem value="or">OR</MenuItem>
