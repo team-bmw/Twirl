@@ -3,9 +3,9 @@ const UPDATE_REMOVED_WORDS = 'UPDATE_REMOVED_WORDS';
 const EMPTY_REMOVED_WORDS = 'EMPTY_REMOVED_WORDS';
 
 // ACTION CREATORS
-export const updateRemovedWords = word => ({
+export const updateRemovedWords = words => ({
     type: UPDATE_REMOVED_WORDS,
-    word,
+    words,
 });
 
 export const emptyRemovedWords = () => ({
@@ -13,18 +13,16 @@ export const emptyRemovedWords = () => ({
 });
 
 // INITIAL STATE
-const initialState = {
-    removedWords: [],
-};
+const initialState = [];
 
 // REDUCER
-export const removed = (state = initialState, action) => {
+export const removedWords = (state = initialState, action) => {
     switch (action.type) {
         case UPDATE_REMOVED_WORDS: {
-            return { ...state, removedWords: action.word };
+            return action.words;
         }
         case EMPTY_REMOVED_WORDS: {
-            return { ...state, removedWords: [] };
+            return [];
         }
         default:
             return state;

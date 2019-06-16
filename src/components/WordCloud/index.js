@@ -16,6 +16,7 @@ import { endLoading, startLoading } from '../../reducers/loadingReducer';
 import { fetchSearches } from '../../reducers/searchesReducer';
 import ColorSpectrum from './ColorSpectrum';
 import PastSearches from '../PastSearches';
+import RemovedWords from '../RemovedWords';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -93,6 +94,7 @@ const WordCloud = props => {
           className={classes.cloudContainer}
         >
           <PastSearches />
+          <RemovedWords />
           {!wordcloudIsLoading && status === 'initial' && (
             <Message message="Please enter data" />
           )}

@@ -53,7 +53,6 @@ const WordPopover = ({
     wordcloudDataSuccess(filteredData);
     handleClose();
     updateRemovedWords(removed);
-    console.log(removed);
   };
 
   const addToSearch = () => {
