@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
+    labelFormatting: {
+        color: 'white',
+    },
 }));
 
 const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, emptySelectedTweets }) => {
@@ -49,8 +52,9 @@ const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, e
         <div>
             <form className={classes.root} autoComplete="off">
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="id-simple">Past Searches</InputLabel>
+                    <InputLabel className={classes.labelFormatting} htmlFor="id-simple">Past Searches</InputLabel>
                     <Select
+                        className={classes.labelFormatting}
                         value={values.search_id}
                         onChange={handleChange}
                         inputProps={{

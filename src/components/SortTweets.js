@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateSortBy } from '../reducers/sortReducer';
+import { updateSortBy, updateIsAscending } from '../reducers/sortReducer';
 import { updateSelectedTweets } from '../reducers/tweetsReducer';
 import { sortTweets } from '../helperFunctions';
 
@@ -25,9 +25,12 @@ const useStyles = makeStyles(theme => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
+    labelFormatting: {
+        color: 'white',
+    },
 }));
 
-const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
+const SortTweets = ({ selectedTweets, updateSortBy, updateSelectedTweets, updateIsAscending }) => {
 
     const classes = useStyles();
     const [values, setValues] = React.useState({
@@ -40,8 +43,8 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
             ...oldValues,
             [target.name]: target.value,
         }));
-        updateSelectedTweets(sortTweets(selectedTweets, target.value, values.ascendingSort));
         updateSortBy(target.value);
+        updateSelectedTweets(sortTweets(selectedTweets, target.value, values.ascendingSort));
     }
 
     const handleSwitch = () => {
@@ -49,6 +52,7 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
             ...oldValues,
             ascendingSort: !values.ascendingSort,
         }))
+        updateIsAscending();
         updateSelectedTweets(sortTweets(selectedTweets, values.sortBy, !values.ascendingSort));
     }
 
@@ -59,8 +63,9 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
                     <div>
                         <form className={classes.root} autoComplete="off">
                             <FormControl className={classes.formControl}>
-                                <InputLabel htmlFor="sortBy-simple">Sort By</InputLabel>
+                                <InputLabel className={classes.labelFormatting} htmlFor="sortBy-simple">Sort By</InputLabel>
                                 <Select
+                                    className={classes.labelFormatting}
                                     value={values.sortBy}
                                     onChange={handleChange}
                                     inputProps={{
@@ -87,7 +92,7 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
                                             id: 'ascendingSort-simple',
                                         }}
                                     /> : <Switch disabled />}
-                                    label="Descending"
+                                    label={values.ascendingSort ? 'Descending' : 'Ascending'}
                                     labelPlacement="top"
                                 />
                             </FormControl>
@@ -109,6 +114,7 @@ const mapDispatchToProps = dispatch => {
     return {
         updateSortBy: sortBy => dispatch(updateSortBy(sortBy)),
         updateSelectedTweets: tweets => dispatch(updateSelectedTweets(tweets)),
+        updateIsAscending: () => dispatch(updateIsAscending()),
     }
 }
 
