@@ -5,7 +5,7 @@ import { Typography } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    width: '70%',
+    width: '100%',
     height: theme.spacing(3),
     marginBottom: theme.spacing(2),
     alignItems: 'center',
@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     color: theme.palette.grey['50'],
+    padding: theme.spacing(0, 2),
   },
 }));
 
@@ -45,13 +46,17 @@ const ColorSpectrum = () => {
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.text}>Most Positive</Typography>
+      <Typography className={classes.text} variant="subtitle1">
+        Positive
+      </Typography>
       <div className={classes.best} />
       <div className={classes.good} />
       <div className={classes.normal} />
       <div className={classes.bad} />
       <div className={classes.worst} />
-      <Typography className={classes.text}>Most Negative</Typography>
+      <Typography className={classes.text} variant="subtitle1">
+        Negative
+      </Typography>
     </div>
   );
 };

@@ -23,6 +23,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(2),
     width: '100%',
+    [theme.breakpoints.up('lg')]: {
+      height: '90vh',
+    },
     // height: '90vh',
     transform: 'translateY(3.5rem)',
   },
@@ -40,7 +43,10 @@ const useStyles = makeStyles(theme => ({
     },
   },
   cloudContainer: {
-    height: '85vh',
+    [theme.breakpoints.up('lg')]: {
+      height: '75vh',
+    },
+    // height: '85vh',
   },
 }));
 
@@ -77,44 +83,43 @@ const WordCloud = props => {
   }, []);
 
   return (
-    <div>
+    <Grid
+      container
+      justify="center"
+      alignItems="flex-start"
+      className={classes.root}
+      spacing={1}
+    >
       <Grid
-        container
-        justify="center"
-        alignItems="flex-start"
-        className={classes.root}
-        spacing={1}
+        item
+        xs={12}
+        lg={9}
+        align="center"
+        className={classes.cloudContainer}
       >
-        <Grid
-          item
-          xs={12}
-          md={9}
-          xl={10}
-          align="center"
-          className={classes.cloudContainer}
-        >
+        <Grid container justify="space-between" alignItems="center">
           <PastSearches />
           <RemovedWords />
-          {!wordcloudIsLoading && status === 'initial' && (
-            <Message message="Please enter data" />
-          )}
-          {status === 'failed' && (
-            <Message message="Data fetched unsuccessfully. Please try again." />
-          )}
-          {wordcloudIsLoading && <Loading />}
-          {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
-          {status === 'fetched' && <ColorSpectrum />}
         </Grid>
-        {tweets.selectedTweets.length ? (
-          <Grid item xs={12} sm={6} md={3} xl={2}>
-            <SortTweets />
-            <div className={classes.tweetsList}>
-              <EmbeddedTweets />
-            </div>
-          </Grid>
-        ) : null}
+        {!wordcloudIsLoading && status === 'initial' && (
+          <Message message="Please enter data" />
+        )}
+        {status === 'failed' && (
+          <Message message="Data fetched unsuccessfully. Please try again." />
+        )}
+        {wordcloudIsLoading && <Loading />}
+        {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+        {status === 'fetched' && <ColorSpectrum />}
       </Grid>
-    </div>
+      {tweets.selectedTweets.length ? (
+        <Grid item xs={12} sm={6} lg={3}>
+          <SortTweets />
+          <div className={classes.tweetsList}>
+            <EmbeddedTweets />
+          </div>
+        </Grid>
+      ) : null}
+    </Grid>
   );
 };
 
