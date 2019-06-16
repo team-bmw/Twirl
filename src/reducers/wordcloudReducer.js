@@ -5,6 +5,7 @@ const WORDCLOUD_DATA_REQUEST = 'WORDCLOUD_DATA_REQUEST';
 const WORDCLOUD_DATA_FAILURE = 'WORDCLOUD_DATA_FAILURE';
 const WORDCLOUD_DATA_SUCCESS = 'WORDCLOUD_DATA_SUCCESS';
 const WORDCLOUD_RESET = 'WORDCLOUD_RESET';
+const ADD_WORD = 'ADD_WORD';
 
 // Action creators
 const wordcloudDataRequest = () => {
@@ -30,6 +31,11 @@ export const resetWordCloud = () => ({
   type: WORDCLOUD_RESET,
 });
 
+export const addWordToWordCloud = word => ({
+  type: ADD_WORD,
+  word,
+});
+
 const initialState = { status: 'initial', wordData: [] };
 
 // Reducer
@@ -43,6 +49,8 @@ export const wordcloudData = (state = initialState, action) => {
       return { status: 'fetched', wordData: action.wordData };
     case WORDCLOUD_RESET:
       return { status: 'initial', wordData: [] };
+    case ADD_WORD:
+      return { status: 'fetched', wordData: [...state.wordData, action.word] }
     default:
       return state;
   }
