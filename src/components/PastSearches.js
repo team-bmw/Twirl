@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { selectSearchId } from '../reducers/searchesReducer';
 import { fetchAdjectiveWordcloudData } from '../reducers/wordcloudReducer';
 import { emptySelectedTweets } from '../reducers/tweetsReducer';
+import { emptyRemovedWords } from '../reducers/removedReducer';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -25,9 +26,18 @@ const useStyles = makeStyles(theme => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
+    labelFormatting: {
+        color: 'white',
+    },
 }));
 
-const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, emptySelectedTweets }) => {
+const PastSearches = ({
+    selectSearchId,
+    fetchAdjectiveWordcloudData,
+    searches,
+    emptySelectedTweets,
+    emptyRemovedWords,
+}) => {
 
     const classes = useStyles();
     const [values, setValues] = React.useState({
@@ -42,6 +52,7 @@ const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, e
         selectSearchId(Number(target.value));
         fetchAdjectiveWordcloudData(Number(target.value));
         selectSearchId(target.value);
+        emptyRemovedWords();
         emptySelectedTweets();
     }
 
@@ -49,8 +60,9 @@ const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, e
         <div>
             <form className={classes.root} autoComplete="off">
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="id-simple">Past Searches</InputLabel>
+                    <InputLabel className={classes.labelFormatting} htmlFor="id-simple">Past Searches</InputLabel>
                     <Select
+                        className={classes.labelFormatting}
                         value={values.search_id}
                         onChange={handleChange}
                         inputProps={{
@@ -84,6 +96,7 @@ const mapDispatchToProps = dispatch => {
         selectSearchId: search_id => dispatch(selectSearchId(search_id)),
         fetchAdjectiveWordcloudData: search_id => dispatch(fetchAdjectiveWordcloudData(search_id)),
         emptySelectedTweets: () => dispatch(emptySelectedTweets()),
+        emptyRemovedWords: () => dispatch(emptyRemovedWords()),
     }
 }
 

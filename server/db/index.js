@@ -3,9 +3,8 @@ const Metadata = require('./Metadata');
 const User = require('./User');
 const db = require('./db');
 
-// TODO: is Metadata table even useful? Delete?
-Tweet.belongsTo(Metadata);
-Metadata.hasMany(Tweet);
+Metadata.belongsTo(User);
+User.hasMany(Metadata);
 
 const syncDb = () => {
   return db

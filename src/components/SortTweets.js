@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateSortBy } from '../reducers/sortReducer';
+import { updateSortBy, updateIsAscending } from '../reducers/sortReducer';
 import { updateSelectedTweets } from '../reducers/tweetsReducer';
 import { sortTweets } from '../helperFunctions';
 
@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
+import { withTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,9 +29,13 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  labelFormatting: {
+    color: 'white',
+  },
 }));
 
-const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
+const SortTweets = ({ selectedTweets, updateSortBy, updateSelectedTweets, updateIsAscending }) => {
+
   const classes = useStyles();
   const [values, setValues] = React.useState({
     sortBy: '',
@@ -52,62 +57,59 @@ const SortTweets = ({ selectedTweets, updateSelectedTweets }) => {
     setValues(oldValues => ({
       ...oldValues,
       ascendingSort: !values.ascendingSort,
-    }));
-    updateSelectedTweets(
-      sortTweets(selectedTweets, values.sortBy, !values.ascendingSort)
-    );
-  };
+    }))
+    updateIsAscending();
+    updateSelectedTweets(sortTweets(selectedTweets, values.sortBy, !values.ascendingSort));
+  }
 
   return (
     <div>
-      {selectedTweets.length > 0 ? (
-        <div>
-          <form className={classes.root} autoComplete="off">
-            <FormControl className={classes.sort}>
-              <InputLabel htmlFor="sortBy-simple">Sort By</InputLabel>
-              <Select
-                value={values.sortBy}
-                onChange={handleChange}
-                inputProps={{
-                  name: 'sortBy',
-                  id: 'sortBy-simple',
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="numRetweets">Number of Retweets</MenuItem>
-                <MenuItem value="numFollowers">Number of Followers</MenuItem>
-                <MenuItem value="twitterId">Most Recent</MenuItem>
-                <MenuItem value="isVerified">Verified Users</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl className={classes.descending}>
-              <FormControlLabel
-                htmlFor="ascendingSort-simple"
-                control={
-                  values.sortBy ? (
-                    <Switch
-                      onChange={handleSwitch}
-                      inputProps={{
-                        'aria-label': 'Switch A',
-                        id: 'ascendingSort-simple',
-                      }}
-                    />
-                  ) : (
-                    <Switch disabled />
-                  )
-                }
-                label="Descending"
-                labelPlacement="start"
-              />
-            </FormControl>
-          </form>
-        </div>
-      ) : null}
-    </div>
-  );
-};
+      {
+        selectedTweets.length > 0 ?
+          <div>
+            <form className={classes.root} autoComplete="off">
+              <FormControl className={classes.sort}>
+                <InputLabel className={classes.labelFormatting} htmlFor="sortBy-simple">Sort By</InputLabel>
+                <Select
+                  className={classes.labelFormatting}
+                  value={values.sortBy}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: 'sortBy',
+                    id: 'sortBy-simple',
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="numRetweets">Number of Retweets</MenuItem>
+                  <MenuItem value="numFollowers">Number of Followers</MenuItem>
+                  <MenuItem value="twitterId">Most Recent</MenuItem>
+                  <MenuItem value="isVerified">Verified Users</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className={classes.descending}>
+                <FormControlLabel
+                  className={classes.labelFormatting}
+                  htmlFor="ascendingSort-simple"
+                  control={values.sortBy ? <Switch
+                    onChange={handleSwitch}
+                    inputProps={{
+                      'aria-label': 'Switch A',
+                      id: 'ascendingSort-simple',
+                    }}
+                  /> : <Switch disabled />}
+                  label={values.ascendingSort ? 'Ascending' : 'Descending'}
+                  labelPlacement="start"
+                />
+              </FormControl>
+            </form>
+          </div>
+          : null
+      }
+    </div >
+  )
+}
 
 const mapStateToProps = ({ tweets }) => {
   return {
@@ -119,8 +121,9 @@ const mapDispatchToProps = dispatch => {
   return {
     updateSortBy: sortBy => dispatch(updateSortBy(sortBy)),
     updateSelectedTweets: tweets => dispatch(updateSelectedTweets(tweets)),
-  };
-};
+    updateIsAscending: () => dispatch(updateIsAscending()),
+  }
+}
 
 export default connect(
   mapStateToProps,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { sortTweets } from '../../helperFunctions';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -20,6 +21,7 @@ import {
 } from '../../reducers/wordcloudReducer';
 import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
 import { addRemovedWord } from '../../reducers/removedReducer';
+import { updateSortBy } from '../../reducers/sortReducer';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -37,7 +39,10 @@ const WordPopover = ({
   fetchSearches,
   selectSearchId,
   addRemovedWord,
+  updateSortBy,
   searches,
+  sortBy,
+  isAscending,
   history,
 }) => {
   const classes = useStyles();
@@ -51,12 +56,12 @@ const WordPopover = ({
   const removeWord = () => {
     handleClose();
     removed.push(selectedCloudWord);
-
     const filteredData = wordData.filter(
       wordObj => wordObj.text !== selectedCloudWord.text
     );
     wordcloudDataSuccess(filteredData);
     addRemovedWord(selectedCloudWord);
+    handleClose();
   };
 
   const addToSearch = () => {
@@ -99,6 +104,8 @@ const WordPopover = ({
         <ListItem
           button
           onClick={() => {
+            updateSelectedTweets(sortTweets(selectedCloudWord.tweetData, sortBy, isAscending));
+            updateSortBy('');
             handleClose();
             updateSelectedTweets(selectedCloudWord.tweetData);
           }}
@@ -112,15 +119,17 @@ const WordPopover = ({
           <ListItemText primary="Add to Search" />
         </ListItem>
       </List>
-    </Popover>
+    </Popover >
   );
 };
 
-const mapStateToProps = ({ wordElement, wordcloudData, searches }) => {
+const mapStateToProps = ({ wordElement, wordcloudData, searches, sortBy, isAscending }) => {
   return {
     wordElement,
     wordcloudData,
     searches,
+    sortBy,
+    isAscending,
   };
 };
 
@@ -135,6 +144,7 @@ export default withRouter(
       fetchSearches,
       selectSearchId,
       addRemovedWord,
+      updateSortBy,
     }
   )(WordPopover)
 );
