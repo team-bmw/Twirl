@@ -12,7 +12,7 @@ router.post('/search/:searchType', (req, res, next) => {
   Metadata.findAll()
     .then(metadata => metadata.map(search => search.search_id))
     .then(ids => { return ids.length ? Math.max(...ids) : 0 })
-    .then(lastSearchId => fetchTweets(req.body.query, 80, lastSearchId, req.params.searchType)
+    .then(lastSearchId => fetchTweets(req.body.query, 500, lastSearchId, req.params.searchType)
       .then(search_id => res.send(`${search_id}`)));
 })
 
