@@ -23,5 +23,6 @@ export default createMuiTheme({
       default: blue[500],
     },
     default: grey[50],
+    blue,
   },
 });

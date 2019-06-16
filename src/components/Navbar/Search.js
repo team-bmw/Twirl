@@ -104,7 +104,7 @@ const Search = ({
       axios
         .post(`/api/tweets/search/${searchType}`, { query: searchText })
         .then(search_id => {
-          fetchAdjectiveWordcloudData(search_id.data);
+          fetchAdjectiveWordcloudData(search_id.data, searchText);
           selectSearchId(search_id.data);
         })
         .then(() => fetchSearches());

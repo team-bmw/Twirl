@@ -10,18 +10,20 @@ import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
 import SortTweets from '../SortTweets';
-import Sidebar from '../Sidebar';
 
 import { fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 import { endLoading, startLoading } from '../../reducers/loadingReducer';
 import { fetchSearches } from '../../reducers/searchesReducer';
+import ColorSpectrum from './ColorSpectrum';
+import PastSearches from '../PastSearches';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(2),
     width: '100%',
-    height: '100vh',
+    // height: '90vh',
+    transform: 'translateY(3.5rem)',
   },
   input: {
     marginTop: theme.spacing(4),
@@ -60,7 +62,6 @@ const WordCloud = props => {
   }, [tweets, status]);
 
   useEffect(() => {
-    // search page with no searchText
     if (!props.loading.wordcloudIsLoading && params.searchText) {
       props.startLoading('wordcloudIsLoading');
       console.log(params.searchText);
@@ -70,20 +71,18 @@ const WordCloud = props => {
         })
         .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
         .then(() => fetchSearches());
-      props.history.push(
-        `/search/${params.searchType}/${params.searchText}`
-      );
+      props.history.push(`/search/${params.searchType}/${params.searchText}`);
     }
   }, []);
 
   return (
     <div>
-      <Sidebar />
       <Grid
         container
         justify="center"
-        alignItems="center"
+        alignItems="flex-start"
         className={classes.root}
+        spacing={1}
       >
         <Grid
           item
@@ -93,6 +92,7 @@ const WordCloud = props => {
           align="center"
           className={classes.cloudContainer}
         >
+          <PastSearches />
           {!wordcloudIsLoading && status === 'initial' && (
             <Message message="Please enter data" />
           )}
@@ -101,9 +101,10 @@ const WordCloud = props => {
           )}
           {wordcloudIsLoading && <Loading />}
           {status === 'fetched' && <WordCloudComponent wordData={wordData} />}
+          {status === 'fetched' && <ColorSpectrum />}
         </Grid>
         {tweets.selectedTweets.length ? (
-          <Grid item xs={12} sm={6} md={3} xl={2} align="center">
+          <Grid item xs={12} sm={6} md={3} xl={2}>
             <SortTweets />
             <div className={classes.tweetsList}>
               <EmbeddedTweets />

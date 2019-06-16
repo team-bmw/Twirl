@@ -31,6 +31,7 @@ const createQueryString = (q, searchType) => {
 // get next set of tweets and save to database (also save metadata)
 const getTweets = async (q, count, search_id, searchType, max_id = null) => {
 
+  console.log(createQueryString(q, searchType));
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,

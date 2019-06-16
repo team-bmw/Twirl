@@ -48,13 +48,13 @@ const WordPopover = ({
   };
 
   const addToSearch = () => {
-    const currentQuery = searches.searches.filter(search => search.search_id === searches.search_id);
+    const currentQuery = searches.searches.find(search => search.search_id === searches.search_id).query;
     console.log(currentQuery);
     axios
       .post(`/api/tweets/search/and`, { query: `${currentQuery} ${selectedCloudWord.text}` })
       .then(search_id => {
-        fetchAdjectiveWordcloudData(search_id.data);
-        selectSearchId(search_id)
+        fetchAdjectiveWordcloudData(search_id.data, selectedCloudWord.text);
+        selectSearchId(search_id.data)
       })
       .then(() => fetchSearches());
     //history.push(`/search/${selectedCloudWord.text}`);

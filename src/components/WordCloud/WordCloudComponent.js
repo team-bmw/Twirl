@@ -4,7 +4,10 @@ import ReactWordcloud from 'react-wordcloud';
 
 import { useTheme } from '@material-ui/styles';
 
-import { selectWordElement, selectCloudWord } from '../../reducers/wordElementReducer';
+import {
+  selectWordElement,
+  selectCloudWord,
+} from '../../reducers/wordElementReducer';
 
 import WordPopover from './WordPopover';
 
@@ -13,7 +16,7 @@ const WordCloudComponent = props => {
   const theme = useTheme();
   const {
     typography,
-    palette: { text, grey },
+    palette: { grey, blue },
   } = theme;
 
   const callbacks = {
@@ -28,11 +31,11 @@ const WordCloudComponent = props => {
       }, 0);
       const sentimentAverage = sentimentSum / tweetData.length;
 
-      if (sentimentAverage > 1) return grey['50'];
-      else if (sentimentAverage > 0.7) return grey['200'];
-      else if (sentimentAverage > 0.4) return grey['400'];
-      else if (sentimentAverage > 0) return grey['700'];
-      else return grey['900'];
+      if (sentimentAverage > 0.8) return grey['50'];
+      else if (sentimentAverage > 0.6) return blue['100'];
+      else if (sentimentAverage > 0.4) return blue['300'];
+      else if (sentimentAverage > 0.2) return blue['700'];
+      else return blue['900'];
     },
   };
 
@@ -41,7 +44,6 @@ const WordCloudComponent = props => {
       <ReactWordcloud
         words={wordData}
         options={{
-          colors: [grey['50'], text.secondary, text.hint, text.disabled],
           fontFamily: typography.body1.fontFamily,
           fontSizes: [25, 130],
           fontStyle: 'normal',
@@ -60,9 +62,7 @@ const WordCloudComponent = props => {
   );
 };
 
-const mapStateToProps = state => state;
-
 export default connect(
   null,
-  { selectWordElement, selectCloudWord}
+  { selectWordElement, selectCloudWord }
 )(WordCloudComponent);
