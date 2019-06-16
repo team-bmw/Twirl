@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   search: {
     flexGrow: 1,
     marginRight: theme.spacing(1),
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(1),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

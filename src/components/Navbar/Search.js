@@ -3,12 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
+import {
+  InputBase,
+  Select,
+  MenuItem,
+  FormControl,
+  OutlinedInput,
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 
 import {
   fetchAdjectiveWordcloudData,
@@ -32,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
   searchIcon: {
     color: theme.palette.primary.main,
-    width: theme.spacing(7),
+    width: theme.spacing(5),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -44,18 +46,20 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.main,
   },
   inputInput: {
-    padding: theme.spacing(1.5, 1.5, 1.5, 7),
+    padding: theme.spacing(1.5, 1.5, 1.5, 5),
     transition: theme.transitions.create('width'),
-    width: '100%',
+    width: 50,
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
+    },
     [theme.breakpoints.up('md')]: {
       width: 250,
     },
   },
-  inputSelect: {
-    padding: theme.spacing(1.5, 0.5, 1.5, 7),
+  selectInput: {
+    padding: theme.spacing(1.5, 3, 1.5, 1.5),
     transition: theme.transitions.create('width'),
-    width: '10%',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.down('xs')]: {
       width: 25,
     },
   },
@@ -124,22 +128,24 @@ const Search = ({
         onChange={handleTextOnChange}
         value={searchText}
       />
-      <FormControl className={classes.search}>
+      <FormControl variant="outlined" >
         <Select
           value={searchType}
           onChange={handleTypeOnChange}
-          inputProps={{
-            name: 'searchType',
-            id: 'searchType-simple',
-          }}
-          classes={{
-            root: classes.inputRoot,
-            select: classes.inputSelect,
-          }}
+          input={
+            <OutlinedInput
+              name="searchType"
+              id="searchType-simple"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.selectInput,
+              }}
+            />
+          }
         >
           <MenuItem value="and">AND</MenuItem>
           <MenuItem value="or">OR</MenuItem>
-          <MenuItem value="or">EXACT</MenuItem>
+          <MenuItem value="exact">EXACT</MenuItem>
           <MenuItem value="mention">@</MenuItem>
           <MenuItem value="hashtag">#</MenuItem>
           <MenuItem value="userTo">TO</MenuItem>
