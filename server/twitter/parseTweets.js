@@ -71,7 +71,7 @@ const tweetsToWordFrequencies = tweets => {
 
     return Object.keys(freqObj).reduce((arr, word) => {
 
-        if (freqObj[word].value > 3 && filterWords(word)) {
+        if (freqObj[word].value > 5 && filterWords(word)) {
             arr.push(freqObj[word]);
         }
 

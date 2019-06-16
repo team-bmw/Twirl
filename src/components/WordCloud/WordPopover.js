@@ -15,6 +15,7 @@ import { updateSelectedTweets } from '../../reducers/tweetsReducer';
 import { selectWordElement } from '../../reducers/wordElementReducer';
 import { wordcloudDataSuccess, fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
+import { addRemovedWord } from '../../reducers/removedReducer';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -31,25 +32,31 @@ const WordPopover = ({
   fetchAdjectiveWordcloudData,
   fetchSearches,
   selectSearchId,
+  addRemovedWord,
   searches,
 }) => {
   const classes = useStyles();
+
+  const [removed, setRemoved] = React.useState([]);
 
   const handleClose = () => {
     selectWordElement(null);
   };
 
   const removeWord = () => {
+
+    removed.push(selectedCloudWord);
+
     const filteredData = wordData.filter(
       wordObj => wordObj.text !== selectedCloudWord.text
     );
     wordcloudDataSuccess(filteredData);
     handleClose();
+    addRemovedWord(selectedCloudWord);
   };
 
   const addToSearch = () => {
     const currentQuery = searches.searches.find(search => search.search_id === searches.search_id).query;
-    console.log(currentQuery);
     axios
       .post(`/api/tweets/search/and`, { query: `${currentQuery} ${selectedCloudWord.text}` })
       .then(search_id => {
@@ -116,5 +123,6 @@ export default connect(
     fetchAdjectiveWordcloudData,
     fetchSearches,
     selectSearchId,
+    addRemovedWord,
   }
 )(WordPopover);
