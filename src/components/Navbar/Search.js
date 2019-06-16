@@ -32,16 +32,9 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: fade(theme.palette.common.white, 1),
     },
   },
-  control: {
-    height: 43,
-  },
-  select: {
-    height: '100%',
-    borderColor: theme.palette.primary.main,
-  },
   searchIcon: {
     color: theme.palette.primary.main,
-    width: theme.spacing(7),
+    width: theme.spacing(5),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -53,14 +46,21 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.main,
   },
   inputInput: {
-    padding: theme.spacing(1.5, 1.5, 1.5, 7),
+    padding: theme.spacing(1.5, 1.5, 1.5, 5),
     transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('xs')]: {
-      width: 50,
+    width: 50,
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
     },
     [theme.breakpoints.up('md')]: {
-      width: 200,
+      width: 250,
+    },
+  },
+  selectInput: {
+    padding: theme.spacing(1.5, 3, 1.5, 1.5),
+    transition: theme.transitions.create('width'),
+    [theme.breakpoints.down('xs')]: {
+      width: 25,
     },
   },
 }));
@@ -128,7 +128,7 @@ const Search = ({
         onChange={handleTextOnChange}
         value={searchText}
       />
-      <FormControl variant="outlined" className={classes.control}>
+      <FormControl variant="outlined" >
         <Select
           value={searchType}
           onChange={handleTypeOnChange}
@@ -136,13 +136,16 @@ const Search = ({
             <OutlinedInput
               name="searchType"
               id="searchType-simple"
-              className={classes.select}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.selectInput,
+              }}
             />
           }
         >
           <MenuItem value="and">AND</MenuItem>
           <MenuItem value="or">OR</MenuItem>
-          <MenuItem value="or">EXACT</MenuItem>
+          <MenuItem value="exact">EXACT</MenuItem>
           <MenuItem value="mention">@</MenuItem>
           <MenuItem value="hashtag">#</MenuItem>
           <MenuItem value="userTo">TO</MenuItem>
