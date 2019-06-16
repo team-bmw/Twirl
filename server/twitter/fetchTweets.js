@@ -4,34 +4,14 @@
 
 const { Tweet, Metadata } = require('../db/index');
 const { scoreTweetSentiment } = require('./classifyTweets');
+const { createQueryString, getNextMaxId } = require('./helperFunctions');
 
 const client = require('./twitterSetup');
 
-// // parse "next_results" string from search_metadata to get max_id term for next search
-const getNextMaxId = str => {
-  if (str) {
-    const terms = str.replace('?', '').split('&');
-    const maxIdTerm = terms.find(term => term.includes('max_id'));
-    return maxIdTerm ? maxIdTerm.split('=')[1] : null;
-  } else {
-    return -1;
-  }
-};
 
-const createQueryString = (q, searchType) => {
-  if (searchType === 'or') return q.split(' ').join(' OR ');
-  if (searchType === 'exact') return `"${q}"`;
-  if (searchType === 'hashtag') return `#${q}`;
-  if (searchType === 'userFrom') return `from:${q}`;
-  if (searchType === 'userTo') return `to:${q}`;
-  if (searchType === 'mention') return `@${q}`;
-  return q;
-};
 
 // get next set of tweets and save to database (also save metadata)
 const getTweets = async (q, count, search_id, searchType, max_id = null) => {
-
-  console.log(createQueryString(q, searchType));
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,
