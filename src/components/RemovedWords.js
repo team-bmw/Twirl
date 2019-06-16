@@ -36,12 +36,10 @@ const RemovedWords = ({
     }
 
     const handleDeleteAll = () => {
-        emptyRemovedWords();
-    }
-
-    const handleAddAll = () => {
-        wordCloudData.forEach(word => addRemovedWord(word));
-        wordcloudDataSuccess([]);
+        removedWords.forEach(word => {
+            addWordToWordCloud(word);
+            deleteRemovedWord(word);
+        })
     }
 
     return (
@@ -66,13 +64,7 @@ const RemovedWords = ({
                         color="secondary"
                     />
                 </div>
-                : <Chip
-                    label="Remove All"
-                    onDelete={handleAddAll}
-                    className={classes.chip}
-                    color="secondary"
-                />}
-
+                : null}
         </Grid>
     )
 }

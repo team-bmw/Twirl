@@ -14,10 +14,6 @@ export const deleteRemovedWord = word => ({
     word,
 })
 
-export const emptyRemovedWords = () => ({
-    type: EMPTY_REMOVED_WORDS,
-});
-
 // INITIAL STATE
 const initialState = [];
 
@@ -29,9 +25,6 @@ export const removedWords = (state = initialState, action) => {
         }
         case DELETE_REMOVED_WORD: {
             return [...state].filter(word => word.text !== action.word.text);
-        }
-        case EMPTY_REMOVED_WORDS: {
-            return [];
         }
         default:
             return state;
