@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { selectSearchId } from '../reducers/searchesReducer';
 import { fetchAdjectiveWordcloudData } from '../reducers/wordcloudReducer';
 import { emptySelectedTweets } from '../reducers/tweetsReducer';
+import { emptyRemovedWords } from '../reducers/removedReducer';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -30,7 +31,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, emptySelectedTweets }) => {
+const PastSearches = ({
+    selectSearchId,
+    fetchAdjectiveWordcloudData,
+    searches,
+    emptySelectedTweets,
+    emptyRemovedWords,
+}) => {
 
     const classes = useStyles();
     const [values, setValues] = React.useState({
@@ -45,6 +52,7 @@ const PastSearches = ({ selectSearchId, fetchAdjectiveWordcloudData, searches, e
         selectSearchId(Number(target.value));
         fetchAdjectiveWordcloudData(Number(target.value));
         selectSearchId(target.value);
+        emptyRemovedWords();
         emptySelectedTweets();
     }
 
@@ -88,6 +96,7 @@ const mapDispatchToProps = dispatch => {
         selectSearchId: search_id => dispatch(selectSearchId(search_id)),
         fetchAdjectiveWordcloudData: search_id => dispatch(fetchAdjectiveWordcloudData(search_id)),
         emptySelectedTweets: () => dispatch(emptySelectedTweets()),
+        emptyRemovedWords: () => dispatch(emptyRemovedWords()),
     }
 }
 
