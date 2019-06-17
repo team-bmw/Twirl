@@ -5,16 +5,16 @@ const tweetsToLineChartData = async (tweets, query) => {
     const wordFreq = await adjectivesToWordFrequencies(tweets, query);
     return wordFreq.map(word => {
         const dateCount = word.tweetData.reduce((acc, tweet) => {
-            if (acc[tweet.twitterDate]) {
-                ++acc[tweet.twitterDate];
+            const dateString = new Date(`${tweet.twitterDate}`).toLocaleDateString().split('/').join('-');
+            if (acc[dateString]) {
+                ++acc[dateString];
             } else {
-                acc[tweet.twitterDate] = 1;
+                acc[dateString] = 1;
             }
 
             return acc;
         }, {})
 
-        console.log(dateCount)
         return {
             id: word.text,
             data: Object.keys(dateCount).map(date => {

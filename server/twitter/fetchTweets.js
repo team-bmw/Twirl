@@ -38,6 +38,7 @@ const getTweets = async (q, count, search_id, searchType, max_id = null) => {
         sentiment: scoreTweetSentiment(element.full_text),
         twitterId: `${element.id_str}`,
         twitterUserId: element.user.id,
+        twitterDate: element.created_at,
         twitterScreenName: element.user.screen_name,
         search_id,
       }).catch(() => {

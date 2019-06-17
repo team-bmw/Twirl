@@ -32,7 +32,7 @@ const Tweet = db.define('tweets', {
         type: db.Sequelize.FLOAT,
     },
     twitterDate: {
-        type: db.Sequelize.STRING,
+        type: db.Sequelize.DATE,
     },
     twitterId: {
         type: db.Sequelize.STRING,

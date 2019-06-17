@@ -40,7 +40,7 @@ const getTimedTweets = async (q, count, search_id, searchType, startDate, endDat
                 twitterId: `${element.id_str}`,
                 twitterUserId: element.user.id,
                 twitterScreenName: element.user.screen_name,
-                twitterDate: new Date(`${element.created_at}`).toLocaleDateString().split('/').join('-'),
+                twitterDate: element.created_at,
                 search_id,
             }).catch(() => {
                 --counter;
