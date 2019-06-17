@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   InputBase,
@@ -12,14 +11,10 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-import {
-  fetchAdjectiveWordcloudData,
-  resetWordCloud,
-} from '../../reducers/wordcloudReducer';
+import { resetWordCloud } from '../../reducers/wordcloudReducer';
 import { startLoading } from '../../reducers/loadingReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
-import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
-import { fetchAdjectiveLineChartData } from '../../reducers/lineChartReducer';
+import { searchRequest } from '../../reducers/thunks';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,13 +65,10 @@ const Search = ({
   match,
   location,
   history,
-  fetchAdjectiveWordcloudData,
-  fetchAdjectiveLineChartData,
   startLoading,
   resetWordCloud,
   emptySelectedTweets,
-  fetchSearches,
-  selectSearchId,
+  searchRequest,
 }) => {
   const classes = useStyles();
   const [searchText, setSearchText] = useState('');
@@ -103,20 +95,7 @@ const Search = ({
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
-      axios
-        .post(`/api/tweets/search/${searchType}`, { query: searchText })
-        .then(search_id => {
-          fetchAdjectiveWordcloudData(search_id.data, searchText);
-          selectSearchId(search_id.data);
-        })
-        .then(() => fetchSearches())
-        .then(() => axios.
-          post(`/api/tweets/search/timed/${searchType}`, { query: searchText })
-          .then(search_id => {
-            fetchAdjectiveLineChartData(search_id.data, searchText);
-            selectSearchId(search_id.data);
-          })
-        );
+      searchRequest(searchType, searchText);
       history.push(`/search/${searchType}/${searchText}`);
     }
   };
@@ -137,7 +116,7 @@ const Search = ({
         onChange={handleTextOnChange}
         value={searchText}
       />
-      <FormControl variant="outlined" >
+      <FormControl variant="outlined">
         <Select
           value={searchType}
           onChange={handleTypeOnChange}
@@ -168,13 +147,10 @@ export default withRouter(
   connect(
     null,
     {
-      fetchAdjectiveWordcloudData,
-      fetchAdjectiveLineChartData,
       startLoading,
       resetWordCloud,
       emptySelectedTweets,
-      fetchSearches,
-      selectSearchId,
+      searchRequest,
     }
   )(Search)
 );
