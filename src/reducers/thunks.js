@@ -17,7 +17,7 @@ export const searchRequest = (searchType, searchText) => {
       .post(`/api/tweets/search/timed/${searchType}`, {query: searchText}))
       .then(response => response.data)
       .then(searchId => {
-        dispatch(selectSearchId(searchId));
+        // dispatch(selectSearchId(searchId));
         dispatch(fetchAdjectiveLineChartData(searchId, searchText));
       })
       .catch(ex => console.error(ex))

@@ -69,7 +69,6 @@ const WordPopover = ({
     const currentQuery = searches.searches.find(
       search => search.search_id === searches.search_id
     ).query;
-    console.log(currentQuery)
     axios
       .post(`/api/tweets/search/and`, {
         query: `${currentQuery} ${selectedCloudWord.text}`,
