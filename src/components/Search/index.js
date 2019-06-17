@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core/';
@@ -12,13 +11,12 @@ import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
 import SortTweets from '../SortTweets';
 
-import { fetchAdjectiveWordcloudData } from '../../reducers/wordcloudReducer';
 import { endLoading, startLoading } from '../../reducers/loadingReducer';
-import { fetchSearches } from '../../reducers/searchesReducer';
 import ColorSpectrum from './ColorSpectrum';
 import PastSearches from '../PastSearches';
 import RemovedWords from '../RemovedWords';
 import DisplaySwitch from './DisplaySwitch';
+import { searchRequest } from '../../reducers/thunks';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// eslint-disable-next-line complexity
 const Search = props => {
   const classes = useStyles();
 
@@ -61,8 +60,7 @@ const Search = props => {
     loading: { wordcloudIsLoading },
     wordcloudData: { status, wordData },
     endLoading,
-    fetchAdjectiveWordcloudData,
-    fetchSearches,
+    searchRequest,
   } = props;
 
   useEffect(() => {
@@ -73,13 +71,7 @@ const Search = props => {
   useEffect(() => {
     if (!props.loading.wordcloudIsLoading && params.searchText) {
       props.startLoading('wordcloudIsLoading');
-      console.log(params.searchText);
-      axios
-        .post(`/api/tweets/search/${params.searchType}`, {
-          query: params.searchText,
-        })
-        .then(search_id => fetchAdjectiveWordcloudData(search_id.data))
-        .then(() => fetchSearches());
+      searchRequest(params.searchType, params.searchText);
       props.history.push(`/search/${params.searchType}/${params.searchText}`);
     }
   }, []);
@@ -141,5 +133,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { endLoading, startLoading, fetchAdjectiveWordcloudData, fetchSearches }
+  { endLoading, startLoading, searchRequest }
 )(Search);
