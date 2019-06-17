@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const { fetchTweets } = require('../twitter/fetchTweets');
+const { fetchTimedTweets } = require('../twitter/fetchTimedTweets');
 const {
   adjectivesToWordFrequencies,
   nounsToWordFrequencies,
 } = require('../twitter/parseTweets');
+const { tweetsToLineChartData } = require('../twitter/lineChartData');
 const { Tweet, Metadata } = require('../db/index');
 
-// Routes to fetch data from twitter
-
+// Fetch data from twitter (500 most recent)
 router.post('/search/:searchType', (req, res, next) => {
   Metadata.findAll()
     .then(metadata => metadata.map(search => search.search_id))
@@ -16,6 +17,15 @@ router.post('/search/:searchType', (req, res, next) => {
       .then(search_id => res.send(`${search_id}`)));
 })
 
+// Fetch data from twitter (100 per day for past 7 days)
+router.post('/search/timed/:searchType', (req, res, next) => {
+  Metadata.findAll()
+    .then(metadata => metadata.map(search => search.search_id))
+    .then(ids => { return ids.length ? Math.max(...ids) : 0 })
+    .then(lastSearchId => fetchTimedTweets(req.body.query, lastSearchId, req.params.searchType)
+      .then(search_id => res.send(`${search_id}`)));
+});
+
 router.get('/:query', (req, res, next) => {
   Tweet.findAll({
     where: {
@@ -23,8 +33,6 @@ router.get('/:query', (req, res, next) => {
     },
   }).then(tweets => res.send(tweets));
 });
-
-// Routes returning word frequencies
 
 // fetch adjective word frequency objects
 router.get('/adjectives/:searchId/:query', (req, res, next) => {
@@ -50,5 +58,18 @@ router.get('/nouns/:searchId/:query', (req, res, next) => {
     .then(noun => res.send(noun))
     .catch(next);
 });
+
+// fetch line chart data (adjectives)
+router.get('/adjectives/lineChart/:searchId/:query', (req, res, next) => {
+  Tweet.findAll({
+    where: {
+      search_id: Number(req.params.searchId),
+    },
+  })
+    .then(tweets => tweetsToLineChartData(tweets, req.params.query))
+    .then(lineChartData => res.send(lineChartData))
+    .catch(next);
+})
+
 
 module.exports = router;

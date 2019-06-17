@@ -1,39 +1,42 @@
 
+// Purpose: Parse tweet data, transforming it into word objects
+
 const WordPOS = require('wordpos');
 const wordpos = new WordPOS();
-
-// Helper functions to parse tweets
 
 // scrubText: strip out non-alpha-numeric characters
 const scrubText = str => {
     return str.replace(/[^a-z ]/gi, '').toLowerCase();
 }
 
+// getAdjectivesFromText: return a filtered string containing only adjectives from the input string
 const getAdjectivesFromText = async str => {
     const w = await wordpos.getAdjectives(str)
         .then(words => words.join(' '));
     return w;
 };
 
+// getNounsFromText: return a filtered string containing only nouns from the input string
 const getNounsFromText = str => {
     return wordpos.getNouns(str)
         .then(words => words.join(' '));
 };
 
 // tweetsToString: turn array of Tweet objects into string of tweet text
-const tweetsToString = tweets => {
-    return tweets.reduce((str, tweet) => {
-        str += tweet.text;
-        return str;
-    }, '');
-};
+// const tweetsToString = tweets => {
+//     return tweets.reduce((str, tweet) => {
+//         str += tweet.text;
+//         return str;
+//     }, '');
+// };
 
+// filterWords: filter words for wordCloudd
 const filterWords = word => {
     return !(word.length < 3 || word.length > 15)
 }
 
 // tweetsToWordFrequencies: turn array of Tweet objects into word frequency objects
-const tweetsToWordFrequencies = tweets => {
+const tweetsToWordFrequencies = (tweets, threshold = 5) => {
 
     const freqObj = tweets.reduce((freq, tweet) => {
 
@@ -49,9 +52,9 @@ const tweetsToWordFrequencies = tweets => {
             sentiment: tweet.sentiment,
             location: tweet.location,
             twitterScreenName: tweet.twitterScreenName,
+            twitterDate: tweet.twitterDate,
         };
 
-        //console.log(tweets.text)
         const words = scrubText(tweet.text).split(' ');
 
         return words.reduce((tweetFreq, word) => {
@@ -71,7 +74,7 @@ const tweetsToWordFrequencies = tweets => {
 
     return Object.keys(freqObj).reduce((arr, word) => {
 
-        if (freqObj[word].value > 5 && filterWords(word)) {
+        if (freqObj[word].value > threshold && filterWords(word)) {
             arr.push(freqObj[word]);
         }
 
@@ -79,6 +82,7 @@ const tweetsToWordFrequencies = tweets => {
     }, []);
 };
 
+// adjectivesToWordFrequencies: turn array of Tweet objects into word frequency objects, keeping only adjectives
 const adjectivesToWordFrequencies = async (tweets, query) => {
     const adjTweets = [];
     for (let i = 0; i < tweets.length; i++) {
@@ -88,9 +92,10 @@ const adjectivesToWordFrequencies = async (tweets, query) => {
             adjTweets.push(tweets[i]);
         }
     }
-    return tweetsToWordFrequencies(adjTweets).filter(adj => !query.split(' ').includes(adj.text));
+    return tweetsToWordFrequencies(adjTweets)//.filter(adj => !query.split(' ').includes(adj.text));
 }
 
+// nounsToWordFrequencies: turn array of Tweet objects into word frequency objects, keeping only nouns
 const nounsToWordFrequencies = async (tweets, query) => {
     const nounTweets = [];
     for (let i = 0; i < tweets.length; i++) {
@@ -105,7 +110,6 @@ const nounsToWordFrequencies = async (tweets, query) => {
 
 module.exports = {
     tweetsToWordFrequencies,
-    tweetsToString,
     adjectivesToWordFrequencies,
     nounsToWordFrequencies,
 }

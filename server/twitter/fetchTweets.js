@@ -1,37 +1,15 @@
-/* eslint-disable no-return-await */
-/* eslint-disable handle-callback-err */
-/* eslint-disable camelcase */
+
+// Purpose: Fetch most recent tweets for a given query string
 
 const { Tweet, Metadata } = require('../db/index');
 const { scoreTweetSentiment } = require('./classifyTweets');
+const { createQueryString, getNextMaxId } = require('./helperFunctions');
 
 const client = require('./twitterSetup');
 
-// // parse "next_results" string from search_metadata to get max_id term for next search
-const getNextMaxId = str => {
-  if (str) {
-    const terms = str.replace('?', '').split('&');
-    const maxIdTerm = terms.find(term => term.includes('max_id'));
-    return maxIdTerm ? maxIdTerm.split('=')[1] : null;
-  } else {
-    return -1;
-  }
-};
-
-const createQueryString = (q, searchType) => {
-  if (searchType === 'or') return q.split(' ').join(' OR ');
-  if (searchType === 'exact') return `"${q}"`;
-  if (searchType === 'hashtag') return `#${q}`;
-  if (searchType === 'userFrom') return `from:${q}`;
-  if (searchType === 'userTo') return `to:${q}`;
-  if (searchType === 'mention') return `@${q}`;
-  return q;
-};
-
-// get next set of tweets and save to database (also save metadata)
+// getTweets: fetch next 100 tweets and save to database
 const getTweets = async (q, count, search_id, searchType, max_id = null) => {
 
-  console.log(createQueryString(q, searchType));
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,
@@ -60,6 +38,7 @@ const getTweets = async (q, count, search_id, searchType, max_id = null) => {
         sentiment: scoreTweetSentiment(element.full_text),
         twitterId: `${element.id_str}`,
         twitterUserId: element.user.id,
+        twitterDate: element.created_at,
         twitterScreenName: element.user.screen_name,
         search_id,
       }).catch(() => {
@@ -73,14 +52,15 @@ const getTweets = async (q, count, search_id, searchType, max_id = null) => {
       next_id: nextMaxId,
       search_id,
     });
+
   } else {
+
     counter = 500;
   }
   return Promise.all([counter, nextMaxId]);
 };
 
-
-// keep fetching tweets until reach total required number of tweets
+// fetchTweets: fetch tweets on a loop until you have sufficient data stored in db
 const fetchTweets = async (q, total, lastSearchId, searchType) => {
   const search_id = lastSearchId ? ++lastSearchId : 1;
 
