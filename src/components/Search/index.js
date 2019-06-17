@@ -83,7 +83,7 @@ const Search = props => {
     }
   }, []);
 
-  const [type, useType] = useState('wordcloud');
+  const [chartType, setChartType] = useState('wordcloud');
 
   return (
     <Grid
@@ -101,10 +101,10 @@ const Search = props => {
         className={classes.cloudContainer}
       >
         <Grid container justify="space-between" alignItems="center">
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <DisplaySwitch />
-            <PastSearches />
-          </div>
+          <DisplaySwitch chartType={chartType} setChartType={setChartType} />
+          <PastSearches />
+        </Grid>
+        <Grid container alignItems="center">
           <RemovedWords />
         </Grid>
         {!wordcloudIsLoading && status === 'initial' && (

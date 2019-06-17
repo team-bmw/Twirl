@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-const DisplaySwitch = () => {
-  const [type, setType] = useState('wordcloud');
-
+const DisplaySwitch = ({ chartType, setChartType }) => {
   const useStyles = makeStyles(theme => ({
     selectedButton: {
       margin: theme.spacing(1),
@@ -25,12 +23,12 @@ const DisplaySwitch = () => {
       <Button
         variant="contained"
         className={
-          type === 'wordcloud'
+          chartType === 'wordcloud'
             ? classes.selectedButton
             : classes.notSelectedButton
         }
         onClick={() => {
-          setType('wordcloud');
+          setChartType('wordcloud');
         }}
       >
         Wordcloud
@@ -38,12 +36,25 @@ const DisplaySwitch = () => {
       <Button
         variant="contained"
         className={
-          type === 'linechart'
+          chartType === 'barchart'
             ? classes.selectedButton
             : classes.notSelectedButton
         }
         onClick={() => {
-          setType('linechart');
+          setChartType('barchart');
+        }}
+      >
+        Barchart
+      </Button>
+      <Button
+        variant="contained"
+        className={
+          chartType === 'linechart'
+            ? classes.selectedButton
+            : classes.notSelectedButton
+        }
+        onClick={() => {
+          setChartType('linechart');
         }}
       >
         Linechart
