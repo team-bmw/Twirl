@@ -102,7 +102,7 @@ const Search = ({
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
       axios
-        .post(`/api/tweets/search/timed/${searchType}`, { query: searchText })
+        .post(`/api/tweets/search/${searchType}`, { query: searchText })
         .then(search_id => {
           fetchAdjectiveWordcloudData(search_id.data, searchText);
           selectSearchId(search_id.data);
