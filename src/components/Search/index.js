@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core/';
 
 import Wordcloud from './Wordcloud';
+import LineChart from '../LineChart';
 import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
@@ -85,6 +86,10 @@ const Search = props => {
 
   const [chartType, setChartType] = useState('wordcloud');
 
+  const selectChartToDisplay = typeOfChart => {
+    return chartType === typeOfChart && status === 'fetched';
+  };
+
   return (
     <Grid
       container
@@ -114,8 +119,9 @@ const Search = props => {
           <Message message="Data fetched unsuccessfully. Please try again." />
         )}
         {wordcloudIsLoading && <Loading />}
-        {status === 'fetched' && <Wordcloud wordData={wordData} />}
-        {status === 'fetched' && <ColorSpectrum />}
+        {selectChartToDisplay('wordcloud') && <Wordcloud wordData={wordData} />}
+        {selectChartToDisplay('barchart') && <div>Barchart should show</div>}
+        {selectChartToDisplay('linechart') && <LineChart wordData={wordData} />}
       </Grid>
       {tweets.selectedTweets.length ? (
         <Grid item xs={12} sm={6} lg={3}>

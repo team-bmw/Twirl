@@ -10,6 +10,7 @@ import {
 } from '../../reducers/wordElementReducer';
 
 import WordPopover from './WordPopover';
+import ColorSpectrum from './ColorSpectrum';
 
 const Wordcloud = props => {
   const { wordData, selectWordElement, selectCloudWord } = props;
@@ -58,6 +59,7 @@ const Wordcloud = props => {
       />
 
       <WordPopover />
+      <ColorSpectrum />
     </Fragment>
   );
 };
