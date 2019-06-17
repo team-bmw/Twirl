@@ -4,6 +4,7 @@ const {
   adjectivesToWordFrequencies,
   nounsToWordFrequencies,
 } = require('../twitter/parseTweets');
+const { tweetsToLineChartData } = require('../twitter/lineChartData');
 const { Tweet, Metadata } = require('../db/index');
 
 // Routes to fetch data from twitter
@@ -50,5 +51,17 @@ router.get('/nouns/:searchId/:query', (req, res, next) => {
     .then(noun => res.send(noun))
     .catch(next);
 });
+
+router.get('/adjectives/lineChart/:searchId/:query', (req, res, next) => {
+  Tweet.findAll({
+    where: {
+      search_id: Number(req.params.searchId),
+    },
+  })
+    .then(tweets => tweetsToLineChartData(tweets, req.params.query))
+    .then(lineChartData => res.send(lineChartData))
+    .catch(next);
+})
+
 
 module.exports = router;

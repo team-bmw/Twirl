@@ -31,6 +31,9 @@ const Tweet = db.define('tweets', {
     sentiment: {
         type: db.Sequelize.FLOAT,
     },
+    twitterDate: {
+        type: db.Sequelize.STRING,
+    },
     twitterId: {
         type: db.Sequelize.STRING,
         unique: true,

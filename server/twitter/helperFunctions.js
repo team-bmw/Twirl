@@ -1,4 +1,7 @@
 
+// Shared functions for twitter API backend
+
+// createSearchArray: create an array of search objects, each with query term and search_id
 const createSearchArray = metadata => {
 
     const searchObj = metadata.reduce((acc, m) => {
@@ -14,6 +17,7 @@ const createSearchArray = metadata => {
     });
 };
 
+// createQueryString: create full query string, based on search terms and type of search
 const createQueryString = (q, searchType) => {
     if (searchType === 'or') return q.split(' ').join(' OR ');
     if (searchType === 'exact') return `"${q}"`;
@@ -24,7 +28,7 @@ const createQueryString = (q, searchType) => {
     return q;
 };
 
-// // parse "next_results" string from search_metadata to get max_id term for next search
+// getNextMaxId: parse tweet to get "next_results", to use as max_id for next fetch
 const getNextMaxId = str => {
     if (str) {
         const terms = str.replace('?', '').split('&');
@@ -35,8 +39,16 @@ const getNextMaxId = str => {
     }
 };
 
+// subtractDays: calculate date and return twitter style date string
+const subtractDays = (startingDate, days) => {
+    startingDate.setDate(startingDate.getDate() - days);
+    const dateArr = new Date(startingDate).toLocaleDateString().split('/');
+    return `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`;
+}
+
 module.exports = {
     createSearchArray,
     createQueryString,
     getNextMaxId,
+    subtractDays,
 }

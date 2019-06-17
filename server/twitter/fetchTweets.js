@@ -1,6 +1,5 @@
-/* eslint-disable no-return-await */
-/* eslint-disable handle-callback-err */
-/* eslint-disable camelcase */
+
+// Purpose: Fetch most recent tweets for a given query string
 
 const { Tweet, Metadata } = require('../db/index');
 const { scoreTweetSentiment } = require('./classifyTweets');
@@ -8,10 +7,9 @@ const { createQueryString, getNextMaxId } = require('./helperFunctions');
 
 const client = require('./twitterSetup');
 
-
-
-// get next set of tweets and save to database (also save metadata)
+// getTweets: fetch next 100 tweets and save to database
 const getTweets = async (q, count, search_id, searchType, max_id = null) => {
+
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
     count,
@@ -53,14 +51,15 @@ const getTweets = async (q, count, search_id, searchType, max_id = null) => {
       next_id: nextMaxId,
       search_id,
     });
+
   } else {
+
     counter = 500;
   }
   return Promise.all([counter, nextMaxId]);
 };
 
-
-// keep fetching tweets until reach total required number of tweets
+// fetchTweets: fetch tweets on a loop until you have sufficient data stored in db
 const fetchTweets = async (q, total, lastSearchId, searchType) => {
   const search_id = lastSearchId ? ++lastSearchId : 1;
 

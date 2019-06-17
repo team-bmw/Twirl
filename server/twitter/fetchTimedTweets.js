@@ -1,19 +1,22 @@
 
+// Purpose: Fetch stratified sample of tweets from the past 7 days
+
 const { db, Tweet, Metadata } = require('../db/index');
 const { scoreTweetSentiment } = require('./classifyTweets');
-const { createQueryString, getNextMaxId } = require('./helperFunctions');
+const { createQueryString, getNextMaxId, subtractDays } = require('./helperFunctions');
 
 const client = require('./twitterSetup');
 
-const getTimedTweets = async (q, count, search_id, searchType, startTime, endTime, max_id = null) => {
+// getTimedTweets: get a sample of 100 tweets, created between startDate and endDate
+const getTimedTweets = async (q, count, search_id, searchType, startDate, endDate = null, max_id = null) => {
 
-    // const today = new Date();
     const tweets = await client.get('search/tweets', {
-        q: `${q} -filter:retweets since:${startTime} until:${endTime}`,
+        q: `${createQueryString(q, searchType)} -filter:retweets since:${startDate} ${endDate ? `until:${endDate}` : ``}`,
         count,
         max_id,
         lang: 'en',
         tweet_mode: 'extended',
+        result_type: 'mixed',
     });
 
     let counter = 0;
@@ -22,7 +25,6 @@ const getTimedTweets = async (q, count, search_id, searchType, startTime, endTim
     if (nextMaxId > -1) {
 
         await tweets.statuses.forEach(element => {
-            console.log(element.created_at);
             ++counter;
             Tweet.create({
                 query: q,
@@ -38,7 +40,7 @@ const getTimedTweets = async (q, count, search_id, searchType, startTime, endTim
                 twitterId: `${element.id_str}`,
                 twitterUserId: element.user.id,
                 twitterScreenName: element.user.screen_name,
-                twitterDate: element.created_at,
+                twitterDate: new Date(`${element.created_at}`).toLocaleDateString().split('/').join('-'),
                 search_id,
             }).catch(() => {
                 --counter;
@@ -57,20 +59,25 @@ const getTimedTweets = async (q, count, search_id, searchType, startTime, endTim
     return Promise.all([counter, nextMaxId]);
 }
 
-db.sync({ force: true })
-getTimedTweets('trump', 10, 100, 'and', '2019-06-14', '2019-06-15');
+// fetchTimedTweets: loop through the past 7 days, fetching 100 tweets per day
+const fetchTimedTweets = async (q, lastSearchId, searchType) => {
 
+    const search_id = lastSearchId ? ++lastSearchId : 1;
 
+    let startDate = new Date();
 
+    await getTimedTweets(q, 100, search_id, searchType, startDate);
 
-// const currentDate = today.setDate(today.getDate() - 1);
-// console.log(new Date(currentDate).toLocaleDateString());
-// }
+    for (let i = 1; i < 7; i++) {
 
-// const fetchTimedTweets =
+        let endDate = subtractDays(new Date(startDate), 0);
+        startDate = subtractDays(new Date(endDate), 1);
 
+        await getTimedTweets(q, 100, search_id, searchType, startDate, endDate);
+    }
+    return search_id;
+}
 
-
-
-
-// };
+module.exports = {
+    fetchTimedTweets,
+}
