@@ -61,6 +61,7 @@ router.get('/nouns/:searchId/:query', (req, res, next) => {
 
 // fetch line chart data (adjectives)
 router.get('/adjectives/lineChart/:searchId/:query', (req, res, next) => {
+  console.log('being called')
   Tweet.findAll({
     where: {
       search_id: Number(req.params.searchId),

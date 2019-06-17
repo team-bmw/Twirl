@@ -19,6 +19,7 @@ import {
 import { startLoading } from '../../reducers/loadingReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
 import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
+import { fetchAdjectiveLineChartData } from '../../reducers/lineChartReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,6 +71,7 @@ const Search = ({
   location,
   history,
   fetchAdjectiveWordcloudData,
+  fetchAdjectiveLineChartData,
   startLoading,
   resetWordCloud,
   emptySelectedTweets,
@@ -107,7 +109,14 @@ const Search = ({
           fetchAdjectiveWordcloudData(search_id.data, searchText);
           selectSearchId(search_id.data);
         })
-        .then(() => fetchSearches());
+        .then(() => fetchSearches())
+        .then(() => axios.
+          post(`/api/tweets/search/timed/${searchType}`, { query: searchText })
+          .then(search_id => {
+            fetchAdjectiveLineChartData(search_id.data, searchText);
+            selectSearchId(search_id.data);
+          })
+        );
       history.push(`/search/${searchType}/${searchText}`);
     }
   };
@@ -160,6 +169,7 @@ export default withRouter(
     null,
     {
       fetchAdjectiveWordcloudData,
+      fetchAdjectiveLineChartData,
       startLoading,
       resetWordCloud,
       emptySelectedTweets,

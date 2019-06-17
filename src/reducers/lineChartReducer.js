@@ -60,7 +60,7 @@ export const lineChartData = (state = initialState, action) => {
 // fetch only adjectives
 export const fetchAdjectiveLineChartData = (search_id, query) => {
   return dispatch => {
-    dispatch(wordcloudDataRequest());
+    dispatch(lineChartDataRequest());
     return axios
       .get(`/api/tweets/adjectives/lineChart/${search_id}/${query}`)
       .then(response => response.data)
