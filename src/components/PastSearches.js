@@ -35,6 +35,7 @@ const PastSearches = ({
   selectSearchId,
   fetchAdjectiveWordcloudData,
   searches,
+  searchId,
   emptySelectedTweets,
   emptyRemovedWords,
 }) => {
@@ -74,13 +75,20 @@ const PastSearches = ({
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {searches.wordCloudSearches.map(search => {
+            {searches.searchId % 2 ? searches.wordCloudSearches.map(search => {
               return (
                 <MenuItem key={search.searchId} value={search.searchId}>
-                  {search.query}
+                  {`wordcloud: ${search.query}`}
                 </MenuItem>
               );
-            })}
+            })
+              : searches.lineChartSearches.map(search => {
+                return (
+                  <MenuItem key={search.searchId} value={search.searchId}>
+                    {`line: ${search.query}`}
+                  </MenuItem>
+                );
+              })}
           </Select>
         </FormControl>
       </form>

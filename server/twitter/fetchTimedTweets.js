@@ -1,7 +1,7 @@
 
 // Purpose: Fetch stratified sample of tweets from the past 7 days
 
-const { db, Tweet, Metadata } = require('../db/index');
+const { Tweet, Metadata } = require('../db/index');
 const { scoreTweetSentiment } = require('./classifyTweets');
 const { createQueryString, getNextMaxId, subtractDays } = require('./helperFunctions');
 
