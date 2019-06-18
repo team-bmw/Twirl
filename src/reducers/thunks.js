@@ -1,24 +1,24 @@
 import axios from 'axios';
-import { fetchSearches, selectSearchId } from './searchesReducer';
+import { fetchWordCloudSearches, fetchLineChartSearches, selectSearchId } from './searchesReducer';
 import { fetchAdjectiveWordcloudData } from './wordcloudReducer';
 import { fetchAdjectiveLineChartData } from './lineChartReducer';
 
-export const searchRequest = (searchType, searchText) => {
+export const searchRequest = (searchType, searchText, userId) => {
   return dispatch => {
     return axios
-      .post(`/api/tweets/search/${searchType}`, { query: searchText })
+      .post(`/api/tweets/search/${searchType}`, { query: searchText, userId })
       .then(response => response.data)
       .then(searchId => {
         dispatch(selectSearchId(searchId));
         dispatch(fetchAdjectiveWordcloudData(searchId, searchText));
-        dispatch(fetchSearches())
+        dispatch(fetchWordCloudSearches());
       })
       .then(() => axios
-      .post(`/api/tweets/search/timed/${searchType}`, {query: searchText}))
+        .post(`/api/tweets/search/timed/${searchType}`, { query: searchText, userId }))
       .then(response => response.data)
       .then(searchId => {
-        // dispatch(selectSearchId(searchId));
         dispatch(fetchAdjectiveLineChartData(searchId, searchText));
+        dispatch(fetchLineChartSearches());
       })
       .catch(ex => console.error(ex))
   };

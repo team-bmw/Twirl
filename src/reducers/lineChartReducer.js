@@ -58,11 +58,11 @@ export const lineChartData = (state = initialState, action) => {
 
 // Thunk
 // fetch only adjectives
-export const fetchAdjectiveLineChartData = (search_id, query) => {
+export const fetchAdjectiveLineChartData = (searchId, query) => {
   return dispatch => {
     dispatch(lineChartDataRequest());
     return axios
-      .get(`/api/tweets/adjectives/lineChart/${search_id}/${query}`)
+      .get(`/api/tweets/adjectives/lineChart/${searchId}/${query}`)
       .then(response => response.data)
       .then(wordData => dispatch(lineChartDataSuccess(wordData)))
       .catch(() => dispatch(lineChartDataFailure()));

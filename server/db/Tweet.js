@@ -44,9 +44,9 @@ const Tweet = db.define('tweets', {
     twitterScreenName: {
         type: db.Sequelize.STRING,
     },
-    search_id: {
+    searchId: {
         type: db.Sequelize.INTEGER,
-    }
+    },
 });
 
 module.exports = Tweet;

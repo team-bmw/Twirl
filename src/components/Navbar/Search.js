@@ -69,6 +69,7 @@ const Search = ({
   resetWordCloud,
   emptySelectedTweets,
   searchRequest,
+  user,
 }) => {
   const classes = useStyles();
   const [searchText, setSearchText] = useState('');
@@ -95,7 +96,7 @@ const Search = ({
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
-      searchRequest(searchType, searchText);
+      searchRequest(searchType, searchText, user.id);
       history.push(`/search/${searchType}/${searchText}`);
     }
   };
@@ -143,9 +144,15 @@ const Search = ({
   );
 };
 
+const mapStateToProps = ({ user }) => {
+  return {
+    user,
+  }
+}
+
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     {
       startLoading,
       resetWordCloud,
