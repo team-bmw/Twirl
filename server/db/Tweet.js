@@ -46,7 +46,7 @@ const Tweet = db.define('tweets', {
     },
     searchId: {
         type: db.Sequelize.INTEGER,
-    }
+    },
 });
 
 module.exports = Tweet;

@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectSearchId } from '../reducers/searchesReducer';
@@ -35,7 +34,6 @@ const PastSearches = ({
   selectSearchId,
   fetchAdjectiveWordcloudData,
   searches,
-  searchId,
   emptySelectedTweets,
   emptyRemovedWords,
 }) => {

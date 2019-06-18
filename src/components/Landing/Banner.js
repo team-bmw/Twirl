@@ -17,7 +17,7 @@ const Banner = () => {
       }}
     >
       <Typography variant="h6">
-        A web-based platform for understanding and interacting Tweets of interest
+        A web-based platform for understanding and interacting with Tweets of interest
       </Typography>
     </div>
   );
