@@ -19,7 +19,7 @@ import {
   wordcloudDataSuccess,
   fetchAdjectiveWordcloudData,
 } from '../../reducers/wordcloudReducer';
-import { fetchSearches, selectSearchId } from '../../reducers/searchesReducer';
+import { fetchWordCloudSearches, selectSearchId } from '../../reducers/searchesReducer';
 import { addRemovedWord } from '../../reducers/removedReducer';
 import { updateSortBy } from '../../reducers/sortReducer';
 
@@ -36,7 +36,7 @@ const WordPopover = ({
   updateSelectedTweets,
   wordcloudDataSuccess,
   fetchAdjectiveWordcloudData,
-  fetchSearches,
+  fetchWordCloudSearches,
   selectSearchId,
   addRemovedWord,
   updateSortBy,
@@ -67,17 +67,17 @@ const WordPopover = ({
   const addToSearch = () => {
     handleClose();
     const currentQuery = searches.searches.find(
-      search => search.search_id === searches.search_id
+      search => search.searchId === searches.searchId
     ).query;
     axios
       .post(`/api/tweets/search/and`, {
         query: `${currentQuery} ${selectedCloudWord.text}`,
       })
-      .then(search_id => {
-        fetchAdjectiveWordcloudData(search_id.data, selectedCloudWord.text);
-        selectSearchId(search_id.data);
+      .then(searchId => {
+        fetchAdjectiveWordcloudData(searchId.data, selectedCloudWord.text);
+        selectSearchId(searchId.data);
       })
-      .then(() => fetchSearches());
+      .then(() => fetchWordCloudSearches());
     history.push(`/search/and/${currentQuery} ${selectedCloudWord.text}`);
   };
 
@@ -140,7 +140,7 @@ export default withRouter(
       selectWordElement,
       wordcloudDataSuccess,
       fetchAdjectiveWordcloudData,
-      fetchSearches,
+      fetchWordCloudSearches,
       selectSearchId,
       addRemovedWord,
       updateSortBy,

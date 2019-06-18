@@ -1,17 +1,17 @@
 
 // Shared functions for twitter API backend
 
-// createSearchArray: create an array of search objects, each with query term and search_id
+// createSearchArray: create an array of search objects, each with query term and searchId
 const createSearchArray = metadata => {
 
     const searchObj = metadata.reduce((acc, m) => {
-        if (!acc[m.search_id]) acc[m.search_id] = m.query;
+        if (!acc[m.searchId]) acc[m.searchId] = m.query;
         return acc;
     }, {});
 
     return Object.keys(searchObj).map(key => {
         return {
-            search_id: Number(key),
+            searchId: Number(key),
             query: searchObj[key],
         }
     });

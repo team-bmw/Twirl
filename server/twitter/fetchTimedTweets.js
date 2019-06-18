@@ -8,7 +8,7 @@ const { createQueryString, getNextMaxId, subtractDays } = require('./helperFunct
 const client = require('./twitterSetup');
 
 // getTimedTweets: get a sample of 100 tweets, created between startDate and endDate
-const getTimedTweets = async (q, count, search_id, searchType, startDate, endDate = null, max_id = null) => {
+const getTimedTweets = async (q, count, searchId, searchType, startDate, endDate = null, max_id = null) => {
 
     const tweets = await client.get('search/tweets', {
         q: `${createQueryString(q, searchType)} -filter:retweets since:${startDate} ${endDate ? `until:${endDate}` : ``}`,
@@ -41,7 +41,7 @@ const getTimedTweets = async (q, count, search_id, searchType, startDate, endDat
                 twitterUserId: element.user.id,
                 twitterScreenName: element.user.screen_name,
                 twitterDate: element.created_at,
-                search_id,
+                searchId,
             }).catch(() => {
                 --counter;
             });
@@ -51,7 +51,7 @@ const getTimedTweets = async (q, count, search_id, searchType, startDate, endDat
             query: q,
             count: counter,
             next_id: nextMaxId,
-            search_id,
+            searchId,
             dataType: 'linechart',
         });
     } else {
@@ -63,20 +63,20 @@ const getTimedTweets = async (q, count, search_id, searchType, startDate, endDat
 // fetchTimedTweets: loop through the past 7 days, fetching 100 tweets per day
 const fetchTimedTweets = async (q, lastSearchId, searchType) => {
 
-    const search_id = lastSearchId ? ++lastSearchId : 1;
+    const searchId = lastSearchId ? ++lastSearchId : 1;
 
     let startDate = new Date();
 
-    await getTimedTweets(q, 100, search_id, searchType, startDate);
+    await getTimedTweets(q, 100, searchId, searchType, startDate);
 
     for (let i = 1; i < 7; i++) {
 
         let endDate = subtractDays(new Date(startDate), 0);
         startDate = subtractDays(new Date(endDate), 1);
 
-        await getTimedTweets(q, 100, search_id, searchType, startDate, endDate);
+        await getTimedTweets(q, 100, searchId, searchType, startDate, endDate);
     }
-    return search_id;
+    return searchId;
 }
 
 module.exports = {

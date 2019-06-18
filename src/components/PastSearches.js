@@ -40,7 +40,7 @@ const PastSearches = ({
 }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    search_id: '',
+    searchId: '',
   });
 
   const handleChange = ({ target }) => {
@@ -64,19 +64,19 @@ const PastSearches = ({
           </InputLabel>
           <Select
             className={classes.labelFormatting}
-            value={values.search_id}
+            value={values.searchId}
             onChange={handleChange}
             inputProps={{
-              name: 'search_id',
+              name: 'searchId',
               id: 'id-simple',
             }}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {searches.searches.map(search => {
+            {searches.wordCloudSearches.map(search => {
               return (
-                <MenuItem key={search.search_id} value={search.search_id}>
+                <MenuItem key={search.searchId} value={search.searchId}>
                   {search.query}
                 </MenuItem>
               );
@@ -96,9 +96,9 @@ const mapStateToProps = ({ searches }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectSearchId: search_id => dispatch(selectSearchId(search_id)),
-    fetchAdjectiveWordcloudData: search_id =>
-      dispatch(fetchAdjectiveWordcloudData(search_id)),
+    selectSearchId: searchId => dispatch(selectSearchId(searchId)),
+    fetchAdjectiveWordcloudData: searchId =>
+      dispatch(fetchAdjectiveWordcloudData(searchId)),
     emptySelectedTweets: () => dispatch(emptySelectedTweets()),
     emptyRemovedWords: () => dispatch(emptyRemovedWords()),
   };

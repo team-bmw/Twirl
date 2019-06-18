@@ -13,7 +13,7 @@ const Metadata = db.define('metadata', {
     next_id: {
         type: db.Sequelize.STRING,
     },
-    search_id: {
+    searchId: {
         type: db.Sequelize.INTEGER,
     }
 });
