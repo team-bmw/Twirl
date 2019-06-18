@@ -2,9 +2,13 @@ import axios from 'axios';
 import { fetchWordCloudSearches, fetchLineChartSearches, selectSearchId } from './searchesReducer';
 import { fetchAdjectiveWordcloudData } from './wordcloudReducer';
 import { fetchAdjectiveLineChartData } from './lineChartReducer';
+import { emptyRemovedWords } from './removedReducer';
 
 export const searchRequest = (searchType, searchText, userId) => {
+  
   return dispatch => {
+    dispatch(emptyRemovedWords());
+    
     return axios
       .post(`/api/tweets/search/${searchType}`, { query: searchText, userId })
       .then(response => response.data)

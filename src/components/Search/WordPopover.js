@@ -66,7 +66,7 @@ const WordPopover = ({
 
   const addToSearch = () => {
     handleClose();
-    const currentQuery = searches.searches.find(
+    const currentQuery = searches.wordCloudSearches.find(
       search => search.searchId === searches.searchId
     ).query;
     axios
