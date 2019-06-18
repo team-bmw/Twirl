@@ -5,14 +5,15 @@
 const createSearchArray = metadata => {
 
     const searchObj = metadata.reduce((acc, m) => {
-        if (!acc[m.searchId]) acc[m.searchId] = m.query;
+        if (!acc[m.searchId]) acc[m.searchId] = { query: m.query, userId: m.userId };
         return acc;
     }, {});
 
     return Object.keys(searchObj).map(key => {
         return {
             searchId: Number(key),
-            query: searchObj[key],
+            query: searchObj[key].query,
+            userId: searchObj[key].userId,
         }
     });
 };

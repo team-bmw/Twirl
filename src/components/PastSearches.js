@@ -36,6 +36,7 @@ const PastSearches = ({
   searches,
   emptySelectedTweets,
   emptyRemovedWords,
+  user,
 }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
@@ -74,6 +75,7 @@ const PastSearches = ({
               <em>None</em>
             </MenuItem>
             {searches.searchId % 2 ? searches.wordCloudSearches.map(search => {
+              if (!user.id && search.userId) return null;
               return (
                 <MenuItem key={search.searchId} value={search.searchId}>
                   {`wordcloud: ${search.query}`}
@@ -81,6 +83,7 @@ const PastSearches = ({
               );
             })
               : searches.lineChartSearches.map(search => {
+                if (!user.id && search.userId) return null;
                 return (
                   <MenuItem key={search.searchId} value={search.searchId}>
                     {`line: ${search.query}`}
@@ -94,9 +97,10 @@ const PastSearches = ({
   );
 };
 
-const mapStateToProps = ({ searches }) => {
+const mapStateToProps = ({ searches, user }) => {
   return {
     searches,
+    user,
   };
 };
 
