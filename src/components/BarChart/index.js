@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import { ResponsiveBar } from '@nivo/bar';
+import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/styles';
 import {
   selectWordElement,
@@ -8,15 +9,23 @@ import {
 } from '../../reducers/wordElementReducer';
 
 import WordPopover from '../Search/WordPopover';
+import ColorSpectrum from '../Search/ColorSpectrum';
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
 // no chart will be rendered.
 
+const useStyles = makeStyles(theme => ({
+  barChart: {
+    width: '100%',
+    height: '75vh',
+  },
+}));
+
 const BarChart = ({ wordData, selectWordElement, selectCloudWord }) => {
+  const classes = useStyles();
   const theme = useTheme();
   const {
-    typography,
     palette: { grey, blue },
   } = theme;
 
@@ -50,52 +59,55 @@ const BarChart = ({ wordData, selectWordElement, selectCloudWord }) => {
   if (barChartDate.length > 39) barChartDate = barChartDate.slice(-40);
 
   return (
-    <div style={{ width: '100%', height: '75vh' }}>
-      <ResponsiveBar
-        enableGridY={false}
-        enableGridX={true}
-        data={barChartDate}
-        keys={['tweets']}
-        indexBy="text"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-        padding={0.3}
-        groupMode="grouped"
-        layout="horizontal"
-        colors={({ data }) => data[`${data.text}Color`]}
-        borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'Number of Tweets',
-          legendPosition: 'middle',
-          legendOffset: 32,
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          // legend: 'Words',
-          legendPosition: 'middle',
-          legendOffset: -40,
-        }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
-        labelTextColor={{ from: 'color' }}
-        animate={true}
-        motionStiffness={90}
-        motionDamping={15}
-        onClick={(node, event) => {
-          selectWordElement(event.target);
-          selectCloudWord(node.data.cloudWord);
-          // console.log('it has been clicked', node)
-        }}
-      />
-
-      <WordPopover />
-    </div>
+    <Fragment>
+      <div className={classes.barChart}>
+        <ResponsiveBar
+          enableGridY={false}
+          enableGridX={true}
+          data={barChartDate}
+          keys={['tweets']}
+          indexBy="text"
+          margin={{ top: 50, right: 50, bottom: 50, left: 100 }}
+          padding={0.3}
+          groupMode="grouped"
+          layout="horizontal"
+          colors={({ data }) => data[`${data.text}Color`]}
+          borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+          axisTop={null}
+          axisRight={null}
+          axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'Number of Tweets',
+            legendPosition: 'middle',
+            legendOffset: 32,
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            // legend: 'Words',
+            legendPosition: 'middle',
+            legendOffset: -40,
+          }}
+          labelSkipWidth={12}
+          labelSkipHeight={12}
+          labelTextColor={{ from: 'color' }}
+          animate={true}
+          motionStiffness={90}
+          motionDamping={15}
+          onClick={(node, event) => {
+            selectWordElement(event.target);
+            selectCloudWord(node.data.cloudWord);
+          }}
+        />
+        <WordPopover />
+      </div>
+      <div>
+        <ColorSpectrum />
+      </div>
+    </Fragment>
   );
 };
 

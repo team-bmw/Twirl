@@ -12,12 +12,12 @@ const Banner = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#1ca1f2',
+        color: '#1565c0',
         padding: '1rem',
       }}
     >
       <Typography variant="h6">
-        A web-based platform for understanding and interacting with Tweets of interest
+        A web-based platform for understanding and interacting with Tweets
       </Typography>
     </div>
   );

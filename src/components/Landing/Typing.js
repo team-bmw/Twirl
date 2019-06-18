@@ -27,7 +27,7 @@ const Typing = () => {
           backSpeed={70}
           // attr="placeholder"
           loop
-          style={{ color: '#1ca1f2' }}
+          style={{ color: '#0d47a1' }}
         >
           {/* <input type="text" style={{ minWidth: '10rem', padding: '1rem', }} /> */}
           {/* <input type="text" /> */}
