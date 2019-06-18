@@ -4,9 +4,10 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 
 import { selectSearchId } from '../../reducers/searchesReducer';
+import { emptySelectedTweets } from '../../reducers/tweetsReducer';
 import { select } from 'd3';
 
-const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId }) => {
+const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId, emptySelectedTweets }) => {
   const useStyles = makeStyles(theme => ({
     selectedButton: {
       margin: theme.spacing(1),
@@ -33,6 +34,7 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId }) =>
         }
         onClick={() => {
           if (searches.searchId % 2 === 0) selectSearchId(searches.searchId - 1);
+          emptySelectedTweets();
           setChartType('wordcloud');
         }}
       >
@@ -47,6 +49,7 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId }) =>
         }
         onClick={() => {
           if (searches.searchId % 2 === 0) selectSearchId(searches.searchId - 1);
+          emptySelectedTweets();
           setChartType('barchart');
         }}
       >
@@ -61,6 +64,7 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId }) =>
         }
         onClick={() => {
           if (searches.searchId % 2 === 1) selectSearchId(searches.searchId + 1);
+          emptySelectedTweets();
           setChartType('linechart');
         }}
       >
@@ -79,6 +83,7 @@ const mapStateToProps = ({ searches }) => {
 const mapDispatchToProps = dispatch => {
   return {
     selectSearchId: searchId => dispatch(selectSearchId(searchId)),
+    emptySelectedTweets: () => dispatch(emptySelectedTweets()),
   }
 }
 

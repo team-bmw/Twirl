@@ -75,20 +75,24 @@ const PastSearches = ({
               <em>None</em>
             </MenuItem>
             {searches.searchId % 2 ? searches.wordCloudSearches.map(search => {
-              if (!user.id && search.userId) return null;
-              return (
-                <MenuItem key={search.searchId} value={search.searchId}>
-                  {`wordcloud: ${search.query}`}
-                </MenuItem>
-              );
-            })
-              : searches.lineChartSearches.map(search => {
-                if (!user.id && search.userId) return null;
+              if (!search.userId || (user.id && user.id === search.userId)) {
                 return (
                   <MenuItem key={search.searchId} value={search.searchId}>
-                    {`line: ${search.query}`}
+                    {`wordcloud: ${search.query}`}
                   </MenuItem>
                 );
+              }
+              return null;
+            })
+              : searches.lineChartSearches.map(search => {
+                if (!search.userId || (user.id && user.id === search.userId)) {
+                  return (
+                    <MenuItem key={search.searchId} value={search.searchId}>
+                      {`line: ${search.query}`}
+                    </MenuItem>
+                  );
+                }
+                return null;
               })}
           </Select>
         </FormControl>
