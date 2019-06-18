@@ -62,6 +62,7 @@ const Search = props => {
     wordcloudData: { status, wordData },
     endLoading,
     searchRequest,
+    user,
   } = props;
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const Search = props => {
   useEffect(() => {
     if (!props.loading.wordcloudIsLoading && params.searchText) {
       props.startLoading('wordcloudIsLoading');
-      searchRequest(params.searchType, params.searchText);
+      searchRequest(params.searchType, params.searchText, user.id);
       props.history.push(`/search/${params.searchType}/${params.searchText}`);
     }
   }, []);
@@ -128,8 +129,11 @@ const Search = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return state;
+const mapStateToProps = (state, { user }) => {
+  return {
+    ...state,
+    user,
+  };
 };
 
 export default connect(

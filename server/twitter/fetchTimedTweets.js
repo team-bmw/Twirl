@@ -8,7 +8,7 @@ const { createQueryString, getNextMaxId, subtractDays } = require('./helperFunct
 const client = require('./twitterSetup');
 
 // getTimedTweets: get a sample of 100 tweets, created between startDate and endDate
-const getTimedTweets = async (q, count, searchId, searchType, startDate, endDate = null, max_id = null) => {
+const getTimedTweets = async (q, count, searchId, searchType, userId, startDate, endDate = null, max_id = null) => {
 
     const tweets = await client.get('search/tweets', {
         q: `${createQueryString(q, searchType)} -filter:retweets since:${startDate} ${endDate ? `until:${endDate}` : ``}`,
@@ -53,6 +53,7 @@ const getTimedTweets = async (q, count, searchId, searchType, startDate, endDate
             next_id: nextMaxId,
             searchId,
             dataType: 'linechart',
+            userId,
         });
     } else {
         counter = 500;
@@ -61,24 +62,24 @@ const getTimedTweets = async (q, count, searchId, searchType, startDate, endDate
 }
 
 // fetchTimedTweets: loop through the past 7 days, fetching 100 tweets per day
-const fetchTimedTweets = async (q, lastSearchId, searchType) => {
+const fetchTimedTweets = async (q, lastSearchId, searchType, userId) => {
 
     const searchId = lastSearchId ? ++lastSearchId : 1;
 
     let startDate = new Date();
 
-    await getTimedTweets(q, 100, searchId, searchType, startDate);
+    await getTimedTweets(q, 100, searchId, searchType, userId, startDate);
 
     for (let i = 1; i < 7; i++) {
 
         let endDate = subtractDays(new Date(startDate), 0);
         startDate = subtractDays(new Date(endDate), 1);
 
-        await getTimedTweets(q, 100, searchId, searchType, startDate, endDate);
+        await getTimedTweets(q, 100, searchId, searchType, userId, startDate, endDate);
     }
     return searchId;
 }
 
 module.exports = {
     fetchTimedTweets,
-}
+};

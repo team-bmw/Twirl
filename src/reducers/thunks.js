@@ -3,10 +3,10 @@ import { fetchWordCloudSearches, fetchLineChartSearches, selectSearchId } from '
 import { fetchAdjectiveWordcloudData } from './wordcloudReducer';
 import { fetchAdjectiveLineChartData } from './lineChartReducer';
 
-export const searchRequest = (searchType, searchText) => {
+export const searchRequest = (searchType, searchText, userId) => {
   return dispatch => {
     return axios
-      .post(`/api/tweets/search/${searchType}`, { query: searchText })
+      .post(`/api/tweets/search/${searchType}`, { query: searchText, userId })
       .then(response => response.data)
       .then(searchId => {
         dispatch(selectSearchId(searchId));
@@ -14,7 +14,7 @@ export const searchRequest = (searchType, searchText) => {
         dispatch(fetchWordCloudSearches());
       })
       .then(() => axios
-        .post(`/api/tweets/search/timed/${searchType}`, { query: searchText }))
+        .post(`/api/tweets/search/timed/${searchType}`, { query: searchText, userId }))
       .then(response => response.data)
       .then(searchId => {
         dispatch(fetchAdjectiveLineChartData(searchId, searchText));

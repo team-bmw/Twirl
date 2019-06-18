@@ -8,7 +8,7 @@ const { createQueryString, getNextMaxId } = require('./helperFunctions');
 const client = require('./twitterSetup');
 
 // getTweets: fetch next 100 tweets and save to database
-const getTweets = async (q, count, searchId, searchType, max_id = null) => {
+const getTweets = async (q, count, searchId, searchType, userId, max_id = null) => {
 
   const tweets = await client.get('search/tweets', {
     q: `${createQueryString(q, searchType)} -filter:retweets`,
@@ -52,6 +52,7 @@ const getTweets = async (q, count, searchId, searchType, max_id = null) => {
       next_id: nextMaxId,
       searchId,
       dataType: 'wordcloud',
+      userId,
     });
 
   } else {
@@ -62,15 +63,15 @@ const getTweets = async (q, count, searchId, searchType, max_id = null) => {
 };
 
 // fetchTweets: fetch tweets on a loop until you have sufficient data stored in db
-const fetchTweets = async (q, total, lastSearchId, searchType) => {
+const fetchTweets = async (q, total, lastSearchId, searchType, userId) => {
   const searchId = lastSearchId ? ++lastSearchId : 1;
 
-  let metadata = await getTweets(q, 100, searchId, searchType);
+  let metadata = await getTweets(q, 100, searchId, searchType, userId);
   let recordCount = metadata[0];
   let max_id = metadata[1];
 
   while (recordCount < total) {
-    metadata = await getTweets(q, 100, searchId, searchType, max_id);
+    metadata = await getTweets(q, 100, searchId, searchType, userId, max_id);
     recordCount += metadata[0];
     max_id = metadata[1];
   }
