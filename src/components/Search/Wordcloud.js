@@ -22,7 +22,6 @@ const Wordcloud = props => {
 
   const callbacks = {
     onWordClick: (word, index, textArr) => {
-      console.log(word);
       selectWordElement(textArr[index]);
       selectCloudWord(word);
     },
