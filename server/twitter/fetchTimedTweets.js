@@ -52,6 +52,7 @@ const getTimedTweets = async (q, count, search_id, searchType, startDate, endDat
             count: counter,
             next_id: nextMaxId,
             search_id,
+            dataType: 'linechart',
         });
     } else {
         counter = 500;

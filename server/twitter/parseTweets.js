@@ -22,14 +22,6 @@ const getNounsFromText = str => {
         .then(words => words.join(' '));
 };
 
-// tweetsToString: turn array of Tweet objects into string of tweet text
-// const tweetsToString = tweets => {
-//     return tweets.reduce((str, tweet) => {
-//         str += tweet.text;
-//         return str;
-//     }, '');
-// };
-
 // filterWords: filter words for wordCloudd
 const filterWords = word => {
     return !(word.length < 3 || word.length > 15)
