@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
 const LineChartTime = props => {
   const classes = useStyles();
   // console.log(props);
@@ -38,20 +39,15 @@ const LineChartTime = props => {
               
               yScale={{type: 'linear', stacked: false}}
               axisLeft={{
+                orient: 'left',
+                tickSize: 5,
+                tickPadding: 10,
+                tickRotation: 0,
                 legendOffset: -40,
                 legend: 'Number of Tweets',
                 legendPosition: 'middle',
               }}
               
-              // axisLeft={{
-              //     orient: 'left',
-              //     tickSize: 5,
-              //     tickPadding: 5,
-              //     tickRotation: 0,
-              //     legend: 'Count',
-              //     legendOffset: -40,
-              //     legendPosition: 'middle'
-              // }}
               axisBottom={{
                   format: '%b %d',
                   orient: 'bottom',
@@ -63,16 +59,17 @@ const LineChartTime = props => {
                   legendPosition: 'middle',
                   tickValues: 7,
               }}
+              curve="cardinal"
               axisTop={null}
               axisRight={null}
-              colors={{ scheme: 'nivo' }}
-              pointSize={10}
-              pointColor={{ theme: 'background' }}
+              colors={{ scheme: 'category10' }}
+              pointSize={12}
+              pointColor={{ from: 'color' }}
               pointBorderWidth={2}
-              pointBorderColor={{ from: 'serieColor' }}
+              pointBorderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
               pointLabel="y"
               pointLabelYOffset={-12}
-              useMesh={true}
+              enableSlices={'x'}
               legends={[
                   {
                       anchor: 'bottom-right',
