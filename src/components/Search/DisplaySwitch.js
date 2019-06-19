@@ -7,7 +7,13 @@ import { selectSearchId } from '../../reducers/searchesReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
 import { select } from 'd3';
 
-const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId, emptySelectedTweets }) => {
+const DisplaySwitch = ({
+  chartType,
+  setChartType,
+  searches,
+  selectSearchId,
+  emptySelectedTweets,
+}) => {
   const useStyles = makeStyles(theme => ({
     selectedButton: {
       margin: theme.spacing(1),
@@ -33,7 +39,8 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId, empt
             : classes.notSelectedButton
         }
         onClick={() => {
-          if (searches.searchId % 2 === 0) selectSearchId(searches.searchId - 1);
+          if (searches.searchId % 2 === 0)
+            selectSearchId(searches.searchId - 1);
           emptySelectedTweets();
           setChartType('wordcloud');
         }}
@@ -48,7 +55,8 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId, empt
             : classes.notSelectedButton
         }
         onClick={() => {
-          if (searches.searchId % 2 === 0) selectSearchId(searches.searchId - 1);
+          if (searches.searchId % 2 === 0)
+            selectSearchId(searches.searchId - 1);
           emptySelectedTweets();
           setChartType('barchart');
         }}
@@ -63,12 +71,29 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId, empt
             : classes.notSelectedButton
         }
         onClick={() => {
-          if (searches.searchId % 2 === 1) selectSearchId(searches.searchId + 1);
+          if (searches.searchId % 2 === 1)
+            selectSearchId(searches.searchId + 1);
           emptySelectedTweets();
           setChartType('linechart');
         }}
       >
         Linechart
+      </Button>
+      <Button
+        variant="contained"
+        className={
+          chartType === 'waffle'
+            ? classes.selectedButton
+            : classes.notSelectedButton
+        }
+        onClick={() => {
+          if (searches.searchId % 2 === 0)
+            selectSearchId(searches.searchId - 1);
+          emptySelectedTweets();
+          setChartType('waffle');
+        }}
+      >
+        Waffle
       </Button>
     </div>
   );
@@ -77,14 +102,17 @@ const DisplaySwitch = ({ chartType, setChartType, searches, selectSearchId, empt
 const mapStateToProps = ({ searches }) => {
   return {
     searches,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     selectSearchId: searchId => dispatch(selectSearchId(searchId)),
     emptySelectedTweets: () => dispatch(emptySelectedTweets()),
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(DisplaySwitch);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DisplaySwitch);

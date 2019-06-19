@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactWordcloud from 'react-wordcloud';
 
+import { getSentimentAverageFromTweetData } from '../Utils/tweetDataCalculation';
+
 import { useTheme } from '@material-ui/styles';
 
 import {
@@ -26,11 +28,7 @@ const Wordcloud = props => {
       selectCloudWord(word);
     },
     getWordColor: ({ tweetData }) => {
-      const sentimentSum = tweetData.reduce((sum, { sentiment }) => {
-        sum += sentiment;
-        return sum;
-      }, 0);
-      const sentimentAverage = sentimentSum / tweetData.length;
+      const sentimentAverage = getSentimentAverageFromTweetData(tweetData);
 
       if (sentimentAverage > 0.8) return grey['50'];
       else if (sentimentAverage > 0.6) return blue['100'];

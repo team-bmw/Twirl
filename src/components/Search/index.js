@@ -7,13 +7,13 @@ import { Grid } from '@material-ui/core/';
 import Wordcloud from './Wordcloud';
 import LineChart from '../LineChart';
 import BarChart from '../BarChart';
+import Waffle from '../Waffle';
 import Loading from '../Common/Loading';
 import Message from '../Common/Message';
 import EmbeddedTweets from '../EmbeddedTweets';
 import SortTweets from '../SortTweets';
 
 import { endLoading, startLoading } from '../../reducers/loadingReducer';
-import ColorSpectrum from './ColorSpectrum';
 import PastSearches from '../PastSearches';
 import RemovedWords from '../RemovedWords';
 import DisplaySwitch from './DisplaySwitch';
@@ -116,6 +116,7 @@ const Search = props => {
         {selectChartToDisplay('wordcloud') && <Wordcloud wordData={wordData} />}
         {selectChartToDisplay('barchart') && <BarChart wordData={wordData} />}
         {selectChartToDisplay('linechart') && <LineChart wordData={wordData} />}
+        {selectChartToDisplay('waffle') && <Waffle wordData={wordData} />}
       </Grid>
       {tweets.selectedTweets.length ? (
         <Grid item xs={12} sm={6} lg={3}>
