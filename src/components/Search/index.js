@@ -6,6 +6,7 @@ import { Grid } from '@material-ui/core/';
 
 import Wordcloud from './Wordcloud';
 import LineChart from '../LineChart';
+import LineChartTime from '../LineChartTime';
 import BarChart from '../BarChart';
 import Waffle from '../Waffle';
 import Loading from '../Common/Loading';
@@ -115,7 +116,7 @@ const Search = props => {
         {wordcloudIsLoading && <Loading />}
         {selectChartToDisplay('wordcloud') && <Wordcloud wordData={wordData} />}
         {selectChartToDisplay('barchart') && <BarChart wordData={wordData} />}
-        {selectChartToDisplay('linechart') && <LineChart wordData={wordData} />}
+        {selectChartToDisplay('linechart') && <LineChartTime />}
         {selectChartToDisplay('waffle') && <Waffle wordData={wordData} />}
       </Grid>
       {tweets.selectedTweets.length ? (
