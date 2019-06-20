@@ -7,8 +7,14 @@ const Metadata = db.define('metadata', {
     query: {
         type: db.Sequelize.STRING,
     },
+    dataType: {
+        type: db.Sequelize.STRING,
+    },
     next_id: {
         type: db.Sequelize.STRING,
+    },
+    searchId: {
+        type: db.Sequelize.INTEGER,
     }
 });
 

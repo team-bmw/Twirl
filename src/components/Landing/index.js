@@ -1,18 +1,14 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+
+import BackgroundVideo from './BackgroundVideo';
+import Main from './Main';
 
 const Landing = () => {
   return (
-    <form noValidate autoComplete="off">
-      <TextField
-        id="outlined-search-input"
-        label="Search"
-        type="text"
-        name="search"
-        margin="normal"
-        variant="outlined"
-      />
-    </form>
+    <div style={{ height: '100%', width: '100%' }}>
+      <BackgroundVideo />
+      <Main />
+    </div>
   );
 };
 
