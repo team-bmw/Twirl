@@ -93,9 +93,7 @@ const MyResponsiveWaffle = ({ wordData, updateSelectedTweets }) => {
         }}
         columns={14}
         margin={{ top: 10, right: 10, bottom: 10, left: 120 }}
-        colors={{
-          scheme: 'blues',
-        }}
+        colors={data => data.color}
         // borderColor={{ from: 'color', modifiers: [['darker', 0.3]] }}
         borderColor={theme.palette.grey['50']}
         animate={true}
