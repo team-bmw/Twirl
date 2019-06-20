@@ -97,6 +97,7 @@ const MyResponsiveWaffle = ({ wordData, updateSelectedTweets }) => {
           scheme: 'blues',
         }}
         // borderColor={{ from: 'color', modifiers: [['darker', 0.3]] }}
+        borderColor={theme.palette.grey['50']}
         animate={true}
         motionStiffness={90}
         motionDamping={11}

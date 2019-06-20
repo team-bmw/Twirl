@@ -33,7 +33,6 @@ const commonProperties = {
 };
 
 const MyResponsiveLine = props => {
-  // console.log(props);
   const {
     lineChartData: { status, wordData },
   } = props;
@@ -45,10 +44,10 @@ const MyResponsiveLine = props => {
           {...commonProperties}
           data={wordData}
           xScale={{
-          type: 'time',
-          format: '%Y-%m-%d',
-          precision: 'day',
-          useUTC: false,
+            type: 'time',
+            format: '%Y-%m-%d',
+            precision: 'day',
+            useUTC: false,
           }}
           xFormat="time:%Y-%m-%d"
           yScale={{
@@ -81,8 +80,7 @@ const MyResponsiveLine = props => {
         />
       </div>
     );
-  }
-  else if (status === 'fetched' && !wordData.length) return <div />;
+  } else if (status === 'fetched' && !wordData.length) return <div />;
   else return <Loading />;
 };
 
