@@ -61,6 +61,32 @@ const BarChart = ({ wordData, selectWordElement, selectCloudWord }) => {
           labelSkipWidth={12}
           labelSkipHeight={12}
           labelTextColor={{ from: 'color' }}
+          theme={{
+            // background: "#222222",
+            axis: {
+              fontSize: "1.2rem",
+              tickColor: "#b2b2b2",
+              ticks: {
+                line: {
+                  stroke: "#b2b2b2"
+                },
+                text: {
+                  fill: "#ffffff"
+                }
+              },
+              legend: {
+                text: {
+                  fill: "#ffffff",
+                  fontSize: "0.85rem",
+                },
+              }
+            },
+            // grid: {
+            //   line: {
+            //     stroke: "#555555"
+            //   }
+            // }
+          }}
           animate={true}
           motionStiffness={90}
           motionDamping={15}
