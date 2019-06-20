@@ -16,7 +16,7 @@ class VideoBackground extends Component {
       position: 'fixed',
       margin: 'auto',
       zIndex: -2,
-      opacity: 0.5,
+      opacity: 1.0,
     };
     return (
       <div style={style}>
