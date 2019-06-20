@@ -111,7 +111,7 @@ const MyResponsiveWaffle = ({ wordData, updateSelectedTweets }) => {
             itemHeight: 20,
             itemDirection: 'left-to-right',
             itemOpacity: 1,
-            itemTextColor: '#777',
+            itemTextColor: "#ffffff",
             symbolSize: 20,
             effects: [
               {

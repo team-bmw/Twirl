@@ -28,7 +28,7 @@ const LineChartTime = props => {
       <div className={classes.lineChart}>
         <ResponsiveLine
           data={getTopWords(wordData)}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          margin={{ top: 50, right: 110, bottom: 50, left: 50 }}
           xScale={{
             type: 'time',
             format: '%Y-%m-%d',
@@ -73,13 +73,14 @@ const LineChartTime = props => {
               anchor: 'bottom-right',
               direction: 'column',
               justify: false,
-              translateX: 100,
+              translateX: 110,
               translateY: 0,
               itemsSpacing: 0,
               itemDirection: 'left-to-right',
               itemWidth: 80,
               itemHeight: 20,
               itemOpacity: 0.75,
+              itemTextColor: "#ffffff",
               symbolSize: 12,
               symbolShape: 'circle',
               symbolBorderColor: 'rgba(0, 0, 0, .5)',
@@ -94,6 +95,32 @@ const LineChartTime = props => {
               ],
             },
           ]}
+          theme={{
+            // background: "#222222",
+            axis: {
+              fontSize: "1.2rem",
+              tickColor: "#b2b2b2",
+              ticks: {
+                line: {
+                  stroke: "#b2b2b2"
+                },
+                text: {
+                  fill: "#ffffff"
+                }
+              },
+              legend: {
+                text: {
+                  fill: "#ffffff",
+                  fontSize: "0.85rem",
+                },
+              }
+            },
+            // grid: {
+            //   line: {
+            //     stroke: "#555555"
+            //   }
+            // }
+          }}
         />
       </div>
     );
