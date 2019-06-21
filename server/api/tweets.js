@@ -12,18 +12,37 @@ const { Tweet, Metadata } = require('../db/index');
 router.post('/search/:searchType', (req, res, next) => {
   Metadata.findAll()
     .then(metadata => metadata.map(search => search.searchId))
-    .then(ids => { return ids.length ? Math.max(...ids) : 0 })
-    .then(lastSearchId => fetchTweets(req.body.query, 500, lastSearchId, req.params.searchType, req.body.userId)
-      .then(searchId => res.send(`${searchId}`)));
-})
+    .then(ids => {
+      return ids.length ? Math.max(...ids) : 0;
+    })
+    .then(lastSearchId =>
+      fetchTweets(
+        req.body.query,
+        500,
+        lastSearchId,
+        req.params.searchType,
+        req.body.userId
+      ).then(searchId => res.send(`${searchId}`))
+    )
+    .catch(next);
+});
 
 // Fetch data from twitter (100 per day for past 7 days)
 router.post('/search/timed/:searchType', (req, res, next) => {
   Metadata.findAll()
     .then(metadata => metadata.map(search => search.searchId))
-    .then(ids => { return ids.length ? Math.max(...ids) : 0 })
-    .then(lastSearchId => fetchTimedTweets(req.body.query, lastSearchId, req.params.searchType, req.body.userId)
-      .then(searchId => res.send(`${searchId}`)));
+    .then(ids => {
+      return ids.length ? Math.max(...ids) : 0;
+    })
+    .then(lastSearchId =>
+      fetchTimedTweets(
+        req.body.query,
+        lastSearchId,
+        req.params.searchType,
+        req.body.userId
+      ).then(searchId => res.send(`${searchId}`))
+    )
+    .catch(next);
 });
 
 router.get('/:query', (req, res, next) => {
@@ -61,7 +80,7 @@ router.get('/nouns/:searchId/:query', (req, res, next) => {
 
 // fetch line chart data (adjectives)
 router.get('/adjectives/lineChart/:searchId/:query', (req, res, next) => {
-  console.log('being called')
+  console.log('being called');
   Tweet.findAll({
     where: {
       searchId: Number(req.params.searchId),
@@ -70,7 +89,6 @@ router.get('/adjectives/lineChart/:searchId/:query', (req, res, next) => {
     .then(tweets => tweetsToLineChartData(tweets, req.params.query))
     .then(lineChartData => res.send(lineChartData))
     .catch(next);
-})
-
+});
 
 module.exports = router;
