@@ -37,6 +37,7 @@ const PastSearches = ({
   emptySelectedTweets,
   emptyRemovedWords,
   user,
+  chartType,
 }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
@@ -74,7 +75,7 @@ const PastSearches = ({
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {searches.searchId % 2 ? searches.wordCloudSearches.map(search => {
+            {chartType === 'wordcloud' ? searches.wordCloudSearches.map(search => {
               if (!search.userId || (user.id && user.id === search.userId)) {
                 return (
                   <MenuItem key={search.searchId} value={search.searchId}>
@@ -101,10 +102,11 @@ const PastSearches = ({
   );
 };
 
-const mapStateToProps = ({ searches, user }) => {
+const mapStateToProps = ({ searches, user, chartType }) => {
   return {
     searches,
     user,
+    chartType,
   };
 };
 
