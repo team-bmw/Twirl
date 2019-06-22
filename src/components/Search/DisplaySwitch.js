@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { selectSearchId } from '../../reducers/searchesReducer';
 import { emptySelectedTweets } from '../../reducers/tweetsReducer';
+import { updateChartType } from '../../reducers/chartTypeReducer';
 import { select } from 'd3';
 
 const DisplaySwitch = ({
@@ -13,6 +14,7 @@ const DisplaySwitch = ({
   searches,
   selectSearchId,
   emptySelectedTweets,
+  updateChartType,
 }) => {
   const useStyles = makeStyles(theme => ({
     selectedButton: {
@@ -28,6 +30,21 @@ const DisplaySwitch = ({
   }));
 
   const classes = useStyles();
+  const currentSearch = searches.wordCloudSearches.concat(searches.lineChartSearches).find(s => searches.searchId === s.searchId);
+  const query = currentSearch ? currentSearch.query : null;
+
+  const sortSearches = searches => {
+    return searches.sort((s1, s2) => {
+      return s2.searchId - s1.searchId;
+    })
+  }
+
+  const getNextSearchId = (q, chart) => {
+    if (chart === 'wordcloud') {
+      return sortSearches(searches.wordCloudSearches).find(s => s.query === q).searchId;
+    }
+    return sortSearches(searches.lineChartSearches).find(s => s.query === q).searchId;
+  }
 
   return (
     <div>
@@ -39,8 +56,8 @@ const DisplaySwitch = ({
             : classes.notSelectedButton
         }
         onClick={() => {
-          if (searches.searchId % 2 === 0)
-            selectSearchId(searches.searchId - 1);
+          updateChartType('wordcloud');
+          selectSearchId(getNextSearchId(query, 'wordcloud'));
           emptySelectedTweets();
           setChartType('wordcloud');
         }}
@@ -55,8 +72,8 @@ const DisplaySwitch = ({
             : classes.notSelectedButton
         }
         onClick={() => {
-          if (searches.searchId % 2 === 0)
-            selectSearchId(searches.searchId - 1);
+          updateChartType('wordcloud');
+          selectSearchId(getNextSearchId(query, 'wordcloud'));
           emptySelectedTweets();
           setChartType('barchart');
         }}
@@ -66,34 +83,34 @@ const DisplaySwitch = ({
       <Button
         variant="contained"
         className={
-          chartType === 'linechart'
-            ? classes.selectedButton
-            : classes.notSelectedButton
-        }
-        onClick={() => {
-          if (searches.searchId % 2 === 1)
-            selectSearchId(searches.searchId + 1);
-          emptySelectedTweets();
-          setChartType('linechart');
-        }}
-      >
-        Linechart
-      </Button>
-      <Button
-        variant="contained"
-        className={
           chartType === 'waffle'
             ? classes.selectedButton
             : classes.notSelectedButton
         }
         onClick={() => {
-          if (searches.searchId % 2 === 0)
-            selectSearchId(searches.searchId - 1);
+          updateChartType('wordcloud');
+          selectSearchId(getNextSearchId(query, 'wordcloud'));
           emptySelectedTweets();
           setChartType('waffle');
         }}
       >
         Waffle
+      </Button>
+      <Button
+        variant="contained"
+        className={
+          chartType === 'linechart'
+            ? classes.selectedButton
+            : classes.notSelectedButton
+        }
+        onClick={() => {
+          updateChartType('linechart');
+          selectSearchId(getNextSearchId(query, 'linechart'));
+          emptySelectedTweets();
+          setChartType('linechart');
+        }}
+      >
+        Linechart
       </Button>
     </div>
   );
@@ -109,10 +126,11 @@ const mapDispatchToProps = dispatch => {
   return {
     selectSearchId: searchId => dispatch(selectSearchId(searchId)),
     emptySelectedTweets: () => dispatch(emptySelectedTweets()),
+    updateChartType: chartType => dispatch(updateChartType(chartType)),
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(DisplaySwitch);

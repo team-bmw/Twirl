@@ -8,6 +8,7 @@ import { searches } from './searchesReducer';
 import { wordElement } from './wordElementReducer';
 import { removedWords } from './removedReducer';
 import { lineChartData } from './lineChartReducer';
+import { chartType } from './chartTypeReducer';
 
 const rootReducer = combineReducers({
   wordcloudData,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   wordElement,
   removedWords,
   lineChartData,
+  chartType,
 });
 
 export default rootReducer;

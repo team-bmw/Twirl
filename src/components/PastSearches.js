@@ -5,6 +5,7 @@ import { selectSearchId } from '../reducers/searchesReducer';
 import { fetchAdjectiveWordcloudData } from '../reducers/wordcloudReducer';
 import { emptySelectedTweets } from '../reducers/tweetsReducer';
 import { emptyRemovedWords } from '../reducers/removedReducer';
+import { fetchAdjectiveLineChartData } from '../reducers/lineChartReducer';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -33,10 +34,12 @@ const useStyles = makeStyles(theme => ({
 const PastSearches = ({
   selectSearchId,
   fetchAdjectiveWordcloudData,
+  fetchAdjectiveLineChartData,
   searches,
   emptySelectedTweets,
   emptyRemovedWords,
   user,
+  chartType,
 }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
@@ -49,8 +52,13 @@ const PastSearches = ({
       [target.name]: target.value,
     }));
     selectSearchId(Number(target.value));
-    fetchAdjectiveWordcloudData(Number(target.value));
-    selectSearchId(target.value);
+
+    if (chartType === 'wordcloud') {
+      fetchAdjectiveWordcloudData(Number(target.value));
+    } else {
+      fetchAdjectiveLineChartData(Number(target.value))
+    }
+
     emptyRemovedWords();
     emptySelectedTweets();
   };
@@ -74,7 +82,7 @@ const PastSearches = ({
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {searches.searchId % 2 ? searches.wordCloudSearches.map(search => {
+            {chartType === 'wordcloud' ? searches.wordCloudSearches.map(search => {
               if (!search.userId || (user.id && user.id === search.userId)) {
                 return (
                   <MenuItem key={search.searchId} value={search.searchId}>
@@ -101,10 +109,11 @@ const PastSearches = ({
   );
 };
 
-const mapStateToProps = ({ searches, user }) => {
+const mapStateToProps = ({ searches, user, chartType }) => {
   return {
     searches,
     user,
+    chartType,
   };
 };
 
@@ -115,6 +124,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchAdjectiveWordcloudData(searchId)),
     emptySelectedTweets: () => dispatch(emptySelectedTweets()),
     emptyRemovedWords: () => dispatch(emptyRemovedWords()),
+    fetchAdjectiveLineChartData: (searchId, query) => dispatch(fetchAdjectiveLineChartData(searchId, query)),
   };
 };
 
