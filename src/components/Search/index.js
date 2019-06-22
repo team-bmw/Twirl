@@ -71,7 +71,6 @@ const Search = props => {
   useEffect(() => {
     if (!props.loading.wordcloudIsLoading && params.searchText) {
       props.startLoading('wordcloudIsLoading');
-      // user is an empty object when this component is run independently
       searchRequest(params.searchType, params.searchText, user.id);
       props.history.push(`/search/${params.searchType}/${params.searchText}`);
     }
@@ -129,11 +128,8 @@ const Search = props => {
   );
 };
 
-const mapStateToProps = (state, { user }) => {
-  return {
-    ...state,
-    user,
-  };
+const mapStateToProps = state => {
+  return state;
 };
 
 export default connect(

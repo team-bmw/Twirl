@@ -19,7 +19,12 @@ const User = db.define('user', {
   twitterPhoto: {
     type: Sequelize.STRING,
   },
+  token: {
+    type: Sequelize.STRING,
+  },
+  tokenSecret: {
+    type: Sequelize.STRING,
+  },
 });
 
 module.exports = User;
-

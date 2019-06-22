@@ -1,7 +1,8 @@
 const Twitter = require('twitter');
-require('dotenv').config();
 
 // Change out keys here:
+// Client in this case is the application
+// Don't use to post or rely to tweets
 const client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
