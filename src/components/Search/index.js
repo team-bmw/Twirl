@@ -14,6 +14,7 @@ import EmbeddedTweets from '../EmbeddedTweets';
 import SortTweets from '../SortTweets';
 
 import { endLoading, startLoading } from '../../reducers/loadingReducer';
+import { fetchWordCloudSearches, fetchLineChartSearches } from '../../reducers/searchesReducer';
 import PastSearches from '../PastSearches';
 import RemovedWords from '../RemovedWords';
 import DisplaySwitch from './DisplaySwitch';
@@ -60,7 +61,10 @@ const Search = props => {
     wordcloudData: { status, wordData },
     endLoading,
     searchRequest,
+    fetchWordCloudSearches,
+    fetchLineChartSearches,
     user,
+    searches,
   } = props;
 
   useEffect(() => {
@@ -71,7 +75,15 @@ const Search = props => {
   useEffect(() => {
     if (!props.loading.wordcloudIsLoading && params.searchText) {
       props.startLoading('wordcloudIsLoading');
-      searchRequest(params.searchType, params.searchText, user.id);
+
+      fetchWordCloudSearches();
+      fetchLineChartSearches();
+
+      // need to make sure the searches array are populated first
+      const pastSearch = searches.lineChartSearches.find(s => s.query === params.searchText);
+      const pastSearchId = pastSearch ? pastSearch.searchId : null;
+
+      searchRequest(params.searchType, params.searchText, user.id, pastSearchId);
       props.history.push(`/search/${params.searchType}/${params.searchText}`);
     }
   }, []);
@@ -134,5 +146,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { endLoading, startLoading, searchRequest }
+  { endLoading, startLoading, searchRequest, fetchWordCloudSearches, fetchLineChartSearches }
 )(Search);

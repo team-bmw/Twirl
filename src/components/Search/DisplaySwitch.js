@@ -40,10 +40,11 @@ const DisplaySwitch = ({
   }
 
   const getNextSearchId = (q, chart) => {
+    const { wordCloudSearches, lineChartSearches } = searches;
     if (chart === 'wordcloud') {
-      return sortSearches(searches.wordCloudSearches).find(s => s.query === q).searchId;
+      return wordCloudSearches ? sortSearches(wordCloudSearches).find(s => s.query === q).searchId : null;
     }
-    return sortSearches(searches.lineChartSearches).find(s => s.query === q).searchId;
+    return lineChartSearches ? sortSearches(lineChartSearches).find(s => s.query === q).searchId : null;
   }
 
   return (
