@@ -50,7 +50,9 @@ router.get('/:query', (req, res, next) => {
     where: {
       query: req.params.query,
     },
-  }).then(tweets => res.send(tweets));
+  })
+    .then(tweets => res.send(tweets))
+    .catch(next);
 });
 
 // fetch adjective word frequency objects
