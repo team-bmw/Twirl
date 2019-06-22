@@ -89,7 +89,9 @@ const MyResponsiveWaffle = ({ wordData, updateSelectedTweets }) => {
           const {
             data: { tweetData },
           } = elem;
-          updateSelectedTweets(tweetData);
+          if (tweetData) {
+            updateSelectedTweets(tweetData);
+          }
         }}
         columns={14}
         margin={{ top: 10, right: 10, bottom: 10, left: 120 }}
@@ -111,7 +113,7 @@ const MyResponsiveWaffle = ({ wordData, updateSelectedTweets }) => {
             itemHeight: 20,
             itemDirection: 'left-to-right',
             itemOpacity: 1,
-            itemTextColor: "#ffffff",
+            itemTextColor: '#ffffff',
             symbolSize: 20,
             effects: [
               {
