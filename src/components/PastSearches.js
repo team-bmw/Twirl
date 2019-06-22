@@ -5,6 +5,7 @@ import { selectSearchId } from '../reducers/searchesReducer';
 import { fetchAdjectiveWordcloudData } from '../reducers/wordcloudReducer';
 import { emptySelectedTweets } from '../reducers/tweetsReducer';
 import { emptyRemovedWords } from '../reducers/removedReducer';
+import { fetchAdjectiveLineChartData } from '../reducers/lineChartReducer';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -33,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 const PastSearches = ({
   selectSearchId,
   fetchAdjectiveWordcloudData,
+  fetchAdjectiveLineChartData,
   searches,
   emptySelectedTweets,
   emptyRemovedWords,
@@ -50,8 +52,13 @@ const PastSearches = ({
       [target.name]: target.value,
     }));
     selectSearchId(Number(target.value));
-    fetchAdjectiveWordcloudData(Number(target.value));
-    selectSearchId(target.value);
+
+    if (chartType === 'wordcloud') {
+      fetchAdjectiveWordcloudData(Number(target.value));
+    } else {
+      fetchAdjectiveLineChartData(Number(target.value))
+    }
+
     emptyRemovedWords();
     emptySelectedTweets();
   };
@@ -117,6 +124,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchAdjectiveWordcloudData(searchId)),
     emptySelectedTweets: () => dispatch(emptySelectedTweets()),
     emptyRemovedWords: () => dispatch(emptyRemovedWords()),
+    fetchAdjectiveLineChartData: (searchId, query) => dispatch(fetchAdjectiveLineChartData(searchId, query)),
   };
 };
 
