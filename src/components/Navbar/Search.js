@@ -69,7 +69,6 @@ const Search = ({
   resetWordCloud,
   emptySelectedTweets,
   searchRequest,
-  searches,
   user,
 }) => {
   const classes = useStyles();
@@ -93,15 +92,12 @@ const Search = ({
 
   const handleOnSubmit = event => {
     event.preventDefault();
+    
     if (searchText) {
-
-      const pastSearch = searches.lineChartSearches.find(s => s.query === searchText);
-      const pastSearchId = pastSearch ? pastSearch.searchId : null;
-
       resetWordCloud();
       emptySelectedTweets();
       startLoading('wordcloudIsLoading');
-      searchRequest(searchType, searchText, user.id, pastSearchId);
+      searchRequest(searchType, searchText, user.id);
       history.push(`/search/${searchType}/${searchText}`);
     }
   };
@@ -149,10 +145,9 @@ const Search = ({
   );
 };
 
-const mapStateToProps = ({ user, searches }) => {
+const mapStateToProps = ({ user }) => {
   return {
     user,
-    searches,
   }
 }
 
