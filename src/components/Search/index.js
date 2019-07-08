@@ -133,6 +133,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-  mapStateToProps,
-  { endLoading, startLoading, searchRequest }
+  mapStateToProps, { endLoading, startLoading, searchRequest }
 )(Search);

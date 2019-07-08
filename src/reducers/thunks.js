@@ -4,7 +4,7 @@ import { fetchAdjectiveWordcloudData } from './wordcloudReducer';
 import { fetchAdjectiveLineChartData } from './lineChartReducer';
 import { emptyRemovedWords } from './removedReducer';
 
-export const searchRequest = (searchType, searchText, userId, originalSearchId = null) => {
+export const searchRequest = (searchType, searchText, userId) => {
 
   return dispatch => {
     dispatch(emptyRemovedWords());
@@ -16,10 +16,13 @@ export const searchRequest = (searchType, searchText, userId, originalSearchId =
         dispatch(selectSearchId(searchId));
         dispatch(fetchAdjectiveWordcloudData(searchId, searchText));
         dispatch(fetchWordCloudSearches());
+        return dispatch(fetchLineChartSearches());
       })
-      .then(() => {
+      .then(({ searches }) => {
+        const pastSearch = searches.find(s => s.query === searchText);
+        const originalSearchId = pastSearch ? pastSearch.searchId : null;
+
         if (!originalSearchId) {
-          console.log('trying to fetch')
           axios
             .post(`/api/tweets/search/timed/${searchType}`, { query: searchText, userId })
             .then(response => response.data)
@@ -28,11 +31,9 @@ export const searchRequest = (searchType, searchText, userId, originalSearchId =
               dispatch(fetchLineChartSearches());
             })
         } else {
-          console.log('just grabbing from db!')
           dispatch(fetchAdjectiveLineChartData(originalSearchId, searchText));
-          dispatch(fetchLineChartSearches());
         }
       })
-      .catch(ex => console.error(ex))
+      .catch(ex => console.error(ex));
   };
 };
