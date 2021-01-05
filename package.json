@@ -23,7 +23,7 @@
     "@nivo/waffle": "^0.59.0",
     "@storybook/addon-knobs": "^5.1.8",
     "@storybook/react": "^5.1.8",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
